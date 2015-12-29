@@ -1,18 +1,18 @@
 #include <Wire.h> 
 //#include <LiquidCrystal_I2C.h>
 #include <RCSwitch.h>
+#include "Wheel.h"
 
 //LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 RCSwitch mySwitch = RCSwitch();
 
-#define LEFT_1 8
-#define LEFT_2 9
-#define RIGHT_1 6
-#define RIGHT_2 7
 #define ENABLE 3
 
 #define TRIGGER 12
 #define ECHO 13
+
+Wheel* left = new Wheel(8, 9);
+Wheel* right = new Wheel(6, 7);
 
 boolean running = false;
 int maxRange = 200;
@@ -21,10 +21,6 @@ long duration, distance;
 int delayTurn = 500;
 
 void setup() {
-  pinMode(LEFT_1, OUTPUT);
-  pinMode(LEFT_2, OUTPUT);
-  pinMode(RIGHT_1, OUTPUT);
-  pinMode(RIGHT_2, OUTPUT);
   pinMode(ENABLE, OUTPUT);
 
   pinMode(ECHO, INPUT);
@@ -96,32 +92,6 @@ void loop() {
 }
 
 
-void goForward() {
-  running = true;
-  displayWheels("forward");
-  digitalWrite(LEFT_1, LOW);
-  digitalWrite(LEFT_2, HIGH);
-  digitalWrite(RIGHT_1, LOW);
-  digitalWrite(RIGHT_2, HIGH);
-}
-
-void goBackward() {
-  running = true;
-  displayWheels("forward");
-  digitalWrite(LEFT_1, HIGH);
-  digitalWrite(LEFT_2, LOW);
-  digitalWrite(RIGHT_1, HIGH);
-  digitalWrite(RIGHT_2, LOW);
-}
-
-void doStop() {
-  displayWheels("stopped");
-  digitalWrite(LEFT_1, LOW);
-  digitalWrite(LEFT_2, LOW);
-  digitalWrite(RIGHT_1, LOW);
-  digitalWrite(RIGHT_2, LOW);
-}
-
 void doResume() {
   if (running) {
     goForward();
@@ -130,42 +100,54 @@ void doResume() {
   }
 }
 
+void goForward() {
+  running = true;
+  displayWheels("forward");
+  left->forward();
+  right->forward();
+}
+
+void goBackward() {
+  running = true;
+  displayWheels("backward");
+  left->backward();
+  right->backward();
+}
+
+void doStop() {
+  displayWheels("stopped");
+  left->stop();
+  right->stop();
+}
+
 void goLeft() {
   displayWheels("left");
-  digitalWrite(LEFT_1, LOW);
-  digitalWrite(LEFT_2, LOW);
-  digitalWrite(RIGHT_1, LOW);
-  digitalWrite(RIGHT_2, HIGH);
+  left->stop();
+  right->forward();
   delay(delayTurn);
   doResume();
 }
 
 void goLeftBack() {
-  displayWheels("left");
-  digitalWrite(LEFT_1, LOW);
-  digitalWrite(LEFT_2, LOW);
-  digitalWrite(RIGHT_1, HIGH);
-  digitalWrite(RIGHT_2, LOW);
+  displayWheels("left back");
+  left->stop();
+  right->backward();
   delay(delayTurn);
   doResume();
 }
 
 void goRight() {
   displayWheels("right");
-  digitalWrite(LEFT_1, LOW);
-  digitalWrite(LEFT_2, HIGH);
-  digitalWrite(RIGHT_1, LOW);
-  digitalWrite(RIGHT_2, LOW);
+  left->forward();
+  right->stop();
   delay(delayTurn);
   doResume();
 }
 
 void goRightBack() {
-  displayWheels("right");
-  digitalWrite(LEFT_1, HIGH);
-  digitalWrite(LEFT_2, LOW);
-  digitalWrite(RIGHT_1, LOW);
-  digitalWrite(RIGHT_2, LOW);
+  displayWheels("right back");
+  left->backward();
+  right->stop();
   delay(delayTurn);
   doResume();
 }
