@@ -68,23 +68,23 @@ void loop() {
 //    lcd.print(String(value));
     switch (value) {
       case 1361:
-        goLeft();
+        goForward();
         break;
       case 5201:
         goLeftBack();
         break;
       case 1364: 
-        goRight();
+        running = false;
+        doStop();
         break;
       case 5204: 
         goRightBack();
         break;
       case 4433: 
-        goForward();
+        goLeft();
         break;
       case 4436: 
-        running = false;
-        doStop();
+        goRight();
         break;
     }
     mySwitch.resetAvailable();
