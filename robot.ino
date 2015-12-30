@@ -54,9 +54,13 @@ void loop() {
   distance = duration/58.2;
 
   if (distance <= minRange) {
-    doStop();
-    delay(delayTurn);
-    goLeftBack();
+    if (running) {
+      doStop();
+      delay(delayTurn*2);
+      goLeftBack();
+    } else {
+      goRightBack();
+    }
   } else {
     doResume();
   }
@@ -68,6 +72,7 @@ void loop() {
 //    lcd.print(String(value));
     switch (value) {
       case 1361:
+        running = true;
         goForward();
         break;
       case 5201:
@@ -101,7 +106,6 @@ void doResume() {
 }
 
 void goForward() {
-  running = true;
   displayWheels("forward");
   left->forward();
   right->forward();
