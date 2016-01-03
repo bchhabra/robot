@@ -18,7 +18,7 @@ boolean running = false;
 int maxRange = 200;
 int minRange = 20;
 long duration, distance;
-int delayTurn = 500;
+int delayTurn = 200;
 
 void setup() {
   pinMode(ENABLE, OUTPUT);
@@ -40,27 +40,29 @@ void setup() {
   goLeft();
   goRight();
 */  
-  //goBackward();
+
   doStop();
 }
 
 
 void loop() {
+  digitalWrite(TRIGGER, LOW);
+  delayMicroseconds(10);
   digitalWrite(TRIGGER, HIGH);
   delayMicroseconds(10);
-  
   digitalWrite(TRIGGER, LOW);
-  duration = pulseIn(ECHO, HIGH);
-  distance = duration/58.2;
 
-  if (distance <= minRange) {
+  duration = pulseIn(ECHO, HIGH);
+  distance = duration/58;
+
+  if (distance <= minRange && distance > 0) {
     if (running) {
       doStop();
-      delay(delayTurn*2);
       goLeftBack();
     } else {
       goRightBack();
     }
+    delay(delayTurn*3);
   } else {
     doResume();
   }
