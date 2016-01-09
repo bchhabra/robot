@@ -6,16 +6,16 @@
 #include "SerialController.h"
 
 //LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-//RfController controller = RfController();
-SerialController controller = SerialController();
+//RfController controller;
+SerialController controller;
 
 #define ENABLE 3
 
 #define TRIGGER 12
 #define ECHO 13
 
-Wheel* left = new Wheel(8, 9);
-Wheel* right = new Wheel(6, 7);
+Wheel left(8, 9);
+Wheel right(6, 7);
 
 boolean running = false;
 int maxRange = 200;
@@ -107,51 +107,51 @@ void doResume() {
 
 void goForward() {
   displayWheels("forward");
-  left->forward();
-  right->forward();
+  left.forward();
+  right.forward();
 }
 
 void goBackward() {
   running = true;
   displayWheels("backward");
-  left->backward();
-  right->backward();
+  left.backward();
+  right.backward();
 }
 
 void doStop() {
   displayWheels("stopped");
-  left->stop();
-  right->stop();
+  left.stop();
+  right.stop();
 }
 
 void goLeft() {
   displayWheels("left");
-  left->stop();
-  right->forward();
+  left.stop();
+  right.forward();
   delay(delayTurn);
   doResume();
 }
 
 void goLeftBack() {
   displayWheels("left back");
-  left->stop();
-  right->backward();
+  left.stop();
+  right.backward();
   delay(delayTurn);
   doResume();
 }
 
 void goRight() {
   displayWheels("right");
-  left->forward();
-  right->stop();
+  left.forward();
+  right.stop();
   delay(delayTurn);
   doResume();
 }
 
 void goRightBack() {
   displayWheels("right back");
-  left->backward();
-  right->stop();
+  left.backward();
+  right.stop();
   delay(delayTurn);
   doResume();
 }
