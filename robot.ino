@@ -2,9 +2,10 @@
 //#include <LiquidCrystal_I2C.h>
 #include <RCSwitch.h>
 #include "Wheel.h"
+#include "RfController.h"
 
 //LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-RCSwitch mySwitch = RCSwitch();
+RfController controller = RfController();
 
 #define ENABLE 3
 
@@ -25,8 +26,8 @@ void setup() {
 
   pinMode(ECHO, INPUT);
   pinMode(TRIGGER, OUTPUT);
-  
-  mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
+
+  controller.setup();
 
 //  lcd.init();                      // initialize the lcd 
 //  lcd.backlight();
@@ -67,37 +68,32 @@ void loop() {
     doResume();
   }
   
-
-  if (mySwitch.available()) {
-    unsigned long value = mySwitch.getReceivedValue();
-//    lcd.setCursor(0,1);
-//    lcd.print(String(value));
-    switch (value) {
-      case 1361:
+  if (controller.available()) {
+    Command cmd = controller.getReceivedCommand();
+    switch (cmd) {
+      case FORWARD:
         running = true;
         goForward();
         break;
-      case 5201:
+      case LEFT_BACK:
         goLeftBack();
         break;
-      case 1364: 
+      case STOP: 
         running = false;
         doStop();
         break;
-      case 5204: 
+      case RIGHT_BACK: 
         goRightBack();
         break;
-      case 4433: 
+      case LEFT: 
         goLeft();
         break;
-      case 4436: 
+      case RIGHT: 
         goRight();
         break;
     }
-    mySwitch.resetAvailable();
   }
 }
-
 
 void doResume() {
   if (running) {
