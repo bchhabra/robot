@@ -3,9 +3,11 @@
 #include <RCSwitch.h>
 #include "Wheel.h"
 #include "RfController.h"
+#include "SerialController.h"
 
 //LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-RfController controller = RfController();
+//RfController controller = RfController();
+SerialController controller = SerialController();
 
 #define ENABLE 3
 
