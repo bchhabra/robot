@@ -4,6 +4,7 @@
 #include "Wheel.h"
 #include "RfController.h"
 #include "SerialController.h"
+#include "SonarSensor.h"
 
 //LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 //RfController controller;
@@ -11,11 +12,9 @@ SerialController controller;
 
 #define ENABLE 3
 
-#define TRIGGER 12
-#define ECHO 13
-
 Wheel left(8, 9);
 Wheel right(6, 7);
+SonarSensor front(12, 13);
 
 boolean running = false;
 int maxRange = 200;
@@ -25,9 +24,6 @@ int delayTurn = 200;
 
 void setup() {
   pinMode(ENABLE, OUTPUT);
-
-  pinMode(ECHO, INPUT);
-  pinMode(TRIGGER, OUTPUT);
 
   controller.setup();
 
@@ -49,14 +45,7 @@ void setup() {
 
 
 void loop() {
-  digitalWrite(TRIGGER, LOW);
-  delayMicroseconds(10);
-  digitalWrite(TRIGGER, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIGGER, LOW);
-
-  duration = pulseIn(ECHO, HIGH);
-  distance = duration/58;
+  distance = front.getDistance();
 
   if (distance <= minRange && distance > 0) {
     if (running) {
