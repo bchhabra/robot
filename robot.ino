@@ -6,7 +6,9 @@ __asm volatile ("nop");
 #define LCD 0
 #define SERIAL_CONTROLLER 1
 
+#if LCD
 #include <LiquidCrystal_I2C.h>
+#endif
 #include <Wire.h> 
 #include <RCSwitch.h>
 #include "Wheel.h"
