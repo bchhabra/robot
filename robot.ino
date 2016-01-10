@@ -28,53 +28,60 @@ Wheel left(8, 9);
 Wheel right(6, 7);
 SonarSensor front(12, 13);
 
-boolean running = false;
+enum Direction {
+  none, forward, backward
+} direction = none;
 int maxRange = 200;
 int minRange = 20;
 long duration, distance;
 int delayTurn = 200;
 
 void setup() {
-  controller.setup();
 
 #if LCD
   lcd.init();
   lcd.backlight();
 #endif
+
+  controller.setup();
 }
 
 
 void loop() {
-  distance = front.getDistance();
+  checkSensors();  
+  checkController();
+}
 
+void checkSensors() {
+  Direction prevDirection = direction;
+
+  distance = front.getDistance();
   if (distance <= minRange && distance > 0) {
-    if (running) {
+    if (direction == none) {
+      goBackward();
+    } else {
       doStop();
       goLeftBack();
-    } else {
-      goRightBack();
     }
-    delay(delayTurn*3);
-  } else {
-    doResume();
+    delay(600);
   }
   
+  direction = prevDirection;
+  doResume();
+}
+
+void checkController() {
   if (controller.available()) {
     Command cmd = controller.getReceivedCommand();
     switch (cmd) {
       case FORWARD:
-        running = true;
         goForward();
         break;
-      case LEFT_BACK:
-        goLeftBack();
+      case BACKWARD:
+        goBackward();
         break;
-      case STOP: 
-        running = false;
+      case STOP:
         doStop();
-        break;
-      case RIGHT_BACK: 
-        goRightBack();
         break;
       case LEFT: 
         goLeft();
@@ -82,32 +89,46 @@ void loop() {
       case RIGHT: 
         goRight();
         break;
+      case LEFT_BACK:
+        goLeftBack();
+        break;
+      case RIGHT_BACK: 
+        goRightBack();
+        break;
     }
   }
 }
 
 void doResume() {
-  if (running) {
-    goForward();
-  } else {
-    doStop();
+  switch (direction) {
+    case none:
+      doStop();
+      break;
+    case forward:
+      goForward();
+      break;
+    case backward:
+      goBackward();
+      break;
   }
 }
 
 void goForward() {
+  direction = forward;
   displayWheels("forward");
   left.forward();
   right.forward();
 }
 
 void goBackward() {
-  running = true;
+  direction = backward;
   displayWheels("backward");
   left.backward();
   right.backward();
 }
 
 void doStop() {
+  direction = none;
   displayWheels("stopped");
   left.stop();
   right.stop();
