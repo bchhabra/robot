@@ -1,14 +1,28 @@
+// BOF preprocessor bug prevent - insert me on top of your arduino-code
+#if 1
+__asm volatile ("nop");
+#endif
+
+#define LCD 0
+#define SERIAL_CONTROLLER 1
+
+#include <LiquidCrystal_I2C.h>
 #include <Wire.h> 
-//#include <LiquidCrystal_I2C.h>
 #include <RCSwitch.h>
 #include "Wheel.h"
 #include "RfController.h"
 #include "SerialController.h"
 #include "SonarSensor.h"
 
-//LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-//RfController controller;
+#if LCD
+LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+#endif
+
+#if SERIAL_CONTROLLER
 SerialController controller;
+#else
+RfController controller;
+#endif
 
 Wheel left(8, 9);
 Wheel right(6, 7);
@@ -23,8 +37,10 @@ int delayTurn = 200;
 void setup() {
   controller.setup();
 
-//  lcd.init();                      // initialize the lcd 
-//  lcd.backlight();
+#if LCD
+  lcd.init();
+  lcd.backlight();
+#endif
 }
 
 
@@ -130,7 +146,9 @@ void goRightBack() {
 }
 
 void displayWheels(String direction) {
-//  lcd.setCursor(0,0);
-//  lcd.print(direction + "          ");
+#if LCD
+  lcd.setCursor(0,0);
+  lcd.print(direction + "          ");
+#endif
 }
 
