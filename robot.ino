@@ -10,8 +10,6 @@
 //RfController controller;
 SerialController controller;
 
-#define ENABLE 3
-
 Wheel left(8, 9);
 Wheel right(6, 7);
 SonarSensor front(12, 13);
@@ -23,24 +21,10 @@ long duration, distance;
 int delayTurn = 200;
 
 void setup() {
-  pinMode(ENABLE, OUTPUT);
-
   controller.setup();
 
 //  lcd.init();                      // initialize the lcd 
 //  lcd.backlight();
-
-//  analogWrite(ENABLE, 255);
-  digitalWrite(ENABLE, HIGH);
-
-/*
-  goForward();
-  delay(2000);
-  goLeft();
-  goRight();
-*/  
-
-  doStop();
 }
 
 
