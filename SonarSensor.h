@@ -1,6 +1,7 @@
 class SonarSensor {
   byte trigger;
   byte echo;
+  long distance;
 public:
   SonarSensor(byte trigger, byte echo) {
     this->trigger = trigger;
@@ -9,14 +10,17 @@ public:
     pinMode(echo, INPUT);
   }
 
-  long getDistance() {
+  void sendSignal() {
     digitalWrite(trigger, LOW);
-    delayMicroseconds(10);
+    delayMicroseconds(2);
     digitalWrite(trigger, HIGH);
     delayMicroseconds(10);
     digitalWrite(trigger, LOW);
-  
-    return pulseIn(echo, HIGH)/58;
+    distance = pulseIn(echo, HIGH)/58;
+  }
+
+  long isInRange(int range) {
+    return (distance <= range && distance > 0);
   }
 };
 

@@ -28,14 +28,16 @@ RfController controller;
 
 Wheel left(8, 9);
 Wheel right(6, 7);
-SonarSensor front(12, 13);
+SonarSensor leftSensor(10, 13);
+SonarSensor frontSensor(10, 12);
+SonarSensor rightSensor(10, 11);
 
 enum Direction {
   none, forward, backward
 } direction = none;
-int maxRange = 200;
-int minRange = 20;
-long duration, distance;
+
+int frontRange = 20;
+int sideRange = 10;
 int delayTurn = 200;
 
 void setup() {
@@ -50,26 +52,68 @@ void setup() {
 
 
 void loop() {
-  checkSensors();  
   checkController();
-}
 
-void checkSensors() {
   Direction prevDirection = direction;
 
-  distance = front.getDistance();
-  if (distance <= minRange && distance > 0) {
-    if (direction == none) {
-      goBackward();
-    } else {
-      doStop();
-      goLeftBack();
-    }
-    delay(600);
+  if (direction == none) {
+    notMovingSensing();
+  } else {
+    movingSensing();
   }
   
   direction = prevDirection;
   doResume();
+}
+
+void movingSensing() {
+  boolean obstacle = false;
+ 
+  frontSensor.sendSignal();  
+  if (frontSensor.isInRange(frontRange)) {
+    obstacle = true;
+    doStop();
+  } else {
+    leftSensor.sendSignal();  
+    if (leftSensor.isInRange(sideRange)) {
+      obstacle = true;
+      goRight();
+    }
+  
+    rightSensor.sendSignal();  
+    if (rightSensor.isInRange(sideRange)) {
+      obstacle = true;
+      goLeft();
+    }
+  }
+  
+  if (obstacle) {
+    delay(600);
+  }
+}
+
+boolean notMovingSensing() {
+  boolean obstacle = false;
+ 
+  frontSensor.sendSignal();  
+  if (frontSensor.isInRange(frontRange)) {
+    goBackward();
+    obstacle = true;
+  }
+
+  leftSensor.sendSignal();  
+  if (leftSensor.isInRange(sideRange)) {
+    goRightBack();
+    obstacle = true;
+  }
+
+  rightSensor.sendSignal();  
+  if (rightSensor.isInRange(sideRange)) {
+    goLeftBack();
+    obstacle = true;
+  }
+
+  return obstacle;  
 }
 
 void checkController() {
