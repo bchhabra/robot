@@ -28,7 +28,7 @@ public:
   }
 
   long isInRange(int range) {
-    return (distance <= range && distance > 0);
+    return (distance > 0 && distance <= range) ? distance : 0;
   }
 };
 

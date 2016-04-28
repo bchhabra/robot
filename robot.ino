@@ -5,7 +5,7 @@ __asm volatile ("nop");
 
 #define LCD 0
 #define DEBUG 0
-#define SERIAL_CONTROLLER 1
+#define SERIAL_CONTROLLER 0
 
 #if LCD
 #include <LiquidCrystal_I2C.h>
@@ -16,6 +16,7 @@ __asm volatile ("nop");
 #include "RfController.h"
 #include "SerialController.h"
 #include "SonarSensor.h"
+#include "Fifo.h"
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -33,6 +34,7 @@ Wheels w(new Wheel(8, 9), new Wheel(6, 7), DELAY_TURN);
 SonarSensor leftSensor(10, 13);
 SonarSensor frontSensor(10, 12);
 SonarSensor rightSensor(10, 11);
+Fifo fifo;
 
 enum Direction {
   none, forward, backward
@@ -100,9 +102,9 @@ void solveAllObstacles() {
 }
 
 void movingSensing() {
-  byte obstacle = detectObstacles();
+  detectObstacles();
+  byte obstacle = fifo.getLastObstacle()->getDirection();
   if (obstacle) {
-//    w.doStop();
     switch (obstacle) {
       case 0x4:
         avoidLeftObstacle();
@@ -150,28 +152,32 @@ void doResume() {
   }
 }
 
-byte detectObstacles() {
-  byte obstacles = 0;
+void detectObstacles() {
+  Obstacle obstacle;
+  long distance;
+  
   frontSensor.sendSignal();
-  if (frontSensor.isInRange(frontRange)) {
-    obstacles |= 0x02;
+  distance = frontSensor.isInRange(frontRange);
+  if (distance) {
+    obstacle.addFront(distance);
   }
   leftSensor.sendSignal();
-  if (leftSensor.isInRange(sideRange)) {
-    obstacles |= 0x04;
+  distance = leftSensor.isInRange(sideRange);
+  if (distance) {
+    obstacle.addLeft(distance);
   }
   
   rightSensor.sendSignal();
-  if (rightSensor.isInRange(sideRange)) {
-    obstacles |= 0x01;
+  distance = rightSensor.isInRange(sideRange);
+  if (distance) {
+    obstacle.addRight(distance);
   }
-
+  fifo.addObstacle(&obstacle);
 
 #if DEBUG
   Serial.print("Obstacles detected: ");
-  Serial.println(obstacles);
+  Serial.println(obstacle.getDirection());
 #endif
-  return obstacles;
 }
 
 void displayWheels(String direction) {
