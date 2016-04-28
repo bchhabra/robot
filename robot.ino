@@ -11,7 +11,7 @@ __asm volatile ("nop");
 #endif
 #include <Wire.h> 
 #include <RCSwitch.h>
-#include "Wheel.h"
+#include "Wheels.h"
 #include "RfController.h"
 #include "SerialController.h"
 #include "SonarSensor.h"
@@ -26,8 +26,7 @@ SerialController controller;
 RfController controller;
 #endif
 
-Wheel left(8, 9);
-Wheel right(6, 7);
+Wheels w(new Wheel(8, 9), new Wheel(6, 7));
 SonarSensor leftSensor(10, 13);
 SonarSensor frontSensor(10, 12);
 SonarSensor rightSensor(10, 11);
@@ -38,7 +37,6 @@ enum Direction {
 
 int frontRange = 20;
 int sideRange = 10;
-int delayTurn = 200;
 
 void setup() {
 
@@ -48,6 +46,7 @@ void setup() {
 #endif
 
   controller.setup();
+  w.goForward();
 }
 
 
@@ -72,18 +71,24 @@ void movingSensing() {
   frontSensor.sendSignal();  
   if (frontSensor.isInRange(frontRange)) {
     obstacle = true;
-    doStop();
+    w.doStop();
+    w.goLeftBack();
+    w.doStop();
   } else {
     leftSensor.sendSignal();  
     if (leftSensor.isInRange(sideRange)) {
       obstacle = true;
-      goRight();
+      //goRight();
+      w.goLeftBack();
+      w.doStop();
     }
   
     rightSensor.sendSignal();  
     if (rightSensor.isInRange(sideRange)) {
       obstacle = true;
-      goLeft();
+      //goLeft();
+      w.goRightBack();
+      w.doStop();
     }
   }
   
@@ -97,119 +102,40 @@ boolean notMovingSensing() {
  
   frontSensor.sendSignal();  
   if (frontSensor.isInRange(frontRange)) {
-    goBackward();
     obstacle = true;
+    w.goBackward();
+    w.doStop();
   }
 
   leftSensor.sendSignal();  
   if (leftSensor.isInRange(sideRange)) {
-    goRightBack();
     obstacle = true;
+    w.goRightBack();
+    w.doStop();
   }
 
   rightSensor.sendSignal();  
   if (rightSensor.isInRange(sideRange)) {
-    goLeftBack();
     obstacle = true;
+    w.goLeftBack();
+    w.doStop();
   }
 
   return obstacle;  
 }
 
-void checkController() {
-  if (controller.available()) {
-    Command cmd = controller.getReceivedCommand();
-    switch (cmd) {
-      case FORWARD:
-        goForward();
-        break;
-      case BACKWARD:
-        goBackward();
-        break;
-      case STOP:
-        doStop();
-        break;
-      case LEFT: 
-        goLeft();
-        break;
-      case RIGHT: 
-        goRight();
-        break;
-      case LEFT_BACK:
-        goLeftBack();
-        break;
-      case RIGHT_BACK: 
-        goRightBack();
-        break;
-    }
-  }
-}
-
 void doResume() {
   switch (direction) {
     case none:
-      doStop();
+      w.doStop();
       break;
     case forward:
-      goForward();
+      w.goForward();
       break;
     case backward:
-      goBackward();
+      w.goBackward();
       break;
   }
-}
-
-void goForward() {
-  direction = forward;
-  displayWheels("forward");
-  left.forward();
-  right.forward();
-}
-
-void goBackward() {
-  direction = backward;
-  displayWheels("backward");
-  left.backward();
-  right.backward();
-}
-
-void doStop() {
-  direction = none;
-  displayWheels("stopped");
-  left.stop();
-  right.stop();
-}
-
-void goLeft() {
-  displayWheels("left");
-  left.stop();
-  right.forward();
-  delay(delayTurn);
-  doResume();
-}
-
-void goLeftBack() {
-  displayWheels("left back");
-  left.stop();
-  right.backward();
-  delay(delayTurn);
-  doResume();
-}
-
-void goRight() {
-  displayWheels("right");
-  left.forward();
-  right.stop();
-  delay(delayTurn);
-  doResume();
-}
-
-void goRightBack() {
-  displayWheels("right back");
-  left.backward();
-  right.stop();
-  delay(delayTurn);
-  doResume();
 }
 
 void displayWheels(String direction) {
@@ -217,5 +143,34 @@ void displayWheels(String direction) {
   lcd.setCursor(0,0);
   lcd.print(direction + "          ");
 #endif
+}
+
+void checkController() {
+  if (controller.available()) {
+    Command cmd = controller.getReceivedCommand();
+    switch (cmd) {
+      case FORWARD:
+        w.goForward();
+        break;
+      case BACKWARD:
+        w.goBackward();
+        break;
+      case STOP:
+        w.doStop();
+        break;
+      case LEFT: 
+        w.goLeft();
+        break;
+      case RIGHT: 
+        w.goRight();
+        break;
+      case LEFT_BACK:
+        w.goLeftBack();
+        break;
+      case RIGHT_BACK: 
+        w.goRightBack();
+        break;
+    }
+  }
 }
 
