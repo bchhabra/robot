@@ -38,8 +38,8 @@ enum Direction {
   none, forward, backward
 } direction = none;
 
-int frontRange = 20;
-int sideRange = 30;
+int frontRange = 25;
+int sideRange = 23;
 boolean stuck = false;
 
 void setup() {
@@ -65,7 +65,7 @@ void loop() {
 }
 
 void avoidLeftObstacle() {
-  w.turnRight();
+  w.goRight();
   w.doStop();
 }
 
@@ -75,7 +75,7 @@ void solveLeftObstacle() {
 }
 
 void avoidRightObstacle() {
-  w.turnLeft();
+  w.goLeft();
   w.doStop();
 }
 
@@ -90,16 +90,19 @@ void avoidFrontObstacle() {
 }
 
 void solveAllObstacles() {
-  w.goBackward();
-  delay(500);
+  if (stuck) {
+    w.turnRight();
+  } else {
+    w.goBackward();
+    delay(500);
+  }
   w.doStop();
 }
 
 void movingSensing() {
   byte obstacle = detectObstacles();
   if (obstacle) {
-    w.doStop();
-    delay(600);
+//    w.doStop();
     switch (obstacle) {
       case 0x4:
         avoidLeftObstacle();
@@ -127,6 +130,7 @@ void movingSensing() {
         stuck = true;
         break;
     }
+    delay(600);
   } else {
     doResume();
   }
