@@ -66,32 +66,32 @@ void loop() {
   movingSensing();
 }
 
-void avoidLeftObstacle() {
+void handleLeftObstacle() {
   w.goRight();
   w.doStop();
 }
 
-void solveLeftObstacle() {
+void handleLeftFrontObstacle() {
   stuck ? w.turnRight() : w.goLeftBack();
   w.doStop();
 }
 
-void avoidRightObstacle() {
+void handleRightObstacle() {
   w.goLeft();
   w.doStop();
 }
 
-void solveRightObstacle() {
+void handleRightFrontObstacle() {
   stuck ? w.turnLeft() : w.goRightBack();
   w.doStop();
 }
 
-void avoidFrontObstacle() {
+void handleFrontObstacle() {
   w.goLeftBack();
   w.doStop();
 }
 
-void solveAllObstacles() {
+void handleAllObstacles() {
   if (stuck) {
     w.turnRight();
   } else {
@@ -107,28 +107,28 @@ void movingSensing() {
   if (obstacle) {
     switch (obstacle) {
       case 0x4:
-        avoidLeftObstacle();
+        handleLeftObstacle();
         stuck = false;
         break;
       case 0x6:
-        solveLeftObstacle();
+        handleLeftFrontObstacle();
         stuck = false;
         break;
       case 0x1:
-        avoidRightObstacle();
+        handleRightObstacle();
         stuck = false;
         break;
       case 0x3:
-        solveRightObstacle();
+        handleRightFrontObstacle();
         stuck = false;
         break;
       case 0x2:
-        avoidFrontObstacle();
+        handleFrontObstacle();
         stuck = false;
         break;
       case 0x5:
       case 0x7:
-        solveAllObstacles();
+        handleAllObstacles();
         stuck = true;
         break;
     }
