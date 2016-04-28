@@ -4,6 +4,7 @@ __asm volatile ("nop");
 #endif
 
 #define LCD 0
+#define DEBUG 0
 #define SERIAL_CONTROLLER 1
 
 #if LCD
@@ -26,7 +27,9 @@ SerialController controller;
 RfController controller;
 #endif
 
-Wheels w(new Wheel(8, 9), new Wheel(6, 7));
+#define DELAY_TURN 160
+
+Wheels w(new Wheel(8, 9), new Wheel(6, 7), DELAY_TURN);
 SonarSensor leftSensor(10, 13);
 SonarSensor frontSensor(10, 12);
 SonarSensor rightSensor(10, 11);
@@ -36,7 +39,8 @@ enum Direction {
 } direction = none;
 
 int frontRange = 20;
-int sideRange = 10;
+int sideRange = 30;
+boolean stuck = false;
 
 void setup() {
 
@@ -44,84 +48,88 @@ void setup() {
   lcd.init();
   lcd.backlight();
 #endif
+#if DEBUG
+  Serial.begin(9600);
+#endif
 
   controller.setup();
-  w.goForward();
+  direction = forward;
+  delay(5000);
 }
 
 
 void loop() {
   checkController();
 
-  Direction prevDirection = direction;
+  movingSensing();
+}
 
-  if (direction == none) {
-    notMovingSensing();
-  } else {
-    movingSensing();
-  }
-  
-  direction = prevDirection;
-  doResume();
+void avoidLeftObstacle() {
+  w.turnRight();
+  w.doStop();
+}
+
+void solveLeftObstacle() {
+  stuck ? w.turnRight() : w.goLeftBack();
+  w.doStop();
+}
+
+void avoidRightObstacle() {
+  w.turnLeft();
+  w.doStop();
+}
+
+void solveRightObstacle() {
+  stuck ? w.turnLeft() : w.goRightBack();
+  w.doStop();
+}
+
+void avoidFrontObstacle() {
+  w.goLeftBack();
+  w.doStop();
+}
+
+void solveAllObstacles() {
+  w.goBackward();
+  delay(500);
+  w.doStop();
 }
 
 void movingSensing() {
-  boolean obstacle = false;
- 
-  frontSensor.sendSignal();  
-  if (frontSensor.isInRange(frontRange)) {
-    obstacle = true;
-    w.doStop();
-    w.goLeftBack();
-    w.doStop();
-  } else {
-    leftSensor.sendSignal();  
-    if (leftSensor.isInRange(sideRange)) {
-      obstacle = true;
-      //goRight();
-      w.goLeftBack();
-      w.doStop();
-    }
-  
-    rightSensor.sendSignal();  
-    if (rightSensor.isInRange(sideRange)) {
-      obstacle = true;
-      //goLeft();
-      w.goRightBack();
-      w.doStop();
-    }
-  }
-  
+  byte obstacle = detectObstacles();
   if (obstacle) {
+    w.doStop();
     delay(600);
+    switch (obstacle) {
+      case 0x4:
+        avoidLeftObstacle();
+        stuck = false;
+        break;
+      case 0x6:
+        solveLeftObstacle();
+        stuck = false;
+        break;
+      case 0x1:
+        avoidRightObstacle();
+        stuck = false;
+        break;
+      case 0x3:
+        solveRightObstacle();
+        stuck = false;
+        break;
+      case 0x2:
+        avoidFrontObstacle();
+        stuck = false;
+        break;
+      case 0x5:
+      case 0x7:
+        solveAllObstacles();
+        stuck = true;
+        break;
+    }
+  } else {
+    doResume();
   }
-}
-
-boolean notMovingSensing() {
-  boolean obstacle = false;
- 
-  frontSensor.sendSignal();  
-  if (frontSensor.isInRange(frontRange)) {
-    obstacle = true;
-    w.goBackward();
-    w.doStop();
-  }
-
-  leftSensor.sendSignal();  
-  if (leftSensor.isInRange(sideRange)) {
-    obstacle = true;
-    w.goRightBack();
-    w.doStop();
-  }
-
-  rightSensor.sendSignal();  
-  if (rightSensor.isInRange(sideRange)) {
-    obstacle = true;
-    w.goLeftBack();
-    w.doStop();
-  }
-
-  return obstacle;  
 }
 
 void doResume() {
@@ -136,6 +144,30 @@ void doResume() {
       w.goBackward();
       break;
   }
+}
+
+byte detectObstacles() {
+  byte obstacles = 0;
+  frontSensor.sendSignal();
+  if (frontSensor.isInRange(frontRange)) {
+    obstacles |= 0x02;
+  }
+  leftSensor.sendSignal();
+  if (leftSensor.isInRange(sideRange)) {
+    obstacles |= 0x04;
+  }
+  
+  rightSensor.sendSignal();
+  if (rightSensor.isInRange(sideRange)) {
+    obstacles |= 0x01;
+  }
+
+
+#if DEBUG
+  Serial.print("Obstacles detected: ");
+  Serial.println(obstacles);
+#endif
+  return obstacles;
 }
 
 void displayWheels(String direction) {

@@ -3,12 +3,13 @@
 class Wheels {
   Wheel* left;
   Wheel* right;
-  int delayTurn = 200;
+  int delayTurn;
 
 public:
-  Wheels(Wheel* left, Wheel* right) {
+  Wheels(Wheel* left, Wheel* right, int delayTurn) {
     this->left = left;
     this->right = right;
+    this->delayTurn = delayTurn;
   }
 
   void goForward() {
@@ -32,9 +33,21 @@ public:
     delay(delayTurn);
   }
 
+  void turnLeft() {
+    left->backward();
+    right->forward();
+    delay(delayTurn);
+  }
+
   void goRight() {
     left->forward();
     right->stop();
+    delay(delayTurn);
+  }
+
+  void turnRight() {
+    left->forward();
+    right->backward();
     delay(delayTurn);
   }
 
