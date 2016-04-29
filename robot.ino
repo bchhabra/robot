@@ -4,7 +4,7 @@ __asm volatile ("nop");
 #endif
 
 #define LCD 0
-#define DEBUG 0
+#define DEBUG 1
 #define SERIAL_CONTROLLER 0
 
 #if LCD
@@ -42,7 +42,6 @@ enum Direction {
 
 int frontRange = 25;
 int sideRange = 23;
-boolean stuck = false;
 
 void setup() {
 
@@ -57,6 +56,7 @@ void setup() {
   controller.setup();
   direction = forward;
   delay(5000);
+  doResume();
 }
 
 
@@ -67,22 +67,44 @@ void loop() {
 }
 
 void handleLeftObstacle() {
-  w.goRight();
+  Obstacle* obst = fifo.getLastObstacle();
+  if (obst->same(fifo.getObstacle(-1))) {
+    w.doStop();
+    w.goLeftBack();
+  } else {
+    w.goRight();
+  }
   w.doStop();
 }
 
 void handleLeftFrontObstacle() {
-  stuck ? w.turnRight() : w.goLeftBack();
+  Obstacle* obst = fifo.getLastObstacle();
+  if (obst->same(fifo.getObstacle(-1))) {
+    w.turnRight();
+  } else {
+    w.goLeftBack();
+  }
   w.doStop();
 }
 
 void handleRightObstacle() {
-  w.goLeft();
+  Obstacle* obst = fifo.getLastObstacle();
+  if (obst->same(fifo.getObstacle(-1))) {
+    w.doStop();
+    w.goRightBack();
+  } else {
+    w.goLeft();
+  }
   w.doStop();
 }
 
 void handleRightFrontObstacle() {
-  stuck ? w.turnLeft() : w.goRightBack();
+  Obstacle* obst = fifo.getLastObstacle();
+  if (obst->same(fifo.getObstacle(-1))) {
+    w.turnLeft();
+  } else {
+    w.goRightBack();
+  }
   w.doStop();
 }
 
@@ -92,7 +114,8 @@ void handleFrontObstacle() {
 }
 
 void handleAllObstacles() {
-  if (stuck) {
+  Obstacle* obst = fifo.getLastObstacle();
+  if (obst->same(fifo.getObstacle(-1))) {
     w.turnRight();
   } else {
     w.goBackward();
@@ -108,28 +131,22 @@ void movingSensing() {
     switch (obstacle) {
       case 0x4:
         handleLeftObstacle();
-        stuck = false;
         break;
       case 0x6:
         handleLeftFrontObstacle();
-        stuck = false;
         break;
       case 0x1:
         handleRightObstacle();
-        stuck = false;
         break;
       case 0x3:
         handleRightFrontObstacle();
-        stuck = false;
         break;
       case 0x2:
         handleFrontObstacle();
-        stuck = false;
         break;
       case 0x5:
       case 0x7:
         handleAllObstacles();
-        stuck = true;
         break;
     }
     delay(600);
@@ -172,12 +189,14 @@ void detectObstacles() {
   if (distance) {
     obstacle.addRight(distance);
   }
-  fifo.addObstacle(&obstacle);
-
-#if DEBUG
-  Serial.print("Obstacles detected: ");
-  Serial.println(obstacle.getDirection());
+  
+  if (!obstacle.isEmpty()) {
+    fifo.addObstacle(&obstacle);
+#ifdef DEBUG
+    Serial.print("Obstacles detected: ");
+    Serial.println(obstacle.getDirection());
 #endif
+  }
 }
 
 void displayWheels(String direction) {

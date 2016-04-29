@@ -3,16 +3,21 @@ byte const size = 4;
 
 class Fifo {
   Obstacle* obst[size];
-  int index = 0;
+  int index = -1;
 
   void incIndex() {
     index = ++index % size;
   }
 
 public:
-  void addObstacle(Obstacle* obst) {
+  Fifo() {
+    Obstacle obstacle = Obstacle();
+    obst[0] = &obstacle;
+  }
+
+  void addObstacle(Obstacle* obstacle) {
     incIndex();
-    obst[index] = *obst;
+    obst[index] = obstacle;
   }
 
   Obstacle* getLastObstacle() {

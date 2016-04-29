@@ -34,5 +34,17 @@ public:
   byte getDirection() {
     return direction;
   }
+
+  boolean isEmpty() {
+    return direction == 0;
+  }
+
+  boolean same(Obstacle* obst) {
+    if (obst == NULL || obst->isEmpty()) {
+      return false;
+    } else {
+      return direction == obst->getDirection();
+    }
+  }
 };
 
