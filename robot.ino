@@ -31,9 +31,9 @@ RfController controller;
 #define DELAY_TURN 160
 
 Wheels w(new Wheel(8, 9), new Wheel(6, 7), DELAY_TURN);
-SonarSensor leftSensor(10, 13);
-SonarSensor frontSensor(10, 12);
-SonarSensor rightSensor(10, 11);
+SonarSensor leftSensor(13, 12);
+SonarSensor frontSensor(13, 11);
+SonarSensor rightSensor(13, 10);
 Fifo fifo;
 
 enum Direction {
@@ -53,10 +53,32 @@ void setup() {
   Serial.begin(9600);
 #endif
 
+  Wire.begin(0x30);             // join i2c bus with address #0x30
+  // deactivate internal pullups for twi.
+  digitalWrite(SDA, LOW);
+  digitalWrite(SCL, LOW);
+  Wire.onReceive(receiveEvent); // register event
   controller.setup();
   direction = forward;
   delay(5000);
   doResume();
+}
+
+void receiveEvent(int howMany) {
+  String res = "";
+  while (0 < Wire.available()) // loop through all but the last
+  {
+    res += (char)Wire.read(); // receive byte as a character
+  }
+  if (res == "f") w.goForward();
+  if (res == "b") w.goBackward();
+  if (res == "s") w.doStop();
+  if (res == "l") w.goLeft();
+  if (res == "tl") w.turnLeft();
+  if (res == "r") w.goRight();
+  if (res == "tr") w.turnRight();
+  if (res == "lb") w.goLeftBack();
+  if (res == "rb") w.goRightBack();
 }
 
 

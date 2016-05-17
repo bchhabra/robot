@@ -5,7 +5,9 @@ enum Command {
   BACKWARD,
   STOP,
   LEFT,
+  TURN_LEFT,
   RIGHT,
+  TURN_RIGHT,
   LEFT_BACK,
   RIGHT_BACK
 };
