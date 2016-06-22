@@ -19,7 +19,7 @@ public:
     pinMode(echo, INPUT);
   }
 
-  void sendSignal() {
+  void scan() {
     long distance1 = readDistance();
     distance = readDistance();
     if (abs(distance1-distance) > 3000) {

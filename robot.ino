@@ -31,9 +31,9 @@ RfController controller;
 #define DELAY_TURN 160
 
 Wheels w(new Wheel(8, 9), new Wheel(6, 7), DELAY_TURN);
-SonarSensor leftSensor(13, 12);
-SonarSensor frontSensor(13, 11);
-SonarSensor rightSensor(13, 10);
+SonarSensor leftSensor(11, 4);
+SonarSensor frontSensor(5, 3);
+SonarSensor rightSensor(10, 2);
 Fifo fifo;
 
 enum Direction {
@@ -59,8 +59,8 @@ void setup() {
   digitalWrite(SCL, LOW);
   Wire.onReceive(receiveEvent); // register event
   controller.setup();
-  direction = forward;
-  delay(5000);
+  direction = none; // change this to forward if you want to move on startup
+//  delay(5000);
   doResume();
 }
 
@@ -70,9 +70,9 @@ void receiveEvent(int howMany) {
   {
     res += (char)Wire.read(); // receive byte as a character
   }
-  if (res == "f") w.goForward();
-  if (res == "b") w.goBackward();
-  if (res == "s") w.doStop();
+  if (res == "f") direction = forward; w.goForward();
+  if (res == "b") direction = backward; w.goBackward();
+  if (res == "s") direction = none; w.doStop();
   if (res == "l") w.goLeft();
   if (res == "tl") w.turnLeft();
   if (res == "r") w.goRight();
@@ -83,7 +83,7 @@ void receiveEvent(int howMany) {
 
 
 void loop() {
-  checkController();
+//  checkController();
 
   movingSensing();
 }
@@ -131,7 +131,8 @@ void handleRightFrontObstacle() {
 }
 
 void handleFrontObstacle() {
-  w.goLeftBack();
+  w.goBackward();
+  delay(250);
   w.doStop();
 }
 
@@ -195,18 +196,22 @@ void detectObstacles() {
   Obstacle obstacle;
   long distance;
   
-  frontSensor.sendSignal();
+  frontSensor.scan();
+  delay(25);
+  leftSensor.scan();
+  delay(25);
+  rightSensor.scan();
+
   distance = frontSensor.isInRange(frontRange);
   if (distance) {
     obstacle.addFront(distance);
   }
-  leftSensor.sendSignal();
+
   distance = leftSensor.isInRange(sideRange);
   if (distance) {
     obstacle.addLeft(distance);
   }
   
-  rightSensor.sendSignal();
   distance = rightSensor.isInRange(sideRange);
   if (distance) {
     obstacle.addRight(distance);
@@ -214,11 +219,18 @@ void detectObstacles() {
   
   if (!obstacle.isEmpty()) {
     fifo.addObstacle(&obstacle);
-#ifdef DEBUG
-    Serial.print("Obstacles detected: ");
-    Serial.println(obstacle.getDirection());
-#endif
   }
+#ifdef DEBUG
+    Serial.print("Obstacles detected = ");
+    Serial.print(obstacle.getDirection());
+    Serial.print("; left = ");
+    Serial.print(obstacle.getLeftDistance());
+    Serial.print("; right = ");
+    Serial.print(obstacle.getRightDistance());
+    Serial.print("; front = ");
+    Serial.print(obstacle.getFrontDistance());
+    Serial.println();
+#endif
 }
 
 void displayWheels(String direction) {
