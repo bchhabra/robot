@@ -28,7 +28,6 @@ SerialController controller;
 Wheels w(new Wheel(8, 9), new Wheel(6, 7), DELAY_TURN);
 SonarSensor leftSensor(11, 4);
 SonarSensor frontSensor(5, 3);
-SonarSensor rightSensor(10, 2);
 Fifo fifo;
 
 enum Direction {
@@ -195,7 +194,6 @@ void detectObstacles() {
   delay(25);
   leftSensor.scan();
   delay(25);
-  rightSensor.scan();
 
   distance = frontSensor.isInRange(frontRange);
   if (distance) {
@@ -207,10 +205,6 @@ void detectObstacles() {
     obstacle.addLeft(distance);
   }
   
-  distance = rightSensor.isInRange(sideRange);
-  if (distance) {
-    obstacle.addRight(distance);
-  }
   
   if (!obstacle.isEmpty()) {
     fifo.addObstacle(&obstacle);
