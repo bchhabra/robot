@@ -6,14 +6,11 @@ __asm volatile ("nop");
 #define LCD 0
 #define DEBUG 1
 #define SERIAL_CONTROLLER 0
-
 #if LCD
 #include <LiquidCrystal_I2C.h>
 #endif
 #include <Wire.h> 
-#include <RCSwitch.h>
 #include "Wheels.h"
-#include "RfController.h"
 #include "SerialController.h"
 #include "SonarSensor.h"
 #include "Fifo.h"
@@ -24,8 +21,6 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 
 #if SERIAL_CONTROLLER
 SerialController controller;
-#else
-RfController controller;
 #endif
 
 #define DELAY_TURN 160
