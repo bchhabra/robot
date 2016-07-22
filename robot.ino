@@ -5,7 +5,6 @@ __asm volatile ("nop");
 
 #define LCD 0
 #define DEBUG 1
-#define SERIAL_CONTROLLER 0
 #if LCD
 #include <LiquidCrystal_I2C.h>
 #endif
@@ -19,9 +18,7 @@ __asm volatile ("nop");
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 #endif
 
-#if SERIAL_CONTROLLER
 SerialController controller;
-#endif
 
 #define DELAY_TURN 160
 Wheel leftWheel(8, 9, 5);
@@ -51,11 +48,13 @@ void setup() {
 
   Wire.begin(0x30);             // join i2c bus with address #0x30
   // deactivate internal pullups for twi.
-  leftWheel.setSpeed(128);	
-  rightWheel.setSpeed(128);	
   digitalWrite(SDA, LOW);
   digitalWrite(SCL, LOW);
   Wire.onReceive(receiveEvent); // register event
+
+  leftWheel.setSpeed(128);  
+  rightWheel.setSpeed(128); 
+
   controller.setup();
   direction = none; // change this to forward if you want to move on startup
 //  delay(5000);
