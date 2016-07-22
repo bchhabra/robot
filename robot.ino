@@ -24,10 +24,12 @@ SerialController controller;
 #endif
 
 #define DELAY_TURN 160
+Wheel leftWheel(8, 9, 5);
+Wheel rightWheel(6, 7, 3);
 
-Wheels w(new Wheel(8, 9), new Wheel(6, 7), DELAY_TURN);
-SonarSensor leftSensor(11, 4);
-SonarSensor frontSensor(5, 3);
+Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
+SonarSensor leftSensor(11, 10);
+SonarSensor frontSensor(4, 13);
 Fifo fifo;
 
 enum Direction {
@@ -49,6 +51,8 @@ void setup() {
 
   Wire.begin(0x30);             // join i2c bus with address #0x30
   // deactivate internal pullups for twi.
+  leftWheel.setSpeed(128);	
+  rightWheel.setSpeed(128);	
   digitalWrite(SDA, LOW);
   digitalWrite(SCL, LOW);
   Wire.onReceive(receiveEvent); // register event
