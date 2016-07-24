@@ -26,7 +26,7 @@ Wheel rightWheel(6, 7, 3);
 
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
 SonarSensor leftSensor(11, 10);
-SonarSensor frontSensor(4, 13);
+SonarSensor frontSensor(4, 12);
 Fifo fifo;
 
 enum Direction {
