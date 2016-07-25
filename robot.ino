@@ -52,8 +52,8 @@ void setup() {
   digitalWrite(SCL, LOW);
   Wire.onReceive(receiveEvent); // register event
 
-  leftWheel.setSpeed(128);  
-  rightWheel.setSpeed(128); 
+  leftWheel.setSpeed(160);  
+  rightWheel.setSpeed(160); 
   controller.setup();
   direction = none; // change this to forward if you want to move on startup
 //  delay(5000);
