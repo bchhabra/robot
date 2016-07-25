@@ -151,17 +151,18 @@ void movingSensing() {
       case 0x4:
         handleLeftObstacle();
         break;
-      case 0x6:
-        handleLeftFrontObstacle();
+      case 0x2:
+        handleRightObstacle();
         break;
+      case 0x6:
+        handleFrontObstacle();
+        break;
+        
       case 0x1:
         handleRightObstacle();
         break;
       case 0x3:
         handleRightFrontObstacle();
-        break;
-      case 0x2:
-        handleFrontObstacle();
         break;
       case 0x5:
       case 0x7:
