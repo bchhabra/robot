@@ -202,7 +202,7 @@ void detectObstacles() {
     obstacle.addFront(distance);
   }
 
-  distance = frontLeftSensor.isInRange(sideRange);
+  distance = frontLeftSensor.isInRange(frontRange);
   if (distance) {
     obstacle.addLeft(distance);
   }
