@@ -25,8 +25,8 @@ Wheel leftWheel(8, 9, 5);
 Wheel rightWheel(6, 7, 3);
 
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
-SonarSensor leftSensor(11, 10);
-SonarSensor frontSensor(4, 12);
+SonarSensor frontLeftSensor(11, 10);
+SonarSensor frontRightSensor(4, 12);
 Fifo fifo;
 
 enum Direction {
@@ -54,7 +54,6 @@ void setup() {
 
   leftWheel.setSpeed(128);  
   rightWheel.setSpeed(128); 
-
   controller.setup();
   direction = none; // change this to forward if you want to move on startup
 //  delay(5000);
@@ -193,17 +192,17 @@ void detectObstacles() {
   Obstacle obstacle;
   long distance;
   
-  frontSensor.scan();
+  frontRightSensor.scan();
   delay(25);
-  leftSensor.scan();
+  frontLeftSensor.scan();
   delay(25);
 
-  distance = frontSensor.isInRange(frontRange);
+  distance = frontRightSensor.isInRange(frontRange);
   if (distance) {
     obstacle.addFront(distance);
   }
 
-  distance = leftSensor.isInRange(sideRange);
+  distance = frontLeftSensor.isInRange(sideRange);
   if (distance) {
     obstacle.addLeft(distance);
   }
