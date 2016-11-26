@@ -5,9 +5,8 @@ __asm volatile ("nop");
 
 #define LCD 0
 #define DEBUG 1
-#if LCD
+
 #include <LiquidCrystal_I2C.h>
-#endif
 #include <Wire.h> 
 #include "Wheels.h"
 #include "SerialController.h"
@@ -21,7 +20,7 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 SerialController controller;
 
 #define DELAY_TURN 160
-Wheel leftWheel(8, 9, 5);
+Wheel leftWheel(8, 5, 9);
 Wheel rightWheel(6, 7, 3);
 
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
@@ -52,12 +51,12 @@ void setup() {
   digitalWrite(SCL, LOW);
   Wire.onReceive(receiveEvent); // register event
 
-  leftWheel.setSpeed(160);  
-  rightWheel.setSpeed(160); 
+  leftWheel.setSpeed(160);
+  rightWheel.setSpeed(160);
   controller.setup();
-  direction = none; // change this to forward if you want to move on startup
-//  delay(5000);
-  doResume();
+  delay(5000);
+  direction = forward; // change this to forward if you want to move on startup
+//  doResume();
 }
 
 void receiveEvent(int howMany) {
@@ -79,7 +78,7 @@ void receiveEvent(int howMany) {
 
 
 void loop() {
-//  checkController();
+  checkController();
 
   movingSensing();
 }
