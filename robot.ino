@@ -65,9 +65,18 @@ void receiveEvent(int howMany) {
   {
     res += (char)Wire.read(); // receive byte as a character
   }
-  if (res == "f") direction = forward; w.goForward();
-  if (res == "b") direction = backward; w.goBackward();
-  if (res == "s") direction = none; w.doStop();
+  if (res == "f") {
+    direction = forward;
+    w.goForward();
+  }
+  if (res == "b") {
+    direction = backward;
+    w.goBackward();
+  }
+  if (res == "s") {
+    direction = none;
+    w.doStop();
+  }
   if (res == "l") w.goLeft();
   if (res == "tl") w.turnLeft();
   if (res == "r") w.goRight();
