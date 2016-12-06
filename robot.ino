@@ -12,6 +12,7 @@ __asm volatile ("nop");
 #include "SerialController.h"
 #include "SonarSensor.h"
 #include "Fifo.h"
+#include "BoxStrategy.h"
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -22,19 +23,13 @@ SerialController controller;
 #define DELAY_TURN 160
 Wheel leftWheel(8, 5, 9);
 Wheel rightWheel(6, 7, 3);
-
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
-SonarSensor frontLeftSensor(11, 10);
-SonarSensor frontRightSensor(4, 12);
-SonarSensor wallSensor(A3, A2);
-Fifo fifo;
+
+BoxStrategy boxStrategy(&w);
 
 enum Direction {
   none, forward, backward
 } direction = none;
-
-int frontRange = 25;
-int sideRange = 23;
 
 void setup() {
 
@@ -86,98 +81,7 @@ void receiveEvent(int howMany) {
 void loop() {
   checkController();
 
-  senseMovement();
-}
-
-void handleLeftObstacle() {
-  Obstacle* obst = fifo.getLastObstacle();
-  if (obst->same(fifo.getObstacle(-1))) {
-    w.doStop();
-    w.goLeftBack();
-  } else {
-    w.goRight();
-  }
-  w.doStop();
-}
-
-void handleLeftFrontObstacle() {
-  Obstacle* obst = fifo.getLastObstacle();
-  if (obst->same(fifo.getObstacle(-1))) {
-    w.turnRight();
-  } else {
-    w.goLeftBack();
-  }
-  w.doStop();
-}
-
-void handleRightObstacle() {
-  Obstacle* obst = fifo.getLastObstacle();
-  if (obst->same(fifo.getObstacle(-1))) {
-    w.doStop();
-    w.goRightBack();
-  } else {
-    w.goLeft();
-  }
-  w.doStop();
-}
-
-void handleRightFrontObstacle() {
-  Obstacle* obst = fifo.getLastObstacle();
-  if (obst->same(fifo.getObstacle(-1))) {
-    w.turnLeft();
-  } else {
-    w.goRightBack();
-  }
-  w.doStop();
-}
-
-void handleFrontObstacle() {
-  w.goBackward();
-  delay(250);
-  w.doStop();
-}
-
-void handleAllObstacles() {
-  Obstacle* obst = fifo.getLastObstacle();
-  if (obst->same(fifo.getObstacle(-1))) {
-    w.turnRight();
-  } else {
-    w.goBackward();
-    delay(500);
-  }
-  w.doStop();
-}
-
-void senseMovement() {
-  detectObstacles();
-  byte obstacle = fifo.getLastObstacle()->getDirection();
-  if (obstacle) {
-    switch (obstacle) {
-      case 0x4:
-        handleLeftObstacle();
-        break;
-      case 0x2:
-        handleRightObstacle();
-        break;
-      case 0x6:
-        handleFrontObstacle();
-        break;
-        
-      case 0x1:
-        handleRightObstacle();
-        break;
-      case 0x3:
-        handleRightFrontObstacle();
-        break;
-      case 0x5:
-      case 0x7:
-        handleAllObstacles();
-        break;
-    }
-    delay(600);
-  } else {
-    doResume();
-  }
+  boxStrategy.run();
 }
 
 void doResume() {
@@ -192,49 +96,6 @@ void doResume() {
       w.goBackward();
       break;
   }
-}
-
-void detectObstacles() {
-  Obstacle obstacle;
-  long distance;
-  
-  frontRightSensor.scan();
-  delay(25);
-  frontLeftSensor.scan();
-  delay(25);
-  wallSensor.scan();
-  delay(25);
-
-  distance = frontRightSensor.isInRange(frontRange);
-  if (distance) {
-    obstacle.addFront(distance);
-  }
-
-  distance = frontLeftSensor.isInRange(frontRange);
-  if (distance) {
-    obstacle.addLeft(distance);
-  }
-
-  distance = wallSensor.isInRange(frontRange);
-  if (distance) {
-    obstacle.addRight(distance);
-  }
-  
-  
-  if (!obstacle.isEmpty()) {
-    fifo.addObstacle(&obstacle);
-  }
-#ifdef DEBUG
-    Serial.print("Obstacles detected = ");
-    Serial.print(obstacle.getDirection());
-    Serial.print("; left = ");
-    Serial.print(obstacle.getLeftDistance());
-    Serial.print("; right = ");
-    Serial.print(obstacle.getRightDistance());
-    Serial.print("; front = ");
-    Serial.print(obstacle.getFrontDistance());
-    Serial.println();
-#endif
 }
 
 void displayWheels(String direction) {

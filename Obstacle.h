@@ -1,3 +1,5 @@
+#pragma once
+
 class Obstacle {
   long left;
   long front;
