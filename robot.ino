@@ -26,6 +26,7 @@ Wheel rightWheel(6, 7, 3);
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
 SonarSensor frontLeftSensor(11, 10);
 SonarSensor frontRightSensor(4, 12);
+SonarSensor wallSensor(A3, A2);
 Fifo fifo;
 
 enum Direction {
@@ -201,6 +202,8 @@ void detectObstacles() {
   delay(25);
   frontLeftSensor.scan();
   delay(25);
+  wallSensor.scan();
+  delay(25);
 
   distance = frontRightSensor.isInRange(frontRange);
   if (distance) {
@@ -210,6 +213,11 @@ void detectObstacles() {
   distance = frontLeftSensor.isInRange(frontRange);
   if (distance) {
     obstacle.addLeft(distance);
+  }
+
+  distance = wallSensor.isInRange(frontRange);
+  if (distance) {
+    obstacle.addRight(distance);
   }
   
   
