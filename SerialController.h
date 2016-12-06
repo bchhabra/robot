@@ -4,7 +4,7 @@
 class SerialController : public Controller {
   public:
     void setup() {
-      Serial.begin(9600);
+      Serial.begin(115200);
     }
 
     boolean available() {

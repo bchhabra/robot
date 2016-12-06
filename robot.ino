@@ -41,9 +41,6 @@ void setup() {
   lcd.init();
   lcd.backlight();
 #endif
-#if DEBUG
-  Serial.begin(9600);
-#endif
 
   Wire.begin(0x30);             // join i2c bus with address #0x30
   // deactivate internal pullups for twi.
@@ -54,8 +51,8 @@ void setup() {
   leftWheel.setSpeed(160);
   rightWheel.setSpeed(160);
   controller.setup();
-  delay(5000);
-  direction = forward; // change this to forward if you want to move on startup
+//  delay(5000);
+//  direction = forward; // change this to forward if you want to move on startup
 //  doResume();
 }
 
@@ -85,11 +82,10 @@ void receiveEvent(int howMany) {
   if (res == "rb") w.goRightBack();
 }
 
-
 void loop() {
   checkController();
 
-  movingSensing();
+  senseMovement();
 }
 
 void handleLeftObstacle() {
@@ -151,7 +147,7 @@ void handleAllObstacles() {
   w.doStop();
 }
 
-void movingSensing() {
+void senseMovement() {
   detectObstacles();
   byte obstacle = fifo.getLastObstacle()->getDirection();
   if (obstacle) {
