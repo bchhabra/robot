@@ -4,8 +4,8 @@
 
 class BoxStrategy : public Strategy {
   private:
-    const int frontRange = 25;
-    const int sideRange = 23;
+    const int frontRange = 15;
+    const int sideRange = 25;
 
     SonarSensor frontLeftSensor {11, 10};
     SonarSensor frontRightSensor {4, 12};
@@ -22,28 +22,26 @@ class BoxStrategy : public Strategy {
 
     void run() {
       detectObstacles();
-      byte obstacle = fifo.getLastObstacle()->getDirection();
-      if (obstacle) {
-        switch (obstacle) {
-          case 0x4:
-            handleLeftObstacle();
+      Obstacle* obstacle = fifo.getLastObstacle();
+      byte direction = obstacle->getDirection();
+      if (direction) {
+        switch (direction) {
+          case 0x1:
+            wallOnTheRight(obstacle);
             break;
           case 0x2:
-            handleRightObstacle();
+          case 0x3:
+            handleRightFrontObstacle(obstacle);
+            break;
+          case 0x4:
+          case 0x5:
+            handleLeftFrontObstacle(obstacle);
             break;
           case 0x6:
-            handleFrontObstacle();
+            handleFrontObstacles(obstacle);
             break;
-            
-          case 0x1:
-            handleRightObstacle();
-            break;
-          case 0x3:
-            handleRightFrontObstacle();
-            break;
-          case 0x5:
           case 0x7:
-            handleAllObstacles();
+            handleAllObstacles(obstacle);
             break;
         }
         delay(600);
@@ -53,65 +51,37 @@ class BoxStrategy : public Strategy {
     }
   
   private:
-    void handleLeftObstacle() {
-      Obstacle* obst = fifo.getLastObstacle();
-      if (obst->same(fifo.getObstacle(-1))) {
-        w->doStop();
-        w->goLeftBack();
-      } else {
+    void wallOnTheRight(Obstacle* obst) {
+      if (obst->getRightDistance() > 10) {
         w->goRight();
-      }
-      w->doStop();
-    }
-    
-    void handleLeftFrontObstacle() {
-      Obstacle* obst = fifo.getLastObstacle();
-      if (obst->same(fifo.getObstacle(-1))) {
-        w->turnRight();
-      } else {
-        w->goLeftBack();
-      }
-      w->doStop();
-    }
-    
-    void handleRightObstacle() {
-      Obstacle* obst = fifo.getLastObstacle();
-      if (obst->same(fifo.getObstacle(-1))) {
-        w->doStop();
-        w->goRightBack();
-      } else {
+        w->goRight();
         w->goLeft();
       }
       w->doStop();
     }
-    
-    void handleRightFrontObstacle() {
-      Obstacle* obst = fifo.getLastObstacle();
-      if (obst->same(fifo.getObstacle(-1))) {
-        w->turnLeft();
-      } else {
-        w->goRightBack();
-      }
+
+    void handleRightFrontObstacle(Obstacle* obst) {
+      w->goLeft();
+      w->doStop();
+    }
+
+    void handleLeftFrontObstacle(Obstacle* obst) {
+      w->goRight();
+      w->doStop();
+    }
+
+    void handleFrontObstacles(Obstacle* obst) {
+      w->turnLeft();
       w->doStop();
     }
     
-    void handleFrontObstacle() {
+    void handleAllObstacles(Obstacle* obst) {
       w->goBackward();
-      delay(250);
+      delay(500);
+      w->turnLeft();
       w->doStop();
     }
-    
-    void handleAllObstacles() {
-      Obstacle* obst = fifo.getLastObstacle();
-      if (obst->same(fifo.getObstacle(-1))) {
-        w->turnRight();
-      } else {
-        w->goBackward();
-        delay(500);
-      }
-      w->doStop();
-    }
-    
+
     void detectObstacles() {
       Obstacle obstacle;
       long distance;
@@ -133,7 +103,7 @@ class BoxStrategy : public Strategy {
         obstacle.addLeft(distance);
       }
     
-      distance = wallSensor.isInRange(frontRange);
+      distance = wallSensor.isInRange(sideRange);
       if (distance) {
         obstacle.addRight(distance);
       }
@@ -147,12 +117,13 @@ class BoxStrategy : public Strategy {
         Serial.print(obstacle.getDirection());
         Serial.print("; left = ");
         Serial.print(obstacle.getLeftDistance());
-        Serial.print("; right = ");
-        Serial.print(obstacle.getRightDistance());
         Serial.print("; front = ");
         Serial.print(obstacle.getFrontDistance());
+        Serial.print("; right = ");
+        Serial.print(obstacle.getRightDistance());
         Serial.println();
     #endif
     }
+    
 };
 
