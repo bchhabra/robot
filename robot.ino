@@ -13,6 +13,7 @@ __asm volatile ("nop");
 #include "SonarSensor.h"
 #include "Fifo.h"
 #include "BoxStrategy.h"
+#include "MinIMU9AHRS.h"
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
