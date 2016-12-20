@@ -5,25 +5,12 @@ Creation-Date: 2016-12-19T19:44:38+01:00
 ====== Home ======
 Created Monday 19 December 2016
 
-http://www.instructables.com/id/CleanBOT/
+[[+Theory]]
 
+http://www.instructables.com/id/CleanBOT/
 http://www.instructables.com/id/SweeperBot-Roomba-like-Robot-With-Bluetooth-Window/
 
 Robot steering control with compass
 https://www.youtube.com/watch?v=SZsWy_fxUWs
 It uses this code: https://github.com/dougbot01/IMU_Steering_Bot
 and this library https://github.com/pololu/lsm303-arduino which was written for [LSM303D 3D](http://www.exp-tech.de/pololu-lsm303d-3d-compass-and-accelerometer-carrier-with-voltage-regulator "LSM303D 3D")
-
-Other parts we need
-### SD card
-http://www.ebay.de/itm/micro-SD-TF-Card-Memory-Modul-Karte-slot-Kartenadapter-cardreader-Arduino-/221740362748?hash=item33a0c16bfc:g:EvwAAOSw7FRWUI-a
-
-### WIFI
-http://www.ebay.de/itm/1Stk-NRF24L01-2-4GHz-Antenna-Wireless-Transceiver-Empfanger-Modul-fur-Arduino-/221743108949?hash=item33a0eb5355:g:ti8AAOSwymxVK2Rk
-
-### Compass
-https://www.roboter-bausatz.de/en/extension-moduls/position-gps-status/126/gy-271-hmc5883l-kompassmodul
-or
-http://www.exp-tech.de/pololu-lsm303d-3d-compass-and-accelerometer-carrier-with-voltage-regulator
-
-Need to check the convertor for battery: 6V to 12V or the other way around

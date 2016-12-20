@@ -1,0 +1,8 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-20T22:12:00+01:00
+
+====== microSD ======
+Created Tuesday 20 December 2016
+
+Shop: https://www.pololu.com/product/2587
