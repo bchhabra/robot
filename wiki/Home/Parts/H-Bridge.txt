@@ -1,0 +1,11 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:36:03+01:00
+
+====== H-Bridge ======
+Created Monday 19 December 2016
+
+L293D - Dual H-Bridge Motor Driver for DC or Steppers 
+
+Shop: http://www.ebay.de/itm/L293D-vierfach-Halbbrucke-DIP-16-H-Bridge-/181876799561?hash=item2a58b3b849:g:ShAAAOSwBLlVSfGF
+@datasheet [[./l293d.pdf]]

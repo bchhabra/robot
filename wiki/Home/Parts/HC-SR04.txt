@@ -1,0 +1,9 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:33:57+01:00
+
+====== HC-SR04 ======
+Created Monday 19 December 2016
+
+Shop: https://www.roboter-bausatz.de/287/5-x-hc-sr04-ultraschall-modul-entfernungsmesser
+@datasheet [[./HCSR04.pdf]]

@@ -1,0 +1,13 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:11:38+01:00
+
+====== Devil ======
+Created Monday 19 December 2016
+
+===== Components =====
+[[Parts:Arduino Pro Mini]]
+[[Parts:ESP8266]]
+
+Factory IC: [[./EM78P153K.pdf]] @datasheet
+

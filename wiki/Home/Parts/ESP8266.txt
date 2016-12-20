@@ -1,0 +1,17 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:07:38+01:00
+
+====== ESP8266 ======
+Created Monday 19 December 2016
+
+Shop: http://www.ebay.de/itm/302004309020?_trksid=p2057872.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
+
+===== Lua firmware =====
+NodeMCU Documentation: https://nodemcu.readthedocs.io/en/master/en/flash/
+Flasher: https://github.com/nodemcu/nodemcu-flasher
+Software: https://esp8266.ru/esplorer/
+
+===== Arduino IDE =====
+ESP8266 core for Arduino: https://github.com/esp8266/Arduino
+Library: http://arduino.esp8266.com/stable/package_esp8266com_index.json

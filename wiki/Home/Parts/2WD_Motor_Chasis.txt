@@ -1,0 +1,10 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:33:14+01:00
+
+====== 2WD Motor Chasis ======
+Created Monday 19 December 2016
+
+Shop: http://www.ebay.de/itm/171832339237?_trksid=p2060353.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
+Motor specs: https://www.amazon.de/dp/B00J0NHWPE/ref=pd_lpo_sbs_dp_ss_2?pf_rd_p=556245207&pf_rd_s=lpo-top-stripe&pf_rd_t=201&pf_rd_i=B01BRFHOWS&pf_rd_m=A3JWKAKR8XB7XF&pf_rd_r=Q6B46BATXW3GDD4P9N09
+

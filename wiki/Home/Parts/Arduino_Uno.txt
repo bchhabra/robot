@@ -1,0 +1,9 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:35:37+01:00
+
+====== Arduino Uno ======
+Created Monday 19 December 2016
+
+Shop: http://www.ebay.de/itm/221668499477?_trksid=p2060353.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
+Detailed pinout: [[./unov3pdf.pdf]]

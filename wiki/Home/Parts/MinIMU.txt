@@ -1,0 +1,20 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:51:01+01:00
+
+====== MinIMU ======
+Created Monday 19 December 2016
+
+MinIMU-9 v5 Gyro, Accelerometer, and Compass (LSM6DS33 and LIS3MDL Carrier)
+
+Shop: https://www.pololu.com/product/2738
+
+===== LSM6DS33 =====
+3-axis gyro and 3-axis accelerometer
+@datasheet [[./LSM6DS33.pdf]]
+
+===== LIS3MDL =====
+3-axis magnetometer
+@datasheet [[./LIS3MDL.pdf]]
+
+

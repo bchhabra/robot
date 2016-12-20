@@ -1,0 +1,41 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T20:14:12+01:00
+
+====== Parts ======
+Created Monday 19 December 2016
+
+===== Yet to order =====
+
+==== Batteries ====
+Blei-Akkumulator QUATPOWER LB7.2-6, 6 V-/7,2 Ah - 9,95
+1,18 kg
+https://www.pollin.de/shop/dt/NzA4ODI3OTk-/Stromversorgung/Akkus/Blei_Akkus/Blei_Akkumulator_QUATPOWER_LB7_2_6_6_V_7_2_Ah.html
+
+
+Blei-Akkumulator QUATPOWER LB4-6, 6 V-/4 Ah - 5,95
+0,72 kg
+https://www.pollin.de/shop/dt/ODA4ODI3OTk-/Stromversorgung/Akkus/Blei_Akkus/Blei_Akkumulator_QUATPOWER_LB4_6_6_V_4_Ah.html
+
+Blei-Akkumulator YUASA NP3-6, 6 V-/3 Ah - 6,95
+0,57 kg
+https://www.pollin.de/shop/dt/MDI2ODI3OTk-/Stromversorgung/Akkus/Blei_Akkus/Blei_Akkumulator_YUASA_NP3_6_6_V_3_Ah.html
+
+Blei-Akkumulator KUNG LONG WP7.2-12, 12 V-/7,2 Ah - 14,95
+2,4 kg
+https://www.pollin.de/shop/dt/OTU5ODI3OTk-/Stromversorgung/Akkus/Blei_Akkus/Blei_Akkumulator_KUNG_LONG_WP7_2_12_12_V_7_2_Ah.html
+
+Automatik-Lader AL800 - 13,20
+800mA
+http://www.pollin.de/shop/dt/Njg4ODQ2OTk-/Stromversorgung/Ladegeraete/Universal_Lader/Automatik_Lader_AL800.html
+
+==== Motor ====
+http://www.amazon.de/3-6V-kurzer-Welle-Drehmoment-Getriebemotor/dp/B008OAYP8Q/ref=sr_1_1?ie=UTF8&qid=1458753625&sr=8-1&keywords=dc+motor
+http://www.banggood.com/N20-DC6V-100RPM-Gear-Motor-Miniature-High-Torque-Gear-Box-Motor-p-972984.html?currency=EUR&createTmp=1&utm_source=google&utm_medium=shopping&utm_content=kevin&utm_campaign=elec-de-huanglinlin&gclid=CIL8pcjv6MsCFdZAGwodUfINIA
+
+==== Servo Motor ====
+Shop: https://www.roboter-bausatz.de/246/sg90-9g-servo
+
+==== LCD Display ====
+Shop: https://www.roboter-bausatz.de/39/lcd-display-modul-1602-hd44780
+Connection module: https://www.roboter-bausatz.de/8/i2c/twi-1602-display-anschlussmodul

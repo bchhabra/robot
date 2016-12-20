@@ -1,0 +1,21 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2016-12-19T23:36:35+01:00
+
+====== Theory ======
+Created Monday 19 December 
+
+===== TKJElectronics =====
+The robot: http://www.instructables.com/id/Guide-to-gyro-and-accelerometer-with-Arduino-inclu/
+A practical approach to Kalman filter and how to implement it: http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
+Kalman filter library for Arduino: https://github.com/TKJElectronics/KalmanFilter
+QuadCopters: http://blog.tkjelectronics.dk/2012/03/quadcopters-how-to-get-started/#imu
+
+===== Starlino =====
+A Guide To using IMU: http://www.starlino.com/imu_guide.html
+Arduino code for IMU Guide algorithm: http://www.starlino.com/imu_kalman_arduino.html
+DCM tutorial: http://www.starlino.com/dcm_tutorial.html
+
+===== Some more links =====
+Sparkfun IMU: https://www.sparkfun.com/products/retired/10724
+Tutorial for using it: https://github.com/Razor-AHRS/razor-9dof-ahrs/wiki/Tutorial
