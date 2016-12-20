@@ -1,6 +1,6 @@
 void printdata(void)
 {   
-      Serial.print("!");
+//      Serial.print("!");
 
       #if PRINT_EULER == 1
       Serial.print("ANG:");
@@ -9,6 +9,7 @@ void printdata(void)
       Serial.print(ToDeg(pitch));
       Serial.print(",");
       Serial.print(ToDeg(yaw));
+      Serial.println();
       #endif      
       #if PRINT_ANALOGS==1
       Serial.print(",AN:");
@@ -29,6 +30,7 @@ void printdata(void)
       Serial.print(c_magnetom_y);
       Serial.print (",");
       Serial.print(c_magnetom_z);
+      Serial.println();
       #endif
       #if PRINT_DCM == 1
       Serial.print (",DCM:");
@@ -49,8 +51,8 @@ void printdata(void)
       Serial.print(DCM_Matrix[2][1]);
       Serial.print (",");
       Serial.print(DCM_Matrix[2][2]);
-      #endif
       Serial.println();
+      #endif
       
 }
 

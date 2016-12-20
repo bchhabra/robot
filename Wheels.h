@@ -6,10 +6,12 @@ class Wheels {
   int delayTurn;
 
 public:
-  Wheels(Wheel* left, Wheel* right, int delayTurn) {
+  Wheels(Wheel* left, Wheel* right, int delayTurn, int speed) {
     this->left = left;
     this->right = right;
     this->delayTurn = delayTurn;
+    right->setSpeed(speed);
+    left->setSpeed(speed);
   }
 
   void goForward() {

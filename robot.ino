@@ -21,12 +21,18 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 
 SerialController controller;
 
+#define WHEEL_SPEED 200
 #define DELAY_TURN 160
 Wheel leftWheel(8, 5, 9);
 Wheel rightWheel(6, 7, 3);
-Wheels w(&leftWheel, &rightWheel, DELAY_TURN);
+Wheels w(&leftWheel, &rightWheel, DELAY_TURN, WHEEL_SPEED);
 
 BoxStrategy boxStrategy(&w);
+
+int initialDeg;
+long mainTimer=0;
+long mainTimerOld;
+
 
 enum Direction {
   none, forward, backward
@@ -45,12 +51,18 @@ void setup() {
   digitalWrite(SCL, LOW);
   Wire.onReceive(receiveEvent); // register event
 
-  leftWheel.setSpeed(255);
-  rightWheel.setSpeed(255);
   controller.setup();
 //  delay(5000);
 //  direction = forward; // change this to forward if you want to move on startup
 //  doResume();
+
+  delay(5000);
+  imu_setup();
+
+  initialDeg = ToDeg(yaw) + 180;
+  mainTimer = millis();
+  Serial.println(initialDeg);
+  w.turnRight();
 }
 
 void receiveEvent(int howMany) {
@@ -72,17 +84,36 @@ void receiveEvent(int howMany) {
     w.doStop();
   }
   if (res == "l") w.goLeft();
-  if (res == "tl") w.turnLeft();
+  if (res == "tl") {
+    initialDeg = ToDeg(yaw) + 180;
+    mainTimer = millis();
+    w.turnLeft();
+  }
   if (res == "r") w.goRight();
-  if (res == "tr") w.turnRight();
+  if (res == "tr") {
+    initialDeg = ToDeg(yaw) + 180;
+    mainTimer = millis();
+    w.turnRight();
+  }
   if (res == "lb") w.goLeftBack();
   if (res == "rb") w.goRightBack();
 }
 
 void loop() {
-  checkController();
+//  checkController();
+  imu_loop();
+  if ((mainTimer > 0) && ((millis()-mainTimer) >= 15)) {
+    mainTimer = millis();
+    Serial.print("----------: ");
+    Serial.println(abs((ToDeg(yaw) + 180) - initialDeg));
+    if (abs((ToDeg(yaw) + 180) - initialDeg) >= 88) {
+      w.doStop();
+      mainTimer = 0;
+      initialDeg = ToDeg(yaw) + 180;
+    }
+  }
 
-  boxStrategy.run();
+//  boxStrategy.run();
 }
 
 void doResume() {

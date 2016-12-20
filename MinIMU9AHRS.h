@@ -43,12 +43,15 @@ int SENSOR_SIGN[9] = {1,1,1,-1,-1,-1,1,1,1}; //Correct directions x,y,z - gyro, 
 
 //min: {  +300,  -4325,  +5522}   max: {  +398,  -4209,  +5642}
 
-#define M_X_MIN -1000
-#define M_Y_MIN -1000
-#define M_Z_MIN -1000
-#define M_X_MAX +1000
-#define M_Y_MAX +1000
-#define M_Z_MAX +1000
+// values from calibrate program
+//min: { -2291,  -1669,  +4653}   max: {  -619,   -597,  +5189}
+
+#define M_X_MIN -2291
+#define M_Y_MIN -1669
+#define M_Z_MIN +4653
+#define M_X_MAX -619
+#define M_Y_MAX -597
+#define M_Z_MAX +5189
 
 #define Kp_ROLLPITCH 0.02
 #define Ki_ROLLPITCH 0.00002
@@ -62,7 +65,7 @@ int SENSOR_SIGN[9] = {1,1,1,-1,-1,-1,1,1,1}; //Correct directions x,y,z - gyro, 
 
 #define PRINT_DCM 0     //Will print the whole direction cosine matrix
 #define PRINT_ANALOGS 0 //Will print the analog raw data
-#define PRINT_EULER 1   //Will print the Euler angles Roll, Pitch and Yaw
+#define PRINT_EULER 0   //Will print the Euler angles Roll, Pitch and Yaw
 
 #define STATUS_LED 13
 
@@ -128,12 +131,7 @@ float Temporary_Matrix[3][3]={
 
 void imu_setup()
 {
-  Serial.begin(115200);
   pinMode (STATUS_LED,OUTPUT);  // Status LED
-
-  I2C_Init();
-
-  Serial.println("Pololu MinIMU-9 + Arduino AHRS");
 
   digitalWrite(STATUS_LED,LOW);
   delay(1500);
