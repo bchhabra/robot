@@ -1,3 +1,4 @@
+
 #define LCD 0
 #define DEBUG 1
 
@@ -9,6 +10,8 @@
 #include "SonarSensor.h"
 #include "Fifo.h"
 #include "BoxStrategy.h"
+#include "MinIMU9AHRS.h"
+//#include "Mag.h"
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -23,6 +26,12 @@ Wheel rightWheel(6, 7, 3);
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN, WHEEL_SPEED);
 
 BoxStrategy strategy(&w);
+
+int initialDeg;
+long mainTimer=0;
+long mainTimerOld;
+
+//void mag_loop(void (*f)());
 
 enum Direction {
   none, forward, backward
@@ -45,6 +54,17 @@ void setup() {
 //  delay(5000);
 //  direction = forward; // change this to forward if you want to move on startup
 //  doResume();
+
+  delay(5000);
+  imu_setup();
+//  delay(5000);
+//  imu_setup();
+//  mag_setup();
+
+  initialDeg = ToDeg(yaw) + 180;
+  mainTimer = millis();
+  Serial.println(initialDeg);
+  w.turnRight();
 }
 
 void receiveEvent(int howMany) {
@@ -66,19 +86,33 @@ void receiveEvent(int howMany) {
     w.doStop();
   }
   if (res == "l") w.goLeft();
-  if (res == "tl") w.turnLeft();
+  if (res == "tl") {
+    initialDeg = ToDeg(yaw) + 180;
+    mainTimer = millis();
+    w.turnLeft();
+  }
   if (res == "r") w.goRight();
-  if (res == "tr") w.turnRight();
+  if (res == "tr") {
+    initialDeg = ToDeg(yaw) + 180;
+    mainTimer = millis();
+    w.turnRight();
+  }
   if (res == "lb") w.goLeftBack();
   if (res == "rb") w.goRightBack();
 }
 
 void loop() {
-	// uncomment this to activate control over serial
 //  checkController();
+  imu_loop();
+  //  boxStrategy.run();
+}
 
-	// needs a new strategy
-	//  strategy.run();
+inline int readAngle() {
+  return ToDeg(yaw) + 180;
+}
+
+inline int calculateDelta(int initialDeg) {
+  return abs(((readAngle() - initialDeg) + 180) % 360 - 180);
 }
 
 void doResume() {
