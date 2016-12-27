@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Strategy.h"
 #include "SonarSensor.h"
 #include "Fifo.h"
@@ -46,7 +48,7 @@ class BoxStrategy : public Strategy {
         }
         delay(600);
       } else {
-        doResume();
+//        doResume();
       }
     }
   

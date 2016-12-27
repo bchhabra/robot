@@ -1,11 +1,7 @@
-// BOF preprocessor bug prevent - insert me on top of your arduino-code
-#if 1
-__asm volatile ("nop");
-#endif
-
 #define LCD 0
 #define DEBUG 1
 
+#include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h> 
 #include "Wheels.h"
@@ -13,7 +9,6 @@ __asm volatile ("nop");
 #include "SonarSensor.h"
 #include "Fifo.h"
 #include "BoxStrategy.h"
-#include "MinIMU9AHRS.h"
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -27,12 +22,7 @@ Wheel leftWheel(8, 5, 9);
 Wheel rightWheel(6, 7, 3);
 Wheels w(&leftWheel, &rightWheel, DELAY_TURN, WHEEL_SPEED);
 
-BoxStrategy boxStrategy(&w);
-
-int initialDeg;
-long mainTimer=0;
-long mainTimerOld;
-
+BoxStrategy strategy(&w);
 
 enum Direction {
   none, forward, backward
@@ -55,14 +45,6 @@ void setup() {
 //  delay(5000);
 //  direction = forward; // change this to forward if you want to move on startup
 //  doResume();
-
-  delay(5000);
-  imu_setup();
-
-  initialDeg = ToDeg(yaw) + 180;
-  mainTimer = millis();
-  Serial.println(initialDeg);
-  w.turnRight();
 }
 
 void receiveEvent(int howMany) {
@@ -84,36 +66,19 @@ void receiveEvent(int howMany) {
     w.doStop();
   }
   if (res == "l") w.goLeft();
-  if (res == "tl") {
-    initialDeg = ToDeg(yaw) + 180;
-    mainTimer = millis();
-    w.turnLeft();
-  }
+  if (res == "tl") w.turnLeft();
   if (res == "r") w.goRight();
-  if (res == "tr") {
-    initialDeg = ToDeg(yaw) + 180;
-    mainTimer = millis();
-    w.turnRight();
-  }
+  if (res == "tr") w.turnRight();
   if (res == "lb") w.goLeftBack();
   if (res == "rb") w.goRightBack();
 }
 
 void loop() {
+	// uncomment this to activate control over serial
 //  checkController();
-  imu_loop();
-  if ((mainTimer > 0) && ((millis()-mainTimer) >= 15)) {
-    mainTimer = millis();
-    Serial.print("----------: ");
-    Serial.println(abs((ToDeg(yaw) + 180) - initialDeg));
-    if (abs((ToDeg(yaw) + 180) - initialDeg) >= 88) {
-      w.doStop();
-      mainTimer = 0;
-      initialDeg = ToDeg(yaw) + 180;
-    }
-  }
 
-//  boxStrategy.run();
+	// needs a new strategy
+	//  strategy.run();
 }
 
 void doResume() {

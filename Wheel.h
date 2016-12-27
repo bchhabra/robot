@@ -1,3 +1,5 @@
+#pragma once
+
 class Wheel {
   byte pin1;
   byte pin2;
