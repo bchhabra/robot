@@ -12,9 +12,10 @@ Shop: https://www.pololu.com/product/2738
 ===== LSM6DS33 =====
 3-axis gyro and 3-axis accelerometer
 @datasheet [[./LSM6DS33.pdf]]
+protocol hints: [[./LSM6DS33-AN4682.pdf]]
 
 ===== LIS3MDL =====
 3-axis magnetometer
 @datasheet [[./LIS3MDL.pdf]]
-
+procotl hints: [[./LIS3MDL-AN4602.pdf]]
 

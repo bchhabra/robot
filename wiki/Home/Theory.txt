@@ -5,6 +5,13 @@ Creation-Date: 2016-12-19T23:36:35+01:00
 ====== Theory ======
 Created Monday 19 December 
 
+===== MadgwickAHRS =====
+Arduino library: https://github.com/arduino-libraries/MadgwickAHRS
+Demo: 
+* http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
+* http://www.youtube.com/watch?v=fOSTOnQzZCI
+Theory: [[./madgwick_internal_report.pdf]]
+
 ===== TKJElectronics =====
 The robot: http://www.instructables.com/id/Guide-to-gyro-and-accelerometer-with-Arduino-inclu/
 A practical approach to Kalman filter and how to implement it: http://blog.tkjelectronics.dk/2012/09/a-practical-approach-to-kalman-filter-and-how-to-implement-it/
