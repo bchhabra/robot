@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Strategy.h"
 #include "SonarSensor.h"
 #include "Fifo.h"
@@ -20,7 +22,7 @@ class BoxStrategy : public Strategy {
     void init() {
     }
 
-    void run() {
+    void run(void (*f)()) {
       detectObstacles();
       Obstacle* obstacle = fifo.getLastObstacle();
       byte direction = obstacle->getDirection();
@@ -46,7 +48,7 @@ class BoxStrategy : public Strategy {
         }
         delay(600);
       } else {
-        doResume();
+        f();
       }
     }
   

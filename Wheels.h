@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Wheel.h"
 
 class Wheels {

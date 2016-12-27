@@ -3,6 +3,6 @@
 class Strategy {
   public:
     void init();
-    void run();
+    void run(void (*f)());
 };
 

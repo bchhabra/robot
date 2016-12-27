@@ -1,6 +1,5 @@
 #pragma once
 
-
 class SonarSensor {
   byte trigger;
   byte echo;
