@@ -9,6 +9,7 @@
 #include "SonarSensor.h"
 #include "Fifo.h"
 #include "BoxStrategy.h"
+#include "RandomStrategy.h"
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -20,10 +21,10 @@ SerialController controller;
 #define DELAY_TURN 160
 Wheel leftWheel(8, 5, 9);
 Wheel rightWheel(6, 7, 3);
-Wheels w(&leftWheel, &rightWheel, DELAY_TURN, WHEEL_SPEED);
+static Wheels w(&leftWheel, &rightWheel, DELAY_TURN, WHEEL_SPEED);
 
 BoxStrategy strategy(&w);
-
+RandomStrategy randomstrategy(&w);
 enum Direction {
   none, forward, backward
 } direction = none;
@@ -48,6 +49,7 @@ void setup() {
 //  delay(5000);
 //  direction = forward; // change this to forward if you want to move on startup
 //  doResume();
+	randomstrategy.init();
 }
 
 void receiveEvent(int howMany) {
@@ -78,7 +80,8 @@ void receiveEvent(int howMany) {
 
 void loop() {
 //  checkController();			// uncomment this to activate control over serial
-//	strategy.run(doResume);		// we need a new strategy
+	//strategy.run(doResume);
+	randomstrategy.run(doResume); // we need a new strategy
 }
 
 void doResume() {

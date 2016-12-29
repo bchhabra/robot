@@ -16,7 +16,9 @@ public:
   }
 
   void stop() {
-    digitalWrite(speedPin, LOW);
+    digitalWrite(pin1, LOW);
+    digitalWrite(pin2, LOW);
+
   }
 
   void forward() {
