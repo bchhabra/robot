@@ -17,14 +17,9 @@ LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars
 
 SerialController controller;
 
-#define WHEEL_SPEED 200
-#define DELAY_TURN 160
-Wheel leftWheel(8, 5, 9);
-Wheel rightWheel(6, 7, 3);
-static Wheels w(&leftWheel, &rightWheel, DELAY_TURN, WHEEL_SPEED);
-
 BoxStrategy strategy(&w);
-RandomStrategy randomstrategy(&w);
+RandomStrategy randomstrategy;
+
 enum Direction {
   none, forward, backward
 } direction = none;
@@ -80,8 +75,7 @@ void receiveEvent(int howMany) {
 
 void loop() {
 //  checkController();			// uncomment this to activate control over serial
-	//strategy.run(doResume);
-	randomstrategy.run(doResume); // we need a new strategy
+	randomstrategy.run(doResume);
 }
 
 void doResume() {

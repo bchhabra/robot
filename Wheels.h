@@ -2,18 +2,20 @@
 
 #include "Wheel.h"
 
+#define DELAY_TURN 160
+Wheel leftWheel(8, 5, 9);
+Wheel rightWheel(6, 7, 3);
+
 class Wheels {
   Wheel* left;
   Wheel* right;
   int delayTurn;
 
 public:
-  Wheels(Wheel* left, Wheel* right, int delayTurn, int speed) {
+  Wheels(Wheel* left, Wheel* right, int delayTurn) {
     this->left = left;
     this->right = right;
     this->delayTurn = delayTurn;
-    right->setSpeed(speed);
-    left->setSpeed(speed);
   }
 
   void goForward() {
@@ -75,6 +77,5 @@ public:
     delay(delayTurn);
     Serial.println("go right back");
   }
-  
-};
 
+} w(&leftWheel, &rightWheel, DELAY_TURN);

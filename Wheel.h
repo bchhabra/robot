@@ -1,5 +1,7 @@
 #pragma once
 
+#define WHEEL_SPEED 200
+
 class Wheel {
   byte pin1;
   byte pin2;
@@ -10,6 +12,7 @@ public:
     this->pin1 = pin1;
     this->pin2 = pin2;
     this->speedPin = speedPin;
+    this->speed = WHEEL_SPEED;
     pinMode(pin1, OUTPUT);
     pinMode(pin2, OUTPUT);
     pinMode(speedPin, OUTPUT);
