@@ -26,3 +26,12 @@ DCM tutorial: http://www.starlino.com/dcm_tutorial.html
 ===== Some more links =====
 Sparkfun IMU: https://www.sparkfun.com/products/retired/10724
 Tutorial for using it: https://github.com/Razor-AHRS/razor-9dof-ahrs/wiki/Tutorial
+
+===== To be checked =====
+http://playground.arduino.cc/Main/MPU-6050
+Gyroscopes, Accelerometers and the Complementary Filter: https://bayesianadventures.wordpress.com/2013/10/20/gyroscopes-accelerometers-and-the-complementary-filter/
+Adafruit Unified Sensor Driver: https://github.com/adafruit/Adafruit_Sensor
+
+===== PID library =====
+PID can be used to adjust output (like motors) based on some input (like sensors)
+http://playground.arduino.cc/Code/PIDLibrary#.U0AsPPl_s3k
