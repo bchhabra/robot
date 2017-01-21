@@ -6,6 +6,13 @@
 
 #define PORT_CONTACTSENSORS 2
 
+void obstacleFound() {
+	w.goBackward();
+	delay(1000);
+	w.goRight();
+	delay(1000);
+}
+
 class RandomStrategy : public Strategy {
   public:
     void init() {
@@ -14,12 +21,5 @@ class RandomStrategy : public Strategy {
 
     void run(void (*f)()) {
     	w.goForward();
-    }
-
-    static void obstacleFound() {
-    	w.goBackward();
-    	delay(1000);
-    	w.goRight();
-    	delay(1000);
     }
 };
