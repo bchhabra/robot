@@ -2,9 +2,14 @@
 
 #include "Wheel.h"
 
+#define LEFT_FORWARD 5
+#define LEFT_BACKWARD 8
+#define RIGHT_FORWARD 7
+#define RIGHT_BACKWARD 6
+
 #define DELAY_TURN 160
-Wheel leftWheel(8, 5, 9);
-Wheel rightWheel(6, 7, 3);
+Wheel leftWheel(LEFT_BACKWARD, LEFT_FORWARD, 9);
+Wheel rightWheel(RIGHT_BACKWARD, RIGHT_FORWARD, 3);
 
 class Wheels {
   Wheel* left;
