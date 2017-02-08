@@ -20,6 +20,8 @@ SerialController controller;
 BoxStrategy strategy(&w);
 RandomStrategy randomstrategy;
 
+volatile bool interruptCalled = false;
+
 enum Direction {
   none, forward, backward
 } direction = none;
@@ -41,10 +43,7 @@ void setup() {
 
 	i2cSetup();
 	controller.setup();
-//  delay(5000);
-//  direction = forward; // change this to forward if you want to move on startup
-//  doResume();
-	randomstrategy.init();
+	attachInterrupt( digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 }
 
 void receiveEvent(int howMany) {
@@ -76,6 +75,14 @@ void receiveEvent(int howMany) {
 void loop() {
 //  checkController();			// uncomment this to activate control over serial
 	randomstrategy.run(doResume);
+	if (interruptCalled) {
+		interruptCalled = false;
+		randomstrategy.obstacleFound();
+	}
+}
+
+void interrupt() {
+	interruptCalled = true;
 }
 
 void doResume() {

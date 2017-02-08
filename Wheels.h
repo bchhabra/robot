@@ -12,75 +12,82 @@ Wheel leftWheel(LEFT_BACKWARD, LEFT_FORWARD, 9);
 Wheel rightWheel(RIGHT_BACKWARD, RIGHT_FORWARD, 3);
 
 class Wheels {
-  Wheel* left;
-  Wheel* right;
-  int delayTurn;
+	Wheel* left;
+	Wheel* right;
+
+	void delayAndStop(unsigned long delayTurn) {
+		if (delayTurn != 0) {
+			delay(delayTurn);
+			doStop();
+		}
+	}
 
 public:
-  Wheels(Wheel* left, Wheel* right, int delayTurn) {
-    this->left = left;
-    this->right = right;
-    this->delayTurn = delayTurn;
-  }
+	Wheels(Wheel* left, Wheel* right) {
+		this->left = left;
+		this->right = right;
+	}
 
-  void goForward() {
-    left->forward();
-    right->forward();
-    Serial.println("go forward");
-  }
-  
-  void goBackward() {
-    left->backward();
-    right->backward();
-    Serial.println("go bacward");
-  }
-  
-  void doStop() {
-    left->stop();
-    right->stop();
-    Serial.println("do stop");
-  }
+	void goForward(unsigned long delayTurn = 0) {
+		Serial.println("go forward");
+		left->forward();
+		right->forward();
+		delayAndStop(delayTurn);
+	}
 
-  void goLeft() {
-    left->stop();
-    right->forward();
-    delay(delayTurn);
-    Serial.println("go left");
-  }
+	void goBackward(unsigned long delayTurn = 0) {
+		Serial.println("go backward");
+		left->backward();
+		right->backward();
+		delayAndStop(delayTurn);
+	}
 
-  void turnLeft() {
-    left->backward();
-    right->forward();
-    delay(delayTurn);
-    Serial.println("turn left");
-  }
+	void doStop() {
+		Serial.println("do stop");
+		left->stop();
+		right->stop();
+	}
 
-  void goRight() {
-    left->forward();
-    right->stop();
-    delay(delayTurn);
-    Serial.println("go right");
-  }
+	void goLeft(unsigned long delayTurn = DELAY_TURN) {
+		Serial.println("go left");
+		left->stop();
+		right->forward();
+		delayAndStop(delayTurn);
+	}
 
-  void turnRight() {
-    left->forward();
-    right->backward();
-    delay(delayTurn);
-    Serial.println("turn right");
-  }
+	void turnLeft(unsigned long delayTurn = DELAY_TURN) {
+		Serial.println("turn left");
+		left->backward();
+		right->forward();
+		delayAndStop(delayTurn);
+	}
 
-  void goLeftBack() {
-    left->stop();
-    right->backward();
-    delay(delayTurn);
-    Serial.println("go left back");
-  }
-  
-  void goRightBack() {
-    left->backward();
-    right->stop();
-    delay(delayTurn);
-    Serial.println("go right back");
-  }
+	void goRight(unsigned long delayTurn = DELAY_TURN) {
+		Serial.println("go right");
+		left->forward();
+		right->stop();
+		delayAndStop(delayTurn);
+	}
 
-} w(&leftWheel, &rightWheel, DELAY_TURN);
+	void turnRight(unsigned long delayTurn = DELAY_TURN) {
+		Serial.println("turn right");
+		left->forward();
+		right->backward();
+		delayAndStop(delayTurn);
+	}
+
+	void goLeftBack(unsigned long delayTurn = DELAY_TURN) {
+		Serial.println("go left back");
+		left->stop();
+		right->backward();
+		delayAndStop(delayTurn);
+	}
+
+	void goRightBack(unsigned long delayTurn = DELAY_TURN) {
+		Serial.println("go right back");
+		left->backward();
+		right->stop();
+		delayAndStop(delayTurn);
+	}
+
+} w(&leftWheel, &rightWheel);
