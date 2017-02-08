@@ -1,5 +1,6 @@
 #define LCD 0
 #define DEBUG 1
+#define SERIAL_CONTROLLER 0
 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
@@ -12,10 +13,12 @@
 #include "RandomStrategy.h"
 
 #if LCD
-LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+LiquidCrystal_I2C lcd(0x27,20,4); // set the LCD address to 0x27 for a 16 chars and 2 line display
 #endif
 
+#if SERIAL_CONTROLLER
 SerialController controller;
+#endif
 
 BoxStrategy strategy(&w);
 RandomStrategy randomstrategy;
@@ -23,7 +26,7 @@ RandomStrategy randomstrategy;
 volatile bool interruptCalled = false;
 
 enum Direction {
-  none, forward, backward
+	none, forward, backward
 } direction = none;
 
 void i2cSetup() {
@@ -37,43 +40,53 @@ void i2cSetup() {
 void setup() {
 
 #if LCD
-  lcd.init();
-  lcd.backlight();
+	lcd.init();
+	lcd.backlight();
 #endif
 
 	i2cSetup();
+#if SERIAL_CONTROLLER
 	controller.setup();
-	attachInterrupt( digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
+#endif
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 }
 
 void receiveEvent(int howMany) {
-  String res = "";
-  while (0 < Wire.available()) // loop through all but the last
-  {
-    res += (char)Wire.read(); // receive byte as a character
-  }
-  if (res == "f") {
-    direction = forward;
-    w.goForward();
-  }
-  if (res == "b") {
-    direction = backward;
-    w.goBackward();
-  }
-  if (res == "s") {
-    direction = none;
-    w.doStop();
-  }
-  if (res == "l") w.goLeft();
-  if (res == "tl") w.turnLeft();
-  if (res == "r") w.goRight();
-  if (res == "tr") w.turnRight();
-  if (res == "lb") w.goLeftBack();
-  if (res == "rb") w.goRightBack();
+	String res = "";
+	while (0 < Wire.available()) // loop through all but the last
+	{
+		res += (char) Wire.read(); // receive byte as a character
+	}
+	if (res == "f") {
+		direction = forward;
+		w.goForward();
+	}
+	if (res == "b") {
+		direction = backward;
+		w.goBackward();
+	}
+	if (res == "s") {
+		direction = none;
+		w.doStop();
+	}
+	if (res == "l")
+		w.goLeft();
+	if (res == "tl")
+		w.turnLeft();
+	if (res == "r")
+		w.goRight();
+	if (res == "tr")
+		w.turnRight();
+	if (res == "lb")
+		w.goLeftBack();
+	if (res == "rb")
+		w.goRightBack();
 }
 
 void loop() {
-//  checkController();			// uncomment this to activate control over serial
+#if SERIAL_CONTROLLER
+	checkController();
+#endif
 	randomstrategy.run(doResume);
 	if (interruptCalled) {
 		interruptCalled = false;
@@ -86,53 +99,53 @@ void interrupt() {
 }
 
 void doResume() {
-  switch (direction) {
-    case none:
-      w.doStop();
-      break;
-    case forward:
-      w.goForward();
-      break;
-    case backward:
-      w.goBackward();
-      break;
-  }
+	switch (direction) {
+	case none:
+		w.doStop();
+		break;
+	case forward:
+		w.goForward();
+		break;
+	case backward:
+		w.goBackward();
+		break;
+	}
 }
-
 
 void displayWheels(String direction) {
 #if LCD
-  lcd.setCursor(0,0);
-  lcd.print(direction + "          ");
+	lcd.setCursor(0,0);
+	lcd.print(direction + "          ");
 #endif
 }
 
+#if SERIAL_CONTROLLER
 void checkController() {
-  if (controller.available()) {
-    Command cmd = controller.getReceivedCommand();
-    switch (cmd) {
-      case FORWARD:
-        w.goForward();
-        break;
-      case BACKWARD:
-        w.goBackward();
-        break;
-      case STOP:
-        w.doStop();
-        break;
-      case LEFT: 
-        w.goLeft();
-        break;
-      case RIGHT: 
-        w.goRight();
-        break;
-      case LEFT_BACK:
-        w.goLeftBack();
-        break;
-      case RIGHT_BACK: 
-        w.goRightBack();
-        break;
-    }
-  }
+	if (controller.available()) {
+		Command cmd = controller.getReceivedCommand();
+		switch (cmd) {
+		case FORWARD:
+			w.goForward();
+			break;
+		case BACKWARD:
+			w.goBackward();
+			break;
+		case STOP:
+			w.doStop();
+			break;
+		case LEFT:
+			w.goLeft();
+			break;
+		case RIGHT:
+			w.goRight();
+			break;
+		case LEFT_BACK:
+			w.goLeftBack();
+			break;
+		case RIGHT_BACK:
+			w.goRightBack();
+			break;
+		}
+	}
 }
-
+#endif
