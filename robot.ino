@@ -45,9 +45,7 @@ void setup() {
 #endif
 
 	i2cSetup();
-#if SERIAL_CONTROLLER
-	controller.setup();
-#endif
+    Serial.begin(9600);
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 }
 
@@ -85,7 +83,7 @@ void receiveEvent(int howMany) {
 
 void loop() {
 #if SERIAL_CONTROLLER
-	checkController();
+	controller.checkController();
 #endif
 	randomstrategy.run(doResume);
 	if (interruptCalled) {
@@ -118,34 +116,3 @@ void displayWheels(String direction) {
 	lcd.print(direction + "          ");
 #endif
 }
-
-#if SERIAL_CONTROLLER
-void checkController() {
-	if (controller.available()) {
-		Command cmd = controller.getReceivedCommand();
-		switch (cmd) {
-		case FORWARD:
-			w.goForward();
-			break;
-		case BACKWARD:
-			w.goBackward();
-			break;
-		case STOP:
-			w.doStop();
-			break;
-		case LEFT:
-			w.goLeft();
-			break;
-		case RIGHT:
-			w.goRight();
-			break;
-		case LEFT_BACK:
-			w.goLeftBack();
-			break;
-		case RIGHT_BACK:
-			w.goRightBack();
-			break;
-		}
-	}
-}
-#endif
