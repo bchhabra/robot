@@ -11,6 +11,8 @@
 #include "Fifo.h"
 #include "BoxStrategy.h"
 #include "RandomStrategy.h"
+#include "time.h"
+
 
 #if LCD
 LiquidCrystal_I2C lcd(0x27,20,4); // set the LCD address to 0x27 for a 16 chars and 2 line display
@@ -24,6 +26,11 @@ BoxStrategy strategy(&w);
 RandomStrategy randomstrategy;
 
 volatile bool interruptCalled = false;
+int interruptCounter = 0;
+time_t startTime=time(NULL);
+time_t interruptTime;
+time_t lastinterruptTime;
+
 
 enum Direction {
 	none, forward, backward
@@ -82,21 +89,26 @@ void receiveEvent(int howMany) {
 }
 
 void loop() {
+
 #if SERIAL_CONTROLLER
 	controller.checkController();
 #endif
 	randomstrategy.run(doResume);
 	if (interruptCalled) {
 		interruptCalled = false;
-		randomstrategy.obstacleFound();
+		double timediff = difftime(interruptTime, lastinterruptTime);
+		randomstrategy.obstacleFound(interruptCounter,timediff);
 	}
 }
 
 void interrupt() {
+	interruptTime=time(NULL);
+	interruptCounter++;
 	interruptCalled = true;
 }
 
 void doResume() {
+	lastinterruptTime=interruptTime;
 	switch (direction) {
 	case none:
 		w.doStop();
