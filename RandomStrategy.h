@@ -3,17 +3,27 @@
 #include <Arduino.h>
 #include "Strategy.h"
 #include "Wheels.h"
+#include "time.h"
 
 #define PORT_CONTACTSENSORS 2
 
 class RandomStrategy: public Strategy {
+
+	int interruptCounter = 0;
+	time_t startTime=time(NULL);
+	time_t interruptTime=time(NULL);
+	time_t lastinterruptTime;
+
 public:
 	void run(void (*f)()) {
 		// implement logic
-		w.goForward(100);
+		w.goForward();
 	}
-	void obstacleFound(int interruptCounter, double timediffernce) {
-		if(timediffernce<0.0005){
+	void obstacleFound() {
+		interruptTime=time(NULL);
+		interruptCounter++;
+		double timediffernce = difftime(interruptTime, lastinterruptTime);
+		if(timediffernce<5){
 			if(interruptCounter % 2 == 0){
 						w.goBackward(100);
 						w.turnLeft(1000);
@@ -25,6 +35,6 @@ public:
 			w.goBackward(2000);
 		}
 
-
+		lastinterruptTime=interruptTime;
 	}
 };

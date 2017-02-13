@@ -23,10 +23,7 @@ BoxStrategy strategy;
 RandomStrategy randomstrategy;
 
 volatile bool interruptCalled = false;
-int interruptCounter = 0;
-time_t startTime=time(NULL);
-time_t interruptTime;
-time_t lastinterruptTime;
+
 
 
 void setup() {
@@ -44,19 +41,18 @@ void loop() {
 	randomstrategy.run(doResume);
 	if (interruptCalled) {
 		interruptCalled = false;
-		double timediff = difftime(interruptTime, lastinterruptTime);
-		randomstrategy.obstacleFound(interruptCounter,timediff);
+		randomstrategy.obstacleFound();
+
 	}
 }
 
 void interrupt() {
-	interruptTime=time(NULL);
-	interruptCounter++;
+
 	interruptCalled = true;
 }
 
 void doResume() {
-	lastinterruptTime=interruptTime;
+
 	switch (direction) {
 	case none:
 		w.doStop();
