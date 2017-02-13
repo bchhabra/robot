@@ -16,23 +16,13 @@ public:
 		if(timediffernce<0.0005){
 			if(interruptCounter % 2 == 0){
 						w.goBackward(100);
-						w.turnLeft(100);
-						w.turnLeft(100);
-						w.turnLeft(100);
-						w.turnLeft(100);
+						w.turnLeft(1000);
 					}else {
 						w.goBackward(100);
-						w.turnRight(100);
-						w.turnRight(100);
-						w.turnRight(100);
-						w.turnRight(100);
+						w.turnRight(1000);
 					}
 		}else{
-			w.goBackward(100);
-			w.goBackward(100);
-			w.goBackward(100);
-			w.goBackward(100);
-			w.goBackward(100);
+			w.goBackward(2000);
 		}
 
 
