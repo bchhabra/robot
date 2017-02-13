@@ -22,7 +22,7 @@ LiquidCrystal_I2C lcd(0x27,20,4); // set the LCD address to 0x27 for a 16 chars 
 SerialController controller;
 #endif
 
-BoxStrategy strategy(&w);
+BoxStrategy strategy;
 RandomStrategy randomstrategy;
 
 volatile bool interruptCalled = false;

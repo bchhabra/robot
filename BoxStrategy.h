@@ -13,15 +13,7 @@ class BoxStrategy : public Strategy {
     SonarSensor frontRightSensor {4, 12};
     SonarSensor wallSensor {A3, A2};
     Fifo fifo;
-    Wheels* w;
   public:
-    BoxStrategy(Wheels* wheels) {
-      w = wheels;
-    }
-    
-    void init() {
-    }
-
     void run(void (*f)()) {
       detectObstacles();
       Obstacle* obstacle = fifo.getLastObstacle();
@@ -55,33 +47,33 @@ class BoxStrategy : public Strategy {
   private:
     void wallOnTheRight(Obstacle* obst) {
       if (obst->getRightDistance() > 10) {
-        w->goRight();
-        w->goRight();
-        w->goLeft();
+        w.goRight();
+        w.goRight();
+        w.goLeft();
       }
-      w->doStop();
+      w.doStop();
     }
 
     void handleRightFrontObstacle(Obstacle* obst) {
-      w->goLeft();
-      w->doStop();
+      w.goLeft();
+      w.doStop();
     }
 
     void handleLeftFrontObstacle(Obstacle* obst) {
-      w->goRight();
-      w->doStop();
+      w.goRight();
+      w.doStop();
     }
 
     void handleFrontObstacles(Obstacle* obst) {
-      w->turnLeft();
-      w->doStop();
+      w.turnLeft();
+      w.doStop();
     }
     
     void handleAllObstacles(Obstacle* obst) {
-      w->goBackward();
+      w.goBackward();
       delay(500);
-      w->turnLeft();
-      w->doStop();
+      w.turnLeft();
+      w.doStop();
     }
 
     void detectObstacles() {
