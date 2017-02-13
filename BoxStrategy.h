@@ -56,24 +56,19 @@ class BoxStrategy : public Strategy {
 
     void handleRightFrontObstacle(Obstacle* obst) {
       w.goLeft();
-      w.doStop();
     }
 
     void handleLeftFrontObstacle(Obstacle* obst) {
       w.goRight();
-      w.doStop();
     }
 
     void handleFrontObstacles(Obstacle* obst) {
       w.turnLeft();
-      w.doStop();
     }
     
     void handleAllObstacles(Obstacle* obst) {
-      w.goBackward();
-      delay(500);
+      w.goBackward(500);
       w.turnLeft();
-      w.doStop();
     }
 
     void detectObstacles() {
