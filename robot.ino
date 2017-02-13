@@ -3,7 +3,6 @@
 #define SERIAL_CONTROLLER 0
 
 #include <Arduino.h>
-#include <LiquidCrystal_I2C.h>
 #include <Wire.h> 
 #include "Wheels.h"
 #include "SerialController.h"
@@ -13,11 +12,8 @@
 #include "RandomStrategy.h"
 #include "time.h"
 #include "I2C.h"
+#include "Lcd.h"
 
-
-#if LCD
-LiquidCrystal_I2C lcd(0x27,20,4); // set the LCD address to 0x27 for a 16 chars and 2 line display
-#endif
 
 #if SERIAL_CONTROLLER
 SerialController controller;
@@ -34,12 +30,7 @@ time_t lastinterruptTime;
 
 
 void setup() {
-
-#if LCD
-	lcd.init();
-	lcd.backlight();
-#endif
-
+	lcdSetup();
 	i2cSetup();
     Serial.begin(9600);
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
@@ -77,11 +68,4 @@ void doResume() {
 		w.goBackward();
 		break;
 	}
-}
-
-void displayWheels(String direction) {
-#if LCD
-	lcd.setCursor(0,0);
-	lcd.print(direction + "          ");
-#endif
 }
