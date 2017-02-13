@@ -11,6 +11,10 @@
 Wheel leftWheel(LEFT_BACKWARD, LEFT_FORWARD, 9);
 Wheel rightWheel(RIGHT_BACKWARD, RIGHT_FORWARD, 3);
 
+enum Direction {
+	none, forward, backward
+} direction = none;
+
 class Wheels {
 	Wheel* left;
 	Wheel* right;
