@@ -29,8 +29,12 @@ volatile bool interruptCalled = false;
 void setup() {
 	lcdSetup();
 	i2cSetup();
-    Serial.begin(9600);
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
+
+	Serial.begin(9600);
+	// boot loader of pro-mini needs this so that it knows data sent is not a program
+	// https://www.arduino.cc/en/Main/arduinoBoardProMini - Automatic (Software) Reset
+	delay(1000);
 }
 
 void loop() {
