@@ -1,7 +1,3 @@
-#define LCD 0
-#define DEBUG 1
-#define SERIAL_CONTROLLER 0
-
 #include <Arduino.h>
 #include <Wire.h> 
 #include "Wheels.h"
@@ -14,6 +10,9 @@
 #include "I2C.h"
 #include "Lcd.h"
 
+#define LCD 0
+#define DEBUG 1
+#define SERIAL_CONTROLLER 0
 
 #if SERIAL_CONTROLLER
 SerialController controller;
@@ -32,9 +31,7 @@ void setup() {
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 
 	Serial.begin(9600);
-	// boot loader of pro-mini needs this so that it knows data sent is not a program
-	// https://www.arduino.cc/en/Main/arduinoBoardProMini - Automatic (Software) Reset
-	delay(1000);
+	direction = forward;
 }
 
 void loop() {

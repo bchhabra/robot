@@ -17,7 +17,8 @@ class RandomStrategy: public Strategy {
 public:
 	void run(void (*f)()) {
 		// implement logic
-		w.goForward();
+//		w.goForward();
+		f();
 	}
 	void obstacleFound() {
 		interruptTime=time(NULL);
