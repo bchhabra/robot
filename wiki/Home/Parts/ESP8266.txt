@@ -6,6 +6,8 @@ Creation-Date: 2016-12-19T20:07:38+01:00
 Created Monday 19 December 2016
 
 Shop: http://www.ebay.de/itm/302004309020?_trksid=p2057872.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
+Board: https://github.com/nodemcu/nodemcu-devkit
+Comparation of different boards: https://frightanic.com/iot/comparison-of-esp8266-nodemcu-development-boards/
 
 ===== Lua firmware =====
 NodeMCU Documentation: https://nodemcu.readthedocs.io/en/master/en/flash/
