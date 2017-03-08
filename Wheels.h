@@ -45,7 +45,16 @@ public:
 		right->backward();
 		delayAndStop(delayTurn);
 	}
+	void goBackwardLeft(unsigned long delayTurn = 0) {
+			Serial.println("go backward");
+			/*
+			 * 	left->backward(speed x);
+			right->backward(speed x+y);
+			delayAndStop(delayTurn);
+			 *
+			 */
 
+		}
 	void doStop() {
 		Serial.println("do stop");
 		left->stop();
@@ -64,6 +73,27 @@ public:
 		left->backward();
 		right->forward();
 		delayAndStop(delayTurn);
+	}
+
+	void moveAntiCockWise(unsigned long delayTurn = DELAY_TURN) {
+			Serial.println("moving anti clock wise");
+			/*
+			 *
+			left->forward(speed x);
+			right->forward(speed x+y);
+			delayAndStop(delayTurn);
+
+			*/
+	}
+	void moveCockWise(unsigned long delayTurn = DELAY_TURN) {
+			Serial.println("moving clock wise");
+			/*
+			 *
+			left->forward(speed x+y);
+			right->forward(speed x);
+			delayAndStop(delayTurn);
+
+			*/
 	}
 
 	void goRight(unsigned long delayTurn = DELAY_TURN) {
