@@ -13,9 +13,9 @@ class DefaultPattern: public Pattern {
  * Will go always forward and on obstacle 90 left and next obstacle 90 right
  *
  */
-	time_t startTime=time(NULL);
-	time_t interruptTime=time(NULL);
-	time_t lastinterruptTime;
+
+	time_t dPatternInterruptTime=time(NULL);
+	time_t dPatternLastinterruptTime;
 
 public:
 	void run() {
@@ -23,8 +23,8 @@ public:
 
 	}
 	void obstacleFound() {
-		interruptTime=time(NULL);
-		double timediffernce = difftime(interruptTime, lastinterruptTime);
+		dPatternInterruptTime=time(NULL);
+		double timediffernce = difftime(dPatternInterruptTime, dPatternLastinterruptTime);
 		if(timediffernce<3){
 						w.goBackward(3000);
 						w.turnRight(1000);
@@ -33,7 +33,7 @@ public:
 			w.turnRight(2000); // To Be check and adjust 40 degress
 		}
 
-		lastinterruptTime=interruptTime;
+		dPatternLastinterruptTime=dPatternInterruptTime;
 	}
 
 

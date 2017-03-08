@@ -13,9 +13,9 @@ class BoxPattern: public Pattern {
  * Will go always forward and on obstacle 90
  *
  */
-	time_t startTime=time(NULL);
-	time_t interruptTime=time(NULL);
-	time_t lastinterruptTime;
+
+	time_t bPatternInterruptTime=time(NULL);
+	time_t bPatternLastinterruptTime;
 
 public:
 	void run() {
@@ -23,8 +23,8 @@ public:
 
 	}
 	void obstacleFound() {
-		interruptTime=time(NULL);
-		double timediffernce = difftime(interruptTime, lastinterruptTime);
+		bPatternInterruptTime=time(NULL);
+		double timediffernce = difftime(bPatternInterruptTime, bPatternLastinterruptTime);
 		if(timediffernce<3){
 						w.goBackward(3000);
 						w.turnRight(1000);
@@ -33,7 +33,7 @@ public:
 			w.turnRight(3500); // To Be check and adjust as 90
 		}
 
-		lastinterruptTime=interruptTime;
+		bPatternLastinterruptTime=bPatternInterruptTime;
 	}
 
 
