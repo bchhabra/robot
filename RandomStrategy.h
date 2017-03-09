@@ -10,8 +10,6 @@
 #include "Wheels.h"
 #include "time.h"
 
-#define PORT_CONTACTSENSORS 2
-
 class RandomStrategy: public Strategy {
 
 	int interruptCounter = 0;

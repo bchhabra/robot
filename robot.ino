@@ -18,12 +18,12 @@
 SerialController controller;
 #endif
 
+#define PORT_CONTACTSENSORS 2
+
 BoxStrategy strategy;
 RandomStrategy randomstrategy;
 
 volatile bool interruptCalled = false;
-
-
 
 void setup() {
 	lcdSetup();

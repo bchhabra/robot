@@ -5,8 +5,6 @@
 #include "Wheels.h"
 #include "time.h"
 
-#define PORT_CONTACTSENSORS 2
-
 class DefaultPattern: public Pattern {
 
 /*
