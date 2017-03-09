@@ -3,6 +3,7 @@
 #include "Strategy.h"
 #include "SonarSensor.h"
 #include "Fifo.h"
+#include "SonarObstacle.h"
 
 class BoxStrategy : public Strategy {
   private:
@@ -16,7 +17,7 @@ class BoxStrategy : public Strategy {
   public:
     void run(void (*f)()) {
       detectObstacles();
-      Obstacle* obstacle = fifo.getLastObstacle();
+      SonarObstacle* obstacle = (SonarObstacle*)fifo.getLastObstacle();
       byte direction = obstacle->getDirection();
       if (direction) {
         switch (direction) {
@@ -45,7 +46,7 @@ class BoxStrategy : public Strategy {
     }
   
   private:
-    void wallOnTheRight(Obstacle* obst) {
+    void wallOnTheRight(SonarObstacle* obst) {
       if (obst->getRightDistance() > 10) {
         w.goRight();
         w.goRight();
@@ -54,25 +55,25 @@ class BoxStrategy : public Strategy {
       w.doStop();
     }
 
-    void handleRightFrontObstacle(Obstacle* obst) {
+    void handleRightFrontObstacle(SonarObstacle* obst) {
       w.goLeft();
     }
 
-    void handleLeftFrontObstacle(Obstacle* obst) {
+    void handleLeftFrontObstacle(SonarObstacle* obst) {
       w.goRight();
     }
 
-    void handleFrontObstacles(Obstacle* obst) {
+    void handleFrontObstacles(SonarObstacle* obst) {
       w.turnLeft();
     }
     
-    void handleAllObstacles(Obstacle* obst) {
+    void handleAllObstacles(SonarObstacle* obst) {
       w.goBackward(500);
       w.turnLeft();
     }
 
     void detectObstacles() {
-      Obstacle obstacle;
+      SonarObstacle obstacle;
       long distance;
       
       frontRightSensor.scan();

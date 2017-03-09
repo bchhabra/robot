@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Obstacle.h"
+
 byte const size = 4;
 
 class Fifo {
