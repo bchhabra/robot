@@ -19,9 +19,12 @@ class RandomStrategy: public Strategy {
 	ZigZagPattern zPattern;
 	CircularPattern cPattern;
 	EdgePattern ePattern;
-	Pattern activePattern = dPattern;
 
 public:
+	RandomStrategy() {
+		changePattern(&dPattern);
+	}
+
 	void run(void (*f)()) {
 		/* go straight  (initial 10 sec)
 		 * on obstacle turn right 40 degree and than forward  (uptp 3 mins)
@@ -40,16 +43,15 @@ public:
 		if (difftime(time(NULL), startTime) > 180) {
 			// TODO FIXME if activePatterbn is default
 			//Switch to differnt Pattern
-			activePattern = cPattern;
+			changePattern(&cPattern);
 
 		}
-		activePattern.run();
 
 	}
 	void obstacleFound() {
 		interruptCounter++;
 
-		activePattern.obstacleFound();
+		activePattern->obstacleFound();
 
 		/* TODO FIXME below if case
 		if (activePattern is cPattern){

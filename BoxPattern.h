@@ -32,6 +32,7 @@ public:
 		}
 
 		bPatternLastinterruptTime=bPatternInterruptTime;
+		run();
 	}
 
 

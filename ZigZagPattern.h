@@ -43,6 +43,7 @@ public:
 					w.turnRight(3500);
 		}
 		lastinterruptTime=interruptTime;
+		run();
 	}
 
 

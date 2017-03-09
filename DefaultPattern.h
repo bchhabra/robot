@@ -32,6 +32,7 @@ public:
 		}
 
 		dPatternLastinterruptTime=dPatternInterruptTime;
+		run();
 	}
 
 

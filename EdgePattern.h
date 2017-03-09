@@ -45,6 +45,7 @@ public:
 			w.goBackwardLeft(2000);
 		}
 		ePatternLastinterruptTime = ePatternInterruptTime;
+		run();
 	}
 
 };
