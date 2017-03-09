@@ -13,7 +13,7 @@ class BoxStrategy : public Strategy {
     SonarSensor frontLeftSensor {11, 10};
     SonarSensor frontRightSensor {4, 12};
     SonarSensor wallSensor {A3, A2};
-    Fifo fifo;
+    Fifo fifo {4};
   public:
     void run(void (*f)()) {
       detectObstacles();

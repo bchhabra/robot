@@ -2,18 +2,19 @@
 
 #include "Obstacle.h"
 
-byte const size = 4;
-
 class Fifo {
-  Obstacle* obst[size];
-  int index = -1;
+	int size;
+	Obstacle** obst;
+	int index = -1;
 
   void incIndex() {
     index = ++index % size;
   }
 
 public:
-  Fifo() {
+  Fifo(int size) {
+	this->size = size;
+	obst = new Obstacle*[size];
     Obstacle obstacle = Obstacle();
     obst[0] = &obstacle;
   }
