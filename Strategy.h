@@ -13,7 +13,7 @@ protected:
 		}
 	}
 public:
-	void init();
-	void run(void (*f)());
-	void obstacleFound();
+	virtual void init();
+	virtual void run(void (*f)());
+	virtual void obstacleFound();
 };

@@ -1,8 +1,8 @@
 #pragma once
 
 class Pattern {
-  public:
-    void init();
-    void run(){};
-    void obstacleFound(){};
+public:
+	virtual void init(){};
+	virtual void run();
+	virtual void obstacleFound();
 };
