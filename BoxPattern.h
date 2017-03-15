@@ -16,6 +16,8 @@ class BoxPattern: public Pattern {
 	time_t bPatternLastinterruptTime;
 
 public:
+	BoxPattern(const char* name) : Pattern(name){};
+
 	void run() {
 		w.goForward(10000);
 

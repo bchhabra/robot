@@ -26,6 +26,8 @@ class CircularPattern: public Pattern {
 	time_t cPatternLastinterruptTime;
 
 public:
+	CircularPattern(const char* name) : Pattern(name){};
+
 	void run() {
 		w.moveAntiCockWise();
 

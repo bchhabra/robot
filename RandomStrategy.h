@@ -13,15 +13,15 @@
 class RandomStrategy: public Strategy {
 
 	int interruptCounter = 0;
-	time_t startTime = time(NULL);
-	DefaultPattern dPattern;
-	BoxPattern bPattern;
-	ZigZagPattern zPattern;
-	CircularPattern cPattern;
-	EdgePattern ePattern;
+	unsigned long startTime = millis();
+	DefaultPattern dPattern{"default"};
+	BoxPattern bPattern{"box"};
+	ZigZagPattern zPattern{"zig-zag"};
+	CircularPattern cPattern{"circular"};
+	EdgePattern ePattern{"edge"};
 
 public:
-	RandomStrategy() {
+	void init() {
 		changePattern(&dPattern);
 	}
 
@@ -40,17 +40,17 @@ public:
 		 *
 		 */
 
-		if (difftime(time(NULL), startTime) > 180) {
+		if ((millis() - startTime) > 30000) {
 			// TODO FIXME if activePatterbn is default
 			//Switch to differnt Pattern
 			changePattern(&cPattern);
-
 		}
 
 	}
 	void obstacleFound() {
 		interruptCounter++;
 
+		Serial.println("obstacle found");
 		activePattern->obstacleFound();
 
 		/* TODO FIXME below if case

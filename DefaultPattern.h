@@ -16,6 +16,8 @@ class DefaultPattern: public Pattern {
 	time_t dPatternLastinterruptTime;
 
 public:
+	DefaultPattern(const char* name) : Pattern(name){};
+
 	void run() {
 		w.goForward();
 

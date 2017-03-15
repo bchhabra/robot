@@ -18,6 +18,8 @@ class ZigZagPattern: public Pattern {
 
 
 public:
+	ZigZagPattern(const char* name) : Pattern(name){};
+
 	void run() {
 		w.goForward();
 

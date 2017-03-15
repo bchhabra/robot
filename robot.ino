@@ -32,6 +32,7 @@ void setup() {
 
 	Serial.begin(9600);
 	direction = forward;
+	randomstrategy.init();
 }
 
 void loop() {

@@ -17,6 +17,8 @@ class EdgePattern: public Pattern {
 	int interruptCounter = 0;
 
 public:
+	EdgePattern(const char* name) : Pattern(name){};
+
 	void run() {
 		/**
 		 * This pattern should run for maximum 180 secs
