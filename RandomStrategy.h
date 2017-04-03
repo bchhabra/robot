@@ -45,6 +45,7 @@ public:
 			//Switch to differnt Pattern
 			changePattern(&cPattern);
 		}
+		activePattern->run();
 
 	}
 	void obstacleFound() {

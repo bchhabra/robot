@@ -27,7 +27,7 @@ class Wheels {
 	}
 
 	void printInfo(const char* message) {
-		Serial.println(message);
+//		Serial.println(message);
 	}
 
 public:
