@@ -3,40 +3,40 @@
 #include <Arduino.h>
 #include "Pattern.h"
 #include "Wheels.h"
-#include "time.h"
 
 class DefaultPattern: public Pattern {
 
-/*
- * Will go always forward and on obstacle 90 left and next obstacle 90 right
- *
- */
+	/*
+	 * Will go always forward and on obstacle 90 left and next obstacle 90 right
+	 *
+	 */
 
-	time_t dPatternInterruptTime=time(NULL);
-	time_t dPatternLastinterruptTime;
+	unsigned long lastInterruptTime = millis();
 
 public:
-	DefaultPattern(const char* name) : Pattern(name){};
+	DefaultPattern(const char* name) :
+			Pattern(name) {
+	}
+	;
 
 	void run() {
 		w.goForward();
 
 	}
 	void obstacleFound() {
-		dPatternInterruptTime=time(NULL);
-		double timediffernce = difftime(dPatternInterruptTime, dPatternLastinterruptTime);
-		if(timediffernce<3){
-						w.goBackward(3000);
-						w.turnRight(1000);
+		Serial.println("Obstacle - Default Pattern");
+		unsigned long interruptTime = millis();
 
-		}else{
+		if ((interruptTime - lastInterruptTime) < 3000) {
+			w.goBackward(3000);
+			w.turnRight(1000);
+
+		} else {
 			w.turnRight(2000); // To Be check and adjust 40 degress
 		}
 
-		dPatternLastinterruptTime=dPatternInterruptTime;
+		lastInterruptTime = interruptTime;
 		run();
 	}
-
-
 
 };

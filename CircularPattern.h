@@ -3,14 +3,13 @@
 #include <Arduino.h>
 #include "Pattern.h"
 #include "Wheels.h"
-#include "time.h"
 
 class CircularPattern: public Pattern {
 
-/*
- * Will go always circular anti clock wise and on obstacle should change the pattern to edge pattern
- *
- */
+	/*
+	 * Will go always circular anti clock wise and on obstacle should change the pattern to edge pattern
+	 *
+	 */
 	/*
 	 * We need new methods in Wheel class which can support delay on each wheel.
 	 * Currently we have a delay on direction.
@@ -22,31 +21,32 @@ class CircularPattern: public Pattern {
 	 *
 	 */
 
-	time_t cPatternInterruptTime=time(NULL);
-	time_t cPatternLastinterruptTime;
+	unsigned long lastInterruptTime = millis();
 
 public:
-	CircularPattern(const char* name) : Pattern(name){};
+	CircularPattern(const char* name) :
+			Pattern(name) {
+	}
+	;
 
 	void run() {
 		w.moveAntiCockWise();
 
 	}
 	void obstacleFound() {
-		cPatternInterruptTime=time(NULL);
-		double timediffernce = difftime(cPatternInterruptTime, cPatternLastinterruptTime);
-		if(timediffernce<3){
-						w.goBackward(3000);
-						w.turnRight(1000);
+		Serial.println("Obstacle - Default Pattern");
+		unsigned long interruptTime = millis();
 
-		}else{
-			w.turnLeft(2000); // To Be check and adjust 40 degress
+		if ((interruptTime - lastInterruptTime) < 3000) {
+			w.goBackward(3000);
+			w.turnRight(1000);
+
+		} else {
+			w.turnRight(2000); // To Be check and adjust 40 degress
 		}
 
-		cPatternLastinterruptTime=cPatternInterruptTime;
+		lastInterruptTime = interruptTime;
 		run();
 	}
-
-
 
 };

@@ -14,11 +14,12 @@ class RandomStrategy: public Strategy {
 
 	int interruptCounter = 0;
 	unsigned long startTime = millis();
-	DefaultPattern dPattern{"default"};
-	BoxPattern bPattern{"box"};
-	ZigZagPattern zPattern{"zig-zag"};
-	CircularPattern cPattern{"circular"};
-	EdgePattern ePattern{"edge"};
+	DefaultPattern dPattern { "default" };
+	BoxPattern bPattern { "box" };
+	ZigZagPattern zPattern { "zig-zag" };
+	CircularPattern cPattern { "circular" };
+	EdgePattern ePattern { "edge" };
+	StopPattern sPattern { "stop" };
 
 public:
 	void init() {
@@ -45,33 +46,18 @@ public:
 			//Switch to differnt Pattern
 			changePattern(&cPattern);
 		}
+		if ((millis() - startTime) > 60000) {
+			// Stop Vaccum, Stop Wheels
+			changePattern(&sPattern);
+		}
 		activePattern->run();
 
 	}
 	void obstacleFound() {
 		interruptCounter++;
 
-		Serial.println("obstacle found");
+		Serial.println("Obstacle Found Random Strategy");
 		activePattern->obstacleFound();
-
-		/* TODO FIXME below if case
-		if (activePattern is cPattern){
-					activePattern = ePattern;
-					exit;
-		}*/
-		/*
-		if( CircularPattern* cPattern = dynamic_cast< CircularPattern* >( &activePattern ) )
-		{
-			activePattern = ePattern;
-							exit;
-		}
-		*/
-		/*if (interruptCounter == 1) {
-
-			activePattern = zpattern;
-
-		}*/
-
 	}
 
 };
