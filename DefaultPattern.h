@@ -27,12 +27,15 @@ public:
 		Serial.println("Obstacle - Default Pattern");
 		unsigned long interruptTime = millis();
 
-		if ((interruptTime - lastInterruptTime) < 3000) {
-			w.goBackward(3000);
-			w.turnRight(1000);
+		if ((interruptTime - lastInterruptTime) < 1000) {
+			Serial.println("Obstacle - Default Pattern with in 2 sec");
+			w.goBackward(700);
+			w.goRight(500);
 
 		} else {
-			w.turnRight(2000); // To Be check and adjust 40 degress
+			Serial.println("Obstacle - Default Pattern else");
+			w.goBackward(300);
+			w.goRight(500); // To Be check and adjust 40 degress
 		}
 
 		lastInterruptTime = interruptTime;

@@ -7,6 +7,7 @@
 #include "ZigZagPattern.h"
 #include "CircularPattern.h"
 #include "EdgePattern.h"
+#include "StopPattern.h"
 #include "Wheels.h"
 #include "time.h"
 
@@ -39,9 +40,9 @@ public:
 		 * goes into edge pattern for 3 mins.
 		 * Investigation on speed pin in needed.
 		 *
-		 */
 
-		if ((millis() - startTime) > 30000) {
+
+		if ((millis() - startTime) > 60000) {
 			// TODO FIXME if activePatterbn is default
 			//Switch to differnt Pattern
 			changePattern(&cPattern);
@@ -49,14 +50,14 @@ public:
 		if ((millis() - startTime) > 60000) {
 			// Stop Vaccum, Stop Wheels
 			changePattern(&sPattern);
-		}
+		} */
 		activePattern->run();
 
 	}
 	void obstacleFound() {
 		interruptCounter++;
 
-		Serial.println("Obstacle Found Random Strategy");
+		//Serial.println("Obstacle Found Random Strategy");
 		activePattern->obstacleFound();
 	}
 

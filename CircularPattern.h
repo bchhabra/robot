@@ -34,15 +34,18 @@ public:
 
 	}
 	void obstacleFound() {
-		Serial.println("Obstacle - Default Pattern");
+		Serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
 
-		if ((interruptTime - lastInterruptTime) < 3000) {
-			w.goBackward(3000);
-			w.turnRight(1000);
+		if ((interruptTime - lastInterruptTime) < 1000) {
+			Serial.println("Obstacle - Circular Pattern with in 1 sec");
+			w.goBackward(700);
+			w.goRight(500);
 
 		} else {
-			w.turnRight(2000); // To Be check and adjust 40 degress
+			Serial.println("Obstacle - Circular Pattern else");
+			w.goBackward(300);
+			w.goRight(500);
 		}
 
 		lastInterruptTime = interruptTime;

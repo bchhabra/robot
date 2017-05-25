@@ -7,47 +7,38 @@
 
 class EdgePattern: public Pattern {
 
-	/*
-	 * Will go always circular anti clock wise and on obstacle should change the pattern to edge pattern
-	 *
-	 */
-	time_t ePatternStartTime = time(NULL);
-	time_t ePatternInterruptTime = time(NULL);
-	time_t ePatternLastinterruptTime;
-	int interruptCounter = 0;
-
+	unsigned long lastInterruptTime = millis();
 public:
-	EdgePattern(const char* name) : Pattern(name){};
+	EdgePattern(const char* name) :
+			Pattern(name) {
+	}
+	;
 
 	void run() {
 		/**
 		 * This pattern should run for maximum 180 secs
 		 *
 		 */
-		if (difftime(time(NULL), ePatternStartTime) < 180) {
 
-			if (interruptCounter == 0) {
-				w.goForward();
-			}
-			w.goForward();
-			w.turnLeft();
-		}
+		w.goForward(300);
+		w.goLeft(300);
 
 	}
 	void obstacleFound() {
-		interruptCounter++;
-		ePatternInterruptTime = time(NULL);
-		double timediffernce = difftime(ePatternInterruptTime,
-				ePatternLastinterruptTime);
-		if (timediffernce < 3) {
-			w.goBackward(3000);
-			w.turnRight(1000);
+		unsigned long interruptTime = millis();
+
+		if ((interruptTime - lastInterruptTime) < 1000) {
+			Serial.println("Obstacle - Edge Pattern in 1 sec");
+			w.goBackward(600);
+			w.goLeftBack(300);
 
 		} else {
-			w.goBackwardLeft(2000);
+			Serial.println("Obstacle - Edge Pattern");
+			w.goBackward(500);
+			w.goLeftBack(300);
 		}
-		ePatternLastinterruptTime = ePatternInterruptTime;
+
+		lastInterruptTime = interruptTime;
 		run();
 	}
-
 };

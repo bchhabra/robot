@@ -83,9 +83,9 @@ public:
 		printInfo("moving anti clock wise");
 		left->forward();
 		right->forward();
-		delay(500);
+		delay(50);
 		left->stop();
-		delay(500);
+		delay(100);
 		right->stop();
 	}
 	void moveCockWise(unsigned long delayTurn = DELAY_TURN) {
