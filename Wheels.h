@@ -19,6 +19,13 @@ class Wheels {
 	Wheel* left;
 	Wheel* right;
 
+	void delayAndStop(unsigned long delayTurn) {
+		if (delayTurn != 0) {
+			delay(delayTurn);
+			doStop();
+		}
+	}
+
 	void printInfo(const char* message) {
 //		Serial.println(message);
 	}
@@ -29,23 +36,20 @@ public:
 		this->right = right;
 	}
 
-	void checkShouldStop() {
-		left->checkShouldStop();
-		right->checkShouldStop();
-	}
-
 	void goForward(unsigned long delayTurn = 0) {
 		printInfo("go forward");
-		left->forward(delayTurn);
-		right->forward(delayTurn);
+		left->forward();
+		right->forward();
+		delayAndStop(delayTurn);
 	}
 
 	void goBackward(unsigned long delayTurn = 0) {
 		printInfo("go backward");
-		left->backward(delayTurn);
-		right->backward(delayTurn);
+		left->backward();
+		right->backward();
+		delayAndStop(delayTurn);
 	}
-
+	
 	void doStop() {
 		printInfo("do stop");
 		left->stop();
@@ -55,49 +59,63 @@ public:
 	void goLeft(unsigned long delayTurn = DELAY_TURN) {
 		printInfo("go left");
 		left->stop();
-		right->forward(delayTurn);
+		right->forward();
+		delayAndStop(delayTurn);
 	}
 
 	void turnLeft(unsigned long delayTurn = DELAY_TURN) {
 		printInfo("turn left");
-		left->backward(delayTurn);
-		right->forward(delayTurn);
+		left->backward();
+		right->forward();
+		delayAndStop(delayTurn);
 	}
 
 	void moveAntiClockWise() {
 		printInfo("moving anti clock wise");
-		left->forward(50);
-		right->forward(150);
+		left->forward();
+		right->forward();
+		delay(50);
+		left->stop();
+		delay(100);
+		right->stop();
 	}
 
 	void moveClockWise() {
 		printInfo("moving clock wise");
-		left->forward(1000);
-		right->forward(500);
+		left->forward();
+		right->forward();
+		delay(500);
+		right->stop();
+		delay(500);
+		left->stop();
 	}
 
 	void goRight(unsigned long delayTurn = DELAY_TURN) {
 		printInfo("go right");
-		left->forward(delayTurn);
+		left->forward();
 		right->stop();
+		delayAndStop(delayTurn);
 	}
 
 	void turnRight(unsigned long delayTurn = DELAY_TURN) {
 		printInfo("turn right");
-		left->forward(delayTurn);
-		right->backward(delayTurn);
+		left->forward();
+		right->backward();
+		delayAndStop(delayTurn);
 	}
 
 	void goLeftBack(unsigned long delayTurn = DELAY_TURN) {
 		printInfo("go left back");
 		left->stop();
-		right->backward(delayTurn);
+		right->backward();
+		delayAndStop(delayTurn);
 	}
 
 	void goRightBack(unsigned long delayTurn = DELAY_TURN) {
 		printInfo("go right back");
-		left->backward(delayTurn);
+		left->backward();
 		right->stop();
+		delayAndStop(delayTurn);
 	}
 
 } w(&leftWheel, &rightWheel);

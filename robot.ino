@@ -46,7 +46,6 @@ void loop() {
 		randomstrategy.obstacleFound();
 
 	}
-	w.checkShouldStop();
 }
 
 void interrupt() {
