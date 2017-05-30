@@ -49,16 +49,7 @@ public:
 		right->backward();
 		delayAndStop(delayTurn);
 	}
-	void goBackwardLeft(unsigned long delayTurn = 0) {
-		printInfo("go backward");
-		/*
-		 * 	left->backward(speed x);
-		 right->backward(speed x+y);
-		 delayAndStop(delayTurn);
-		 *
-		 */
-
-	}
+	
 	void doStop() {
 		printInfo("do stop");
 		left->stop();
@@ -79,7 +70,7 @@ public:
 		delayAndStop(delayTurn);
 	}
 
-	void moveAntiCockWise(unsigned long delayTurn = DELAY_TURN) {
+	void moveAntiClockWise() {
 		printInfo("moving anti clock wise");
 		left->forward();
 		right->forward();
@@ -88,7 +79,8 @@ public:
 		delay(100);
 		right->stop();
 	}
-	void moveCockWise(unsigned long delayTurn = DELAY_TURN) {
+
+	void moveClockWise() {
 		printInfo("moving clock wise");
 		left->forward();
 		right->forward();

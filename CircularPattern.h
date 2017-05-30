@@ -30,7 +30,7 @@ public:
 	;
 
 	void run() {
-		w.moveAntiCockWise();
+		w.moveAntiClockWise();
 
 	}
 	void obstacleFound() {
