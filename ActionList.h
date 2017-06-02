@@ -45,4 +45,8 @@ public:
 		}
 	}
 
+	bool isLastActionFinished() {
+		return isEmpty() || last->isFinished();
+	}
+
 } actionList;

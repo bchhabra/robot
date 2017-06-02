@@ -29,8 +29,7 @@ volatile bool interruptCalled = false;
 void setup() {
 	lcdSetup();
 	i2cSetup();
-	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt,
-			FALLING);
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 
 	Serial.begin(9600);
 	direction = forward;
@@ -48,7 +47,9 @@ void loop() {
 		actionList.empty();
 		randomstrategy.obstacleFound();
 	} else {
-		randomstrategy.run(doResume);
+		if (actionList.isLastActionFinished()) {
+			randomstrategy.run(doResume);
+		}
 	}
 	actionList.playNextAction();
 }
