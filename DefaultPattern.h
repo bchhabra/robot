@@ -2,7 +2,8 @@
 
 #include <Arduino.h>
 #include "Pattern.h"
-#include "Wheels.h"
+#include "W.h"
+#include "ActionList.h"
 
 class DefaultPattern: public Pattern {
 
@@ -17,25 +18,24 @@ public:
 	DefaultPattern(const char* name) :
 			Pattern(name) {
 	}
-	;
 
 	void run() {
-		w.goForward();
-
+		actionList.addAction(new Action(W::goForward, 0));
 	}
+
 	void obstacleFound() {
 		Serial.println("Obstacle - Default Pattern");
 		unsigned long interruptTime = millis();
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			Serial.println("Obstacle - Default Pattern with in 2 sec");
-			w.goBackward(700);
-			w.goRight(500);
+			actionList.addAction(new Action(W::goBackward, 700));
+			actionList.addAction(new Action(W::goRight, 500));
 
 		} else {
 			Serial.println("Obstacle - Default Pattern else");
-			w.goBackward(300);
-			w.goRight(500); // To Be check and adjust 40 degress
+			actionList.addAction(new Action(W::goBackward, 300));
+			actionList.addAction(new Action(W::goRight, 500));// To Be check and adjust 40 degress
 		}
 
 		lastInterruptTime = interruptTime;

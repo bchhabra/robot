@@ -2,7 +2,8 @@
 
 #include <Arduino.h>
 #include "Pattern.h"
-#include "Wheels.h"
+#include "W.h"
+#include "ActionList.h"
 
 class CircularPattern: public Pattern {
 
@@ -27,12 +28,12 @@ public:
 	CircularPattern(const char* name) :
 			Pattern(name) {
 	}
-	;
 
 	void run() {
-		w.moveAntiClockWise();
-
+		actionList.addAction(new Action(W::goForward, 50));
+		actionList.addAction(new Action(W::goLeft, 100));
 	}
+
 	void obstacleFound() {
 		Serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
@@ -41,11 +42,12 @@ public:
 			Serial.println("Obstacle - Circular Pattern with in 1 sec");
 			w.goBackward(700);
 			w.goRight(500);
-
+			actionList.addAction(new Action(W::goBackward, 700));
+			actionList.addAction(new Action(W::goRight, 500));
 		} else {
 			Serial.println("Obstacle - Circular Pattern else");
-			w.goBackward(300);
-			w.goRight(500);
+			actionList.addAction(new Action(W::goBackward, 300));
+			actionList.addAction(new Action(W::goRight, 500));
 		}
 
 		lastInterruptTime = interruptTime;

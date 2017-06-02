@@ -6,7 +6,8 @@
 #include "Fifo.h"
 #include "BoxStrategy.h"
 #include "RandomStrategy.h"
-#include "time.h"
+
+#include "ActionList.h"
 #include "I2C.h"
 #include "Lcd.h"
 
@@ -28,7 +29,8 @@ volatile bool interruptCalled = false;
 void setup() {
 	lcdSetup();
 	i2cSetup();
-	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt,
+			FALLING);
 
 	Serial.begin(9600);
 	direction = forward;
@@ -40,12 +42,15 @@ void loop() {
 #if SERIAL_CONTROLLER
 	controller.checkController();
 #endif
-	randomstrategy.run(doResume);
 	if (interruptCalled) {
 		interruptCalled = false;
+		W::doStop();
+		actionList.empty();
 		randomstrategy.obstacleFound();
-
+	} else {
+		randomstrategy.run(doResume);
 	}
+	actionList.playNextAction();
 }
 
 void interrupt() {
