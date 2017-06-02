@@ -18,7 +18,8 @@ public:
 	}
 
 	bool isFinished() {
-		return ((delay == 0) || (millis() - startTime) >= delay);
+		// a delay of 0 means the action never finishes unless some obstacle is found
+		return ((delay > 0) && (millis() - startTime) >= delay);
 	}
 
 	bool isStarted() {
