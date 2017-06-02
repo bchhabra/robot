@@ -57,8 +57,6 @@ void loop() {
 void interrupt() {
 
 	interruptCalled = true;
-	w.doStop();
-	w.goBackward(50);
 }
 
 void doResume() {
