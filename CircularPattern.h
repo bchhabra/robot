@@ -21,7 +21,6 @@ class CircularPattern: public Pattern {
 	 * or left wheel speed x forward direction right wheel speed x+y forward direction
 	 *
 	 */
-
 	unsigned long lastInterruptTime = millis();
 
 public:
@@ -30,8 +29,8 @@ public:
 	}
 
 	void run() {
-		actionList.addAction(new Action(W::goForward, 50));
-		actionList.addAction(new Action(W::goLeft, 100));
+		actionList.addAction(new Action(W::goForward, 300));
+		actionList.addAction(new Action(W::goLeft, 600));
 	}
 
 	void obstacleFound() {
@@ -40,14 +39,12 @@ public:
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			Serial.println("Obstacle - Circular Pattern with in 1 sec");
-			w.goBackward(700);
-			w.goRight(500);
 			actionList.addAction(new Action(W::goBackward, 700));
-			actionList.addAction(new Action(W::goRight, 500));
+			actionList.addAction(new Action(W::goRight, 700));
 		} else {
 			Serial.println("Obstacle - Circular Pattern else");
 			actionList.addAction(new Action(W::goBackward, 300));
-			actionList.addAction(new Action(W::goRight, 500));
+			actionList.addAction(new Action(W::goRight, 700));
 		}
 
 		lastInterruptTime = interruptTime;

@@ -13,7 +13,7 @@ public:
 	;
 
 	void run() {
-		w.doStop();
+		W::doStop();
 
 	}
 	void obstacleFound() {

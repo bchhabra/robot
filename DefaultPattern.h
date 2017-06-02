@@ -30,12 +30,12 @@ public:
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			Serial.println("Obstacle - Default Pattern with in 2 sec");
 			actionList.addAction(new Action(W::goBackward, 700));
-			actionList.addAction(new Action(W::goRight, 500));
+			actionList.addAction(new Action(W::goRight, 700));
 
 		} else {
 			Serial.println("Obstacle - Default Pattern else");
 			actionList.addAction(new Action(W::goBackward, 300));
-			actionList.addAction(new Action(W::goRight, 500));// To Be check and adjust 40 degress
+			actionList.addAction(new Action(W::goRight, 700));// To Be check and adjust 40 degress
 		}
 
 		lastInterruptTime = interruptTime;

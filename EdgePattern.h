@@ -20,13 +20,15 @@ public:
 		 *
 		 */
 
-		w.goForward(300);
-		w.goLeft(300);
-
+		actionList.addAction(new Action(W::goLeft, 1400));
+		actionList.addAction(new Action(W::goForward, 500));
 	}
 	void obstacleFound() {
 		unsigned long interruptTime = millis();
-
+		Serial.println("Obstacle - Edge Pattern");
+		actionList.addAction(new Action(W::goLeftBack, 500));
+		actionList.addAction(new Action(W::goForward, 300));
+/*
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			Serial.println("Obstacle - Edge Pattern in 1 sec");
 			w.goBackward(600);
@@ -34,9 +36,9 @@ public:
 
 		} else {
 			Serial.println("Obstacle - Edge Pattern");
-			w.goBackward(500);
-			w.goLeftBack(300);
-		}
+			actionList.addAction(new Action(W::goLeftBack, 300));
+			actionList.addAction(new Action(W::goForward, 300));
+		}*/
 
 		lastInterruptTime = interruptTime;
 		run();

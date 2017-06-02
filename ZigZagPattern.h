@@ -7,50 +7,53 @@
 
 class ZigZagPattern: public Pattern {
 
-/*
- * Will go always forward and on obstacle 90 left and next obstacle 90 right
- *
- */
-	time_t startTime=time(NULL);
-	time_t interruptTime=time(NULL);
-	time_t lastinterruptTime;
+	/*
+	 * Will go always forward and on obstacle 90 left and next obstacle 90 right
+	 *
+	 */
+	unsigned long lastInterruptTime = millis();
 	int interruptCounter = 0;
 
-
 public:
-	ZigZagPattern(const char* name) : Pattern(name){};
+	ZigZagPattern(const char* name) :
+			Pattern(name) {
+	}
+	;
 
 	void run() {
-		w.goForward();
+		actionList.addAction(new Action(W::goForward, 0));
 
 	}
 	void obstacleFound() {
+		Serial.println("Obstacle - ZigZag Pattern");
+		unsigned long interruptTime = millis();
 		interruptCounter++;
-		interruptTime=time(NULL);
-		double timediffernce = difftime(interruptTime, lastinterruptTime);
-		if(timediffernce<3){
-						w.goBackward(3000);
-						w.turnRight(1000);
+
+		if ((interruptTime - lastInterruptTime) < 1000) {
+			Serial.println("Obstacle - ZigZag Pattern with in 1 sec");
+			actionList.addAction(new Action(W::goBackward, 1500));
+			actionList.addAction(new Action(W::turnRight, 700));
 
 		}
-		if(interruptCounter % 2 == 0){
-					w.goBackward(100);
-					w.turnLeft(3500);
-					w.goForward(1000);
-					w.turnLeft(3500);
-		}else {
-					w.goBackward(100);
-					w.turnRight(3500); // To Be check and adjust as 90
-					w.goForward(1000);
-					w.turnRight(3500);
+		if (interruptCounter % 2 == 0) {
+			Serial.println("Obstacle - ZigZag Pattern Even");
+			actionList.addAction(new Action(W::goBackward, 700));
+			actionList.addAction(new Action(W::turnRight, 1100));
+			actionList.addAction(new Action(W::goForward, 1100));
+			actionList.addAction(new Action(W::turnRight, 1100));
+		} else {
+			Serial.println("Obstacle - ZigZag Pattern Odd");
+			actionList.addAction(new Action(W::goBackward, 700));
+			actionList.addAction(new Action(W::turnLeft, 1100));
+			actionList.addAction(new Action(W::goForward, 1100));
+			actionList.addAction(new Action(W::turnLeft, 1100));
+
 		}
-		lastinterruptTime=interruptTime;
+
+		lastInterruptTime = interruptTime;
 		run();
+
 	}
 
-
-
 };
-
-
 
