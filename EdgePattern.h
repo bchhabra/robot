@@ -20,22 +20,24 @@ public:
 		 *
 		 */
 
-		w.goForward(300);
+		w.goForward(250);
 		w.goLeft(300);
 
 	}
 	void obstacleFound() {
+		w.doStop();
 		unsigned long interruptTime = millis();
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			Serial.println("Obstacle - Edge Pattern in 1 sec");
-			w.goBackward(600);
-			w.goLeftBack(300);
+			w.goBackward(500);
+			w.goLeftBack(500);
+			//w.goForward(1000);
 
 		} else {
 			Serial.println("Obstacle - Edge Pattern");
-			w.goBackward(500);
-			w.goLeftBack(300);
+			w.goBackward(300);
+			w.goLeftBack(500);
 		}
 
 		lastInterruptTime = interruptTime;

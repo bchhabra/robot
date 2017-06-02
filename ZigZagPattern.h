@@ -7,50 +7,52 @@
 
 class ZigZagPattern: public Pattern {
 
-/*
- * Will go always forward and on obstacle 90 left and next obstacle 90 right
- *
- */
-	time_t startTime=time(NULL);
-	time_t interruptTime=time(NULL);
-	time_t lastinterruptTime;
+	/*
+	 * Will go always forward and on obstacle 90 left and next obstacle 90 right
+	 *
+	 */
+	unsigned long lastInterruptTime = millis();
 	int interruptCounter = 0;
 
-
 public:
-	ZigZagPattern(const char* name) : Pattern(name){};
+	ZigZagPattern(const char* name) :
+			Pattern(name) {
+	}
+	;
 
 	void run() {
 		w.goForward();
 
 	}
 	void obstacleFound() {
+		Serial.println("Obstacle - ZigZag Pattern");
+		unsigned long interruptTime = millis();
 		interruptCounter++;
-		interruptTime=time(NULL);
-		double timediffernce = difftime(interruptTime, lastinterruptTime);
-		if(timediffernce<3){
-						w.goBackward(3000);
-						w.turnRight(1000);
+
+		if ((interruptTime - lastInterruptTime) < 1000) {
+			Serial.println("Obstacle - ZigZag Pattern with in 1 sec");
+			w.goBackward(1200);
+			w.turnRight(500);
 
 		}
-		if(interruptCounter % 2 == 0){
-					w.goBackward(100);
-					w.turnLeft(3500);
-					w.goForward(1000);
-					w.turnLeft(3500);
-		}else {
-					w.goBackward(100);
-					w.turnRight(3500); // To Be check and adjust as 90
-					w.goForward(1000);
-					w.turnRight(3500);
+		if (interruptCounter % 2 == 0) {
+			Serial.println("Obstacle - ZigZag Pattern Even");
+			w.goBackward(700);
+			w.turnRight(1100); // To Be check and adjust 90 degress
+			w.goForward(1200);
+			w.turnRight(1100); // To Be check and adjust 90 degress
+		} else {
+			Serial.println("Obstacle - ZigZag Pattern Odd");
+			w.goBackward(700);
+			w.turnLeft(1100); // To Be check and adjust 90 degress
+			w.goForward(1200);
+			w.turnLeft(1100); // To Be check and adjust 90 degress
 		}
-		lastinterruptTime=interruptTime;
+
+		lastInterruptTime = interruptTime;
 		run();
+
 	}
 
-
-
 };
-
-
 

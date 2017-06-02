@@ -7,36 +7,40 @@
 
 class BoxPattern: public Pattern {
 
-/*
- * Will go always forward and on obstacle 90
- *
- */
+	/*
+	 * Will go always forward and on obstacle 90
+	 *
+	 */
 
-	time_t bPatternInterruptTime=time(NULL);
-	time_t bPatternLastinterruptTime;
+	unsigned long lastInterruptTime = millis();
 
 public:
-	BoxPattern(const char* name) : Pattern(name){};
+	BoxPattern(const char* name) :
+			Pattern(name) {
+	}
+	;
 
 	void run() {
-		w.goForward(10000);
+		w.goForward();
 
 	}
 	void obstacleFound() {
-		bPatternInterruptTime=time(NULL);
-		double timediffernce = difftime(bPatternInterruptTime, bPatternLastinterruptTime);
-		if(timediffernce<3){
-						w.goBackward(3000);
-						w.turnRight(1000);
+		Serial.println("Obstacle - Box Pattern");
+		unsigned long interruptTime = millis();
 
-		}else{
-			w.turnRight(3500); // To Be check and adjust as 90
+		if ((interruptTime - lastInterruptTime) < 1000) {
+			Serial.println("Obstacle - Box Pattern with in 2 sec");
+			w.goBackward(700);
+			w.goRight(500);
+
+		} else {
+			Serial.println("Obstacle - Box Pattern else");
+			w.goBackward(300);
+			w.turnRight(500); // To Be check and adjust 90 degress
 		}
 
-		bPatternLastinterruptTime=bPatternInterruptTime;
+		lastInterruptTime = interruptTime;
 		run();
 	}
-
-
 
 };
