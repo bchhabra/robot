@@ -47,7 +47,7 @@ void loop() {
 		actionList.empty();
 		randomstrategy.obstacleFound();
 	} else {
-		if (actionList.isLastActionFinished()) {
+		if (actionList.isEmpty()) {
 			randomstrategy.run(doResume);
 		}
 	}

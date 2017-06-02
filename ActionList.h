@@ -5,10 +5,6 @@
 class ActionList {
 	Action *current, *last = NULL;
 
-	bool isEmpty() {
-		return current == NULL;
-	}
-
 	void moveToNext() {
 		Action* next = current->getNext();
 		delete current;
@@ -31,6 +27,10 @@ public:
 		}
 	}
 
+	bool isEmpty() {
+		return current == NULL;
+	}
+
 	void playNextAction() {
 		if (isEmpty()) {
 			return;
@@ -43,10 +43,6 @@ public:
 				moveToNext();
 			}
 		}
-	}
-
-	bool isLastActionFinished() {
-		return isEmpty() || last->isFinished();
 	}
 
 } actionList;
