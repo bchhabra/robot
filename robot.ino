@@ -48,7 +48,7 @@ void loop() {
 		randomstrategy.obstacleFound();
 	} else {
 		if (actionList.isEmpty()) {
-			randomstrategy.run(doResume);
+			randomstrategy.run();
 		}
 	}
 	actionList.playNextAction();
@@ -57,19 +57,4 @@ void loop() {
 void interrupt() {
 
 	interruptCalled = true;
-}
-
-void doResume() {
-
-	switch (direction) {
-	case none:
-		w.doStop();
-		break;
-	case forward:
-		w.goForward();
-		break;
-	case backward:
-		w.goBackward();
-		break;
-	}
 }

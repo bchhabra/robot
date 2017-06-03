@@ -8,8 +8,6 @@
 #include "CircularPattern.h"
 #include "EdgePattern.h"
 #include "StopPattern.h"
-#include "Wheels.h"
-#include "time.h"
 
 class RandomStrategy: public Strategy {
 
@@ -27,7 +25,7 @@ public:
 		changePattern(&dPattern);
 	}
 
-	void run(void (*f)()) {
+	void run() {
 		/* go straight  (initial 10 sec)
 		 * on obstacle turn right 40 degree and than forward  (uptp 3 mins)
 		 * circular mode (upto next obstacle)

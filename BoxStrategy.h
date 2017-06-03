@@ -4,6 +4,7 @@
 #include "SonarSensor.h"
 #include "Fifo.h"
 #include "SonarObstacle.h"
+#include "Wheels.h"
 
 class BoxStrategy : public Strategy {
   private:
@@ -21,7 +22,7 @@ class BoxStrategy : public Strategy {
     void obstacleFound() {
     }
 
-    void run(void (*f)()) {
+    void run() {
       detectObstacles();
       SonarObstacle* obstacle = (SonarObstacle*)fifo.getLastObstacle();
       byte direction = obstacle->getDirection();
@@ -47,7 +48,7 @@ class BoxStrategy : public Strategy {
         }
         delay(600);
       } else {
-        f();
+        doResume();
       }
     }
   
@@ -119,6 +120,21 @@ class BoxStrategy : public Strategy {
         Serial.print(obstacle.getRightDistance());
         Serial.println();
     #endif
+    }
+
+    void doResume() {
+
+    	switch (direction) {
+    	case none:
+    		w.doStop();
+    		break;
+    	case forward:
+    		w.goForward();
+    		break;
+    	case backward:
+    		w.goBackward();
+    		break;
+    	}
     }
     
 };

@@ -16,6 +16,6 @@ protected:
 	}
 public:
 	virtual void init();
-	virtual void run(void (*f)());
+	virtual void run();
 	virtual void obstacleFound();
 };
