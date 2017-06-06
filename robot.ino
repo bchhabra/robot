@@ -43,7 +43,7 @@ void loop() {
 	if (interruptCalled) {
 		interruptCalled = false;
 		W::doStop();
-		actionList.empty();
+		actionList.removeAll();
 		randomstrategy.obstacleFound();
 	} else {
 		if (actionList.isEmpty()) {

@@ -21,7 +21,7 @@ public:
 		last = action;
 	}
 
-	void empty() {
+	void removeAll() {
 		while (!isEmpty()) {
 			moveToNext();
 		}
