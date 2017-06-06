@@ -6,8 +6,8 @@ void receiveEvent(int howMany) {
 	{
 		res += (char) Wire.read(); // receive byte as a character
 	}
+	actionList.removeAll();
 	if (res == "f") {
-		actionList.removeAll();
 		actionList.addAction(new Action(W::goForward, 0));
 	}
 	if (res == "b") {
