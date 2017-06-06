@@ -3,7 +3,7 @@
 class SonarSensor {
   byte trigger;
   byte echo;
-  long distance;
+  long distance = 0;
 
   long readDistance() {
     digitalWrite(trigger, LOW);

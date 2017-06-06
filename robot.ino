@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h> 
 #include "SerialController.h"
-#include "SonarSensor.h"
-#include "Fifo.h"
-#include "BoxStrategy.h"
 #include "RandomStrategy.h"
 
 #include "ActionList.h"
@@ -20,7 +17,6 @@ SerialController controller;
 
 #define PORT_CONTACTSENSORS 2
 
-BoxStrategy strategy;
 RandomStrategy randomstrategy;
 
 volatile bool interruptCalled = false;
@@ -31,7 +27,6 @@ void setup() {
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 
 	Serial.begin(9600);
-	direction = forward;
 	randomstrategy.init();
 }
 
