@@ -3,7 +3,6 @@
 #include <Arduino.h>
 #include "Strategy.h"
 #include "DefaultPattern.h"
-#include "BoxPattern.h"
 #include "ZigZagPattern.h"
 #include "CircularPattern.h"
 #include "EdgePattern.h"
@@ -14,7 +13,6 @@ class RandomStrategy: public Strategy {
 	int interruptCounter = 0;
 	unsigned long startTime = millis();
 	DefaultPattern dPattern { "default" };
-	BoxPattern bPattern { "box" };
 	ZigZagPattern zPattern { "zig-zag" };
 	CircularPattern cPattern { "circular" };
 	EdgePattern ePattern { "edge" };
