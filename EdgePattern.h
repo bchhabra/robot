@@ -2,8 +2,7 @@
 
 #include <Arduino.h>
 #include "Pattern.h"
-#include "Wheels.h"
-#include "time.h"
+#include "W.h"
 
 class EdgePattern: public Pattern {
 
@@ -12,7 +11,6 @@ public:
 	EdgePattern(const char* name) :
 			Pattern(name) {
 	}
-	;
 
 	void run() {
 		/**

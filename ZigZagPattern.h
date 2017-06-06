@@ -2,8 +2,6 @@
 
 #include <Arduino.h>
 #include "Pattern.h"
-#include "Wheels.h"
-#include "time.h"
 
 class ZigZagPattern: public Pattern {
 
@@ -18,7 +16,6 @@ public:
 	ZigZagPattern(const char* name) :
 			Pattern(name) {
 	}
-	;
 
 	void run() {
 		actionList.addAction(new Action(W::goForward, 0));
