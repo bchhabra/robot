@@ -8,31 +8,31 @@ void receiveEvent(int howMany) {
 	}
 	actionList.removeAll();
 	if (res == "f") {
-		actionList.addAction(new Action(W::goForward, 0));
+		actionList.addAction(W::goForward, 0);
 	}
 	if (res == "b") {
-		actionList.addAction(new Action(W::goBackward, 0));
+		actionList.addAction(W::goBackward, 0);
 	}
 	if (res == "s") {
-		actionList.addAction(new Action(W::doStop, 0));
+		actionList.addAction(W::doStop, 0);
 	}
 	if (res == "l") {
-		actionList.addAction(new Action(W::goLeft, 0));
+		actionList.addAction(W::goLeft, 0);
 	}
 	if (res == "tl") {
-		actionList.addAction(new Action(W::turnLeft, 0));
+		actionList.addAction(W::turnLeft, 0);
 	}
 	if (res == "r") {
-		actionList.addAction(new Action(W::goRight, 0));
+		actionList.addAction(W::goRight, 0);
 	}
 	if (res == "tr") {
-		actionList.addAction(new Action(W::turnRight, 0));
+		actionList.addAction(W::turnRight, 0);
 	}
 	if (res == "lb") {
-		actionList.addAction(new Action(W::goLeftBack, 0));
+		actionList.addAction(W::goLeftBack, 0);
 	}
 	if (res == "rb") {
-		actionList.addAction(new Action(W::goRightBack, 0));
+		actionList.addAction(W::goRightBack, 0);
 	}
 }
 

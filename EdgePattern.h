@@ -18,14 +18,14 @@ public:
 		 *
 		 */
 
-		actionList.addAction(new Action(W::goLeft, 1400));
-		actionList.addAction(new Action(W::goForward, 500));
+		actionList.addAction(W::goLeft, 1400);
+		actionList.addAction(W::goForward, 500);
 	}
 	void obstacleFound() {
 		unsigned long interruptTime = millis();
 		serial.println("Obstacle - Edge Pattern");
-		actionList.addAction(new Action(W::goLeftBack, 500));
-		actionList.addAction(new Action(W::goForward, 300));
+		actionList.addAction(W::goLeftBack, 500);
+		actionList.addAction(W::goForward, 300);
 /*
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			serial.println("Obstacle - Edge Pattern in 1 sec");

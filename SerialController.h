@@ -31,25 +31,25 @@ public:
 			Command cmd = getReceivedCommand();
 			switch (cmd) {
 			case FORWARD:
-				actionList.addAction(new Action(W::goForward, 0));
+				actionList.addAction(W::goForward, 0);
 				break;
 			case BACKWARD:
-				actionList.addAction(new Action(W::goBackward, 0));
+				actionList.addAction(W::goBackward, 0);
 				break;
 			case STOP:
-				actionList.addAction(new Action(W::doStop, 0));
+				actionList.addAction(W::doStop, 0);
 				break;
 			case LEFT:
-				actionList.addAction(new Action(W::goLeft, 0));
+				actionList.addAction(W::goLeft, 0);
 				break;
 			case RIGHT:
-				actionList.addAction(new Action(W::goRight, 0));
+				actionList.addAction(W::goRight, 0);
 				break;
 			case LEFT_BACK:
-				actionList.addAction(new Action(W::goLeftBack, 0));
+				actionList.addAction(W::goLeftBack, 0);
 				break;
 			case RIGHT_BACK:
-				actionList.addAction(new Action(W::goRightBack, 0));
+				actionList.addAction(W::goRightBack, 0);
 				break;
 			}
 		}

@@ -6,13 +6,14 @@ class ActionList {
 	Action *current, *last = NULL;
 
 	void moveToNext() {
-		Action* next = current->getNext();
+		Action *next = current->getNext();
 		delete current;
 		current = next;
 	}
 
 public:
-	void addAction(Action* action) {
+	void addAction(void (*f)(), unsigned long delay) {
+		Action *action = new Action(f, delay);
 		if (isEmpty()) {
 			current = action;
 		} else {

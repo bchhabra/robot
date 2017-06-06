@@ -29,8 +29,8 @@ public:
 	}
 
 	void run() {
-		actionList.addAction(new Action(W::goForward, 300));
-		actionList.addAction(new Action(W::goLeft, 600));
+		actionList.addAction(W::goForward, 300);
+		actionList.addAction(W::goLeft, 600);
 	}
 
 	void obstacleFound() {
@@ -39,12 +39,12 @@ public:
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			serial.println("Obstacle - Circular Pattern with in 1 sec");
-			actionList.addAction(new Action(W::goBackward, 700));
-			actionList.addAction(new Action(W::goRight, 700));
+			actionList.addAction(W::goBackward, 700);
+			actionList.addAction(W::goRight, 700);
 		} else {
 			serial.println("Obstacle - Circular Pattern else");
-			actionList.addAction(new Action(W::goBackward, 300));
-			actionList.addAction(new Action(W::goRight, 700));
+			actionList.addAction(W::goBackward, 300);
+			actionList.addAction(W::goRight, 700);
 		}
 
 		lastInterruptTime = interruptTime;
