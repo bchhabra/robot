@@ -16,12 +16,6 @@ class BoxStrategy : public Strategy {
     SonarSensor wallSensor {A3, A2};
     Fifo fifo {4};
   public:
-    void init() {
-    }
-
-    void obstacleFound() {
-    }
-
     void run() {
       detectObstacles();
       SonarObstacle* obstacle = (SonarObstacle*)fifo.getLastObstacle();

@@ -6,10 +6,11 @@ public:
 	Pattern(const char* name) {
 		this->name = name;
 	}
+	virtual ~Pattern(){};
 	const char* getName() {
 		return name;
 	}
 	virtual void init(){};
-	virtual void run();
-	virtual void obstacleFound();
+	virtual void run() = 0;
+	virtual void obstacleFound(){};
 };
