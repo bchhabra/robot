@@ -57,7 +57,7 @@ public:
 	void obstacleFound() {
 		interruptCounter++;
 
-		//Serial.println("Obstacle Found Random Strategy");
+		//serial.println("Obstacle Found Random Strategy");
 		activePattern->obstacleFound();
 	}
 

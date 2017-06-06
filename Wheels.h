@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Wheel.h"
+#include "SerialPrinter.h"
 
 #define LEFT_FORWARD 5
 #define LEFT_BACKWARD 8
@@ -27,7 +28,7 @@ class Wheels {
 	}
 
 	void printInfo(const char* message) {
-//		Serial.println(message);
+//		serial.println(message);
 	}
 
 public:

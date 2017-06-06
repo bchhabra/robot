@@ -34,15 +34,15 @@ public:
 	}
 
 	void obstacleFound() {
-		Serial.println("Obstacle - circular Pattern");
+		serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
-			Serial.println("Obstacle - Circular Pattern with in 1 sec");
+			serial.println("Obstacle - Circular Pattern with in 1 sec");
 			actionList.addAction(new Action(W::goBackward, 700));
 			actionList.addAction(new Action(W::goRight, 700));
 		} else {
-			Serial.println("Obstacle - Circular Pattern else");
+			serial.println("Obstacle - Circular Pattern else");
 			actionList.addAction(new Action(W::goBackward, 300));
 			actionList.addAction(new Action(W::goRight, 700));
 		}

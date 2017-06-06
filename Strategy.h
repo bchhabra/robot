@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Pattern.h"
+#include "SerialPrinter.h"
 
 class Strategy {
 protected:
@@ -8,7 +9,7 @@ protected:
 
 	void changePattern(Pattern* pattern) {
 		if (pattern && activePattern != pattern) {
-//			Serial.println(strcat((char*)"changing pattern to ", pattern->getName()));
+//			serial.println(strcat((char*)"changing pattern to ", pattern->getName()));
 			activePattern = pattern;
 			activePattern->run();
 		}
