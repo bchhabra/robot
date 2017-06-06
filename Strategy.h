@@ -9,15 +9,16 @@ protected:
 
 	void changePattern(Pattern* pattern) {
 		if (pattern && activePattern != pattern) {
-			serial.println(
-					strcat((char*) "changing pattern to ", pattern->getName()));
+			char message[200];
+			strcpy(message, "change pattern to ");
+			serial.println(strcat(message, pattern->getName()));
 			activePattern = pattern;
 			activePattern->run();
 		}
 	}
 public:
-	virtual ~Strategy(){};
-	virtual void init(){};
+	virtual ~Strategy(){}
+	virtual void init(){}
 	virtual void run() = 0;
-	virtual void obstacleFound(){};
+	virtual void obstacleFound(){}
 };

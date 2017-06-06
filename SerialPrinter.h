@@ -5,12 +5,21 @@
 
 class SerialPrinter {
 	unsigned long previousTime = 0;
+	unsigned int counter = 0;
 public:
 	void println(const char* message) {
-		unsigned long currentTime = millis();
-		if (currentTime - previousTime > 100) {
+		if (counter++ == 0) {
+			previousTime = millis();
 			Serial.println(message);
-			previousTime = currentTime;
+		} else {
+			if (counter < 5) {
+				Serial.println(message);
+			} else {
+				unsigned long currentTime = millis();
+				if (currentTime - previousTime > 500) {
+					counter = 0;
+				}
+			}
 		}
 	}
 } serial;

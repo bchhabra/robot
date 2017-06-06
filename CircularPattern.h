@@ -34,7 +34,7 @@ public:
 	}
 
 	void obstacleFound() {
-		serial.println("Obstacle - circular Pattern");
+//		serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
 
 		if ((interruptTime - lastInterruptTime) < 1000) {

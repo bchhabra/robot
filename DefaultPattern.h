@@ -24,7 +24,7 @@ public:
 	}
 
 	void obstacleFound() {
-		serial.println("Obstacle - Default Pattern");
+//		serial.println("Obstacle - Default Pattern");
 		unsigned long interruptTime = millis();
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
