@@ -7,29 +7,33 @@ void receiveEvent(int howMany) {
 		res += (char) Wire.read(); // receive byte as a character
 	}
 	if (res == "f") {
-		direction = forward;
-		w.goForward();
+		actionList.removeAll();
+		actionList.addAction(new Action(W::goForward, 0));
 	}
 	if (res == "b") {
-		direction = backward;
-		w.goBackward();
+		actionList.addAction(new Action(W::goBackward, 0));
 	}
 	if (res == "s") {
-		direction = none;
-		w.doStop();
+		actionList.addAction(new Action(W::doStop, 0));
 	}
-	if (res == "l")
-		w.goLeft();
-	if (res == "tl")
-		w.turnLeft();
-	if (res == "r")
-		w.goRight();
-	if (res == "tr")
-		w.turnRight();
-	if (res == "lb")
-		w.goLeftBack();
-	if (res == "rb")
-		w.goRightBack();
+	if (res == "l") {
+		actionList.addAction(new Action(W::goLeft, 0));
+	}
+	if (res == "tl") {
+		actionList.addAction(new Action(W::turnLeft, 0));
+	}
+	if (res == "r") {
+		actionList.addAction(new Action(W::goRight, 0));
+	}
+	if (res == "tr") {
+		actionList.addAction(new Action(W::turnRight, 0));
+	}
+	if (res == "lb") {
+		actionList.addAction(new Action(W::goLeftBack, 0));
+	}
+	if (res == "rb") {
+		actionList.addAction(new Action(W::goRightBack, 0));
+	}
 }
 
 void i2cSetup() {
