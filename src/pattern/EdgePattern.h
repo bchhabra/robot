@@ -2,7 +2,6 @@
 
 #include <Arduino.h>
 #include "Pattern.h"
-#include "W.h"
 
 class EdgePattern: public Pattern {
 
@@ -21,6 +20,7 @@ public:
 		actionList.addAction(W::goLeft, 1400);
 		actionList.addAction(W::goForward, 500);
 	}
+
 	void obstacleFound() {
 		unsigned long interruptTime = millis();
 		serial.println("Obstacle - Edge Pattern");

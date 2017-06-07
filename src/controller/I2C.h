@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Wire.h>
+
 void receiveEvent(int howMany) {
 	String res = "";
 	while (0 < Wire.available()) // loop through all but the last

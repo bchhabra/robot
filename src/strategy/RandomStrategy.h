@@ -2,11 +2,11 @@
 
 #include <Arduino.h>
 #include "Strategy.h"
-#include "DefaultPattern.h"
-#include "ZigZagPattern.h"
-#include "CircularPattern.h"
-#include "EdgePattern.h"
-#include "StopPattern.h"
+#include "pattern/DefaultPattern.h"
+#include "pattern/ZigZagPattern.h"
+#include "pattern/CircularPattern.h"
+#include "pattern/EdgePattern.h"
+#include "pattern/StopPattern.h"
 
 class RandomStrategy: public Strategy {
 

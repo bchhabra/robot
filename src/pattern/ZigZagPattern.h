@@ -21,6 +21,7 @@ public:
 		actionList.addAction(W::goForward, 0);
 
 	}
+
 	void obstacleFound() {
 		serial.println("Obstacle - ZigZag Pattern");
 		unsigned long interruptTime = millis();

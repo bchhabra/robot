@@ -1,4 +1,5 @@
 .zim/
 .*
+!.cproject
 /Release/
 /Devil/

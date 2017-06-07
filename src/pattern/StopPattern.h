@@ -14,6 +14,7 @@ public:
 		W::doStop();
 
 	}
+
 	void obstacleFound() {
 
 	}

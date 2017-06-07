@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Wheel.h"
+#include "peripheral/Wheel.h"
 #include "SerialPrinter.h"
 
 #define LEFT_FORWARD 5

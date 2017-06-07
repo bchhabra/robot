@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pattern.h"
+#include "pattern/Pattern.h"
 #include "SerialPrinter.h"
 
 class Strategy {

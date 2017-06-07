@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Controller.h"
-#include "W.h"
+#include "peripheral/W.h"
 #include "ActionList.h"
 
 class SerialController: public Controller {

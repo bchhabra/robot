@@ -2,8 +2,6 @@
 
 #include <Arduino.h>
 #include "Pattern.h"
-#include "W.h"
-#include "ActionList.h"
 
 class DefaultPattern: public Pattern {
 

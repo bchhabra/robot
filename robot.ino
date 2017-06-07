@@ -1,11 +1,10 @@
 #include <Arduino.h>
-#include <Wire.h> 
-#include "SerialController.h"
-#include "RandomStrategy.h"
 
+#include "controller/SerialController.h"
+#include "controller/I2C.h"
+#include "peripheral/Lcd.h"
+#include "strategy/RandomStrategy.h"
 #include "ActionList.h"
-#include "I2C.h"
-#include "Lcd.h"
 
 #define LCD 0
 #define DEBUG 1
