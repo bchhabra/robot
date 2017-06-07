@@ -9,9 +9,9 @@ protected:
 
 	void changePattern(Pattern* pattern) {
 		if (pattern && activePattern != pattern) {
-			char message[200];
-			strcpy(message, "change pattern to ");
-			serial.println(strcat(message, pattern->getName()));
+			String message = "change pattern to ";
+			message.concat(pattern->getName());
+			serial.println(message.c_str());
 			activePattern = pattern;
 			activePattern->run();
 		}
