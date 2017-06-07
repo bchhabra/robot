@@ -37,7 +37,6 @@ public:
 		}
 
 		lastInterruptTime = interruptTime;
-		run();
 	}
 
 };
