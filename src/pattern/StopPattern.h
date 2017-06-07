@@ -11,8 +11,7 @@ public:
 	}
 
 	void run() {
-		W::doStop();
-
+		actionList.addAction(W::doStop, 0);
 	}
 
 	void obstacleFound() {
