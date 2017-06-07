@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <component/Lcd.h>
+#include <controller/WiFi.h>
 
 #include "controller/SerialController.h"
-#include "controller/I2C.h"
 #include "strategy/RandomStrategy.h"
 #include "ActionList.h"
 

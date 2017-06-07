@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Wire.h>
+#include "ActionList.h"
+#include "component/W.h"
 
 void receiveEvent(int howMany) {
 	String res = "";
