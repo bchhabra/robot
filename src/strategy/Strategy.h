@@ -13,6 +13,7 @@ protected:
 			message.concat(pattern->getName());
 			serial.println(message.c_str());
 			activePattern = pattern;
+			actionList.removeAll();
 		}
 	}
 public:

@@ -43,12 +43,10 @@ public:
 			// TODO FIXME if activePatterbn is default
 			//Switch to differnt Pattern
 			changePattern(&cPattern);
-			actionList.removeAll();
 		}
 		if ((millis() - startTime) > 60000) {
 			// Stop Vaccum, Stop Wheels
 			changePattern(&sPattern);
-			actionList.removeAll();
 		}
 
 		if (actionList.isEmpty()) {
