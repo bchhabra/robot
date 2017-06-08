@@ -62,6 +62,9 @@ public:
 		W::doStop();
 		actionList.removeAll();
 
+		if (activePattern == &cPattern) {
+			changePattern(&ePattern);
+		}
 		//serial.println("Obstacle Found Random Strategy");
 		activePattern->obstacleFound();
 	}
