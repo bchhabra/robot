@@ -36,13 +36,9 @@ void loop() {
 #endif
 	if (interruptCalled) {
 		interruptCalled = false;
-		W::doStop();
-		actionList.removeAll();
 		randomstrategy.obstacleFound();
 	} else {
-		if (actionList.isEmpty()) {
-			randomstrategy.run();
-		}
+		randomstrategy.run();
 	}
 	actionList.playNextAction();
 }

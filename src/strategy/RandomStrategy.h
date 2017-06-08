@@ -11,7 +11,7 @@
 class RandomStrategy: public Strategy {
 
 	int interruptCounter = 0;
-	unsigned long startTime = millis();
+	unsigned long startTime = 0;
 	DefaultPattern dPattern { "default" };
 	ZigZagPattern zPattern { "zig-zag" };
 	CircularPattern cPattern { "circular" };
@@ -21,6 +21,7 @@ class RandomStrategy: public Strategy {
 public:
 	void init() {
 		changePattern(&dPattern);
+		startTime = millis();
 	}
 
 	void run() {
@@ -36,22 +37,30 @@ public:
 		 * goes into edge pattern for 3 mins.
 		 * Investigation on speed pin in needed.
 		 *
+*/
 
-
-		if ((millis() - startTime) > 60000) {
+		if ((millis() - startTime) > 20000) {
 			// TODO FIXME if activePatterbn is default
 			//Switch to differnt Pattern
 			changePattern(&cPattern);
+			actionList.removeAll();
 		}
 		if ((millis() - startTime) > 60000) {
 			// Stop Vaccum, Stop Wheels
 			changePattern(&sPattern);
-		} */
-		activePattern->run();
+			actionList.removeAll();
+		}
 
+		if (actionList.isEmpty()) {
+			activePattern->run();
+		}
 	}
+
 	void obstacleFound() {
 		interruptCounter++;
+
+		W::doStop();
+		actionList.removeAll();
 
 		//serial.println("Obstacle Found Random Strategy");
 		activePattern->obstacleFound();
