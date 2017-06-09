@@ -39,14 +39,16 @@ public:
 		 *
 */
 
-		if ((millis() - startTime) > 20000) {
-			// TODO FIXME if activePatterbn is default
-			//Switch to differnt Pattern
-			changePattern(&cPattern);
+		if ((millis() - startTime) > 1800000) {
+			init();
 		}
-		if ((millis() - startTime) > 60000) {
+		if ((millis() - startTime) > 1200000 && activePattern == &cPattern) {
 			// Stop Vaccum, Stop Wheels
-			changePattern(&sPattern);
+			changePattern(&ePattern);
+			actionList.removeAll();
+		} else if ((millis() - startTime) > 60000 && activePattern == &dPattern) {
+			changePattern(&cPattern);
+			actionList.removeAll();
 		}
 
 		if (actionList.isEmpty()) {
@@ -60,11 +62,11 @@ public:
 		W::doStop();
 		actionList.removeAll();
 
+		activePattern->obstacleFound();
+
 		if (activePattern == &cPattern) {
 			changePattern(&ePattern);
 		}
-		//serial.println("Obstacle Found Random Strategy");
-		activePattern->obstacleFound();
 	}
 
 };
