@@ -8,7 +8,7 @@
 #include "pattern/EdgePattern.h"
 #include "pattern/StopPattern.h"
 
-class RandomStrategy: public Strategy {
+class FactoryStrategy: public Strategy {
 
 	int interruptCounter = 0;
 	unsigned long startTime = 0;

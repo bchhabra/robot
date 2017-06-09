@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <component/Lcd.h>
 #include <controller/WiFi.h>
+#include <strategy/FactoryStrategy.h>
 
 #include "controller/SerialController.h"
-#include "strategy/RandomStrategy.h"
 #include "ActionList.h"
 
 #define LCD 0
@@ -16,7 +16,7 @@ SerialController controller;
 
 #define PORT_CONTACTSENSORS 2
 
-RandomStrategy randomstrategy;
+FactoryStrategy factoryStrategy;
 
 volatile bool interruptCalled = false;
 
@@ -26,7 +26,7 @@ void setup() {
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 
 	Serial.begin(9600);
-	randomstrategy.init();
+	factoryStrategy.init();
 }
 
 void loop() {
@@ -36,9 +36,9 @@ void loop() {
 #endif
 	if (interruptCalled) {
 		interruptCalled = false;
-		randomstrategy.obstacleFound();
+		factoryStrategy.obstacleFound();
 	} else {
-		randomstrategy.run();
+		factoryStrategy.run();
 	}
 	actionList.playNextAction();
 }
