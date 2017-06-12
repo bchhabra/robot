@@ -19,9 +19,9 @@ class CircularPattern: public Pattern {
 	 * or left wheel speed x forward direction right wheel speed x+y forward direction
 	 *
 	 */
-	unsigned long fts = 50;
-	unsigned long lts = 950;
-	unsigned long factor = 50;
+	unsigned long fts = 10;
+	unsigned long lts = 990;
+	unsigned long factor = 75;
 	unsigned long time_ts = 0;
 	unsigned long runCounter = 0;
 	unsigned long interruptCounter = 0;
@@ -39,31 +39,24 @@ public:
 		time_ts = runTime - lastRunTime;
 		String message = "time :: ";
 		message.concat(time_ts);
-		serial.println(message.c_str());
+//		serial.println(message.c_str());
 
 		String message2 = "Counter :: ";
 		message2.concat(runCounter);
 		//serial.println(message2.c_str());
 
-		if (runCounter > 10) {
-			serial.println("B");
-			  if(runCounter % 2 == 0){
-				//serial.println("C");
-				fts = fts + factor;
-				lts = lts - factor;
-				if (fts > 0 && lts > 0) {
-					//serial.println("D");
-					actionList.addAction(W::goForward, fts);
-					actionList.addAction(W::goLeft, lts);
-				}
+		if (runCounter % 10 == 0) {
+			serial.println("C");
+			fts = fts + factor;
+			lts = lts - factor;
+			if (lts < 0) {
+				fts = 10;
+				lts = 990;
 			}
-
-		} else if (runCounter < 10) {
-			//serial.println("A");
-			actionList.addAction(W::goForward, fts);
-			actionList.addAction(W::goLeft, lts);
 		}
 
+		actionList.addAction(W::goForward, fts);
+		actionList.addAction(W::goLeft, lts);
 		lastRunTime = runTime;
 	}
 
@@ -89,4 +82,5 @@ public:
 		lastInterruptTime = interruptTime;
 	}
 
-};
+}
+;
