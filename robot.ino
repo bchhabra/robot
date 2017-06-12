@@ -4,6 +4,7 @@
 #include <strategy/FactoryStrategy.h>
 
 #include "controller/SerialController.h"
+#include "component/SonarSensor.h"
 #include "ActionList.h"
 
 #define LCD 0
@@ -16,6 +17,9 @@ SerialController controller;
 
 #define PORT_CONTACTSENSORS 2
 
+#ifdef PROTOTYPE
+SonarSensor frontLeftSensor { 11, 10 };
+#endif
 volatile bool interruptCalled = false;
 
 void setup() {
@@ -44,6 +48,15 @@ void loop() {
 		activeStrategy->run();
 	}
 	actionList.playNextAction();
+
+#ifdef PROTOTYPE
+	if (!interruptCalled) {
+		frontLeftSensor.scan();
+		if (frontLeftSensor.isInRange(15)) {
+			interruptCalled = true;
+		}
+	}
+#endif
 }
 
 void interrupt() {

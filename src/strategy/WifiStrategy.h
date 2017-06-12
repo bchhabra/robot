@@ -13,6 +13,7 @@ public:
 	}
 
 	void obstacleFound() {
+		serial.println("obstacle found");
 	}
 
 } wifiStrategy;
