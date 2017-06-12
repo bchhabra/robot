@@ -69,4 +69,4 @@ public:
 		}
 	}
 
-};
+} factoryStrategy;

@@ -21,3 +21,14 @@ public:
 	virtual void run() = 0;
 	virtual void obstacleFound(){}
 };
+
+Strategy* activeStrategy;
+Strategy* previousStrategy;
+
+void changeStrategy(Strategy* strategy) {
+	if (strategy && strategy != activeStrategy) {
+		previousStrategy = activeStrategy;
+		activeStrategy = strategy;
+		activeStrategy->init();
+	}
+}

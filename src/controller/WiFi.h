@@ -3,6 +3,9 @@
 #include <Wire.h>
 #include "ActionList.h"
 #include "component/W.h"
+#include "strategy/WifiStrategy.h"
+
+bool stopWasPressed = false;
 
 void receiveEvent(int howMany) {
 	String res = "";
@@ -10,7 +13,20 @@ void receiveEvent(int howMany) {
 	{
 		res += (char) Wire.read(); // receive byte as a character
 	}
+
+	if (res == "s") {
+		if (stopWasPressed) {
+			changeStrategy(previousStrategy);
+			return;
+		}
+		stopWasPressed = true;
+	} else {
+		stopWasPressed = false;
+	}
+
+	changeStrategy(&wifiStrategy);
 	actionList.removeAll();
+
 	if (res == "f") {
 		actionList.addAction(W::goForward, 0);
 	}

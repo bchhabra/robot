@@ -16,8 +16,6 @@ SerialController controller;
 
 #define PORT_CONTACTSENSORS 2
 
-FactoryStrategy factoryStrategy;
-
 volatile bool interruptCalled = false;
 
 void setup() {
@@ -26,7 +24,8 @@ void setup() {
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 
 	Serial.begin(9600);
-	factoryStrategy.init();
+
+	changeStrategy(&factoryStrategy);
 }
 
 void loop() {
@@ -36,9 +35,9 @@ void loop() {
 #endif
 	if (interruptCalled) {
 		interruptCalled = false;
-		factoryStrategy.obstacleFound();
+		activeStrategy->obstacleFound();
 	} else {
-		factoryStrategy.run();
+		activeStrategy->run();
 	}
 	actionList.playNextAction();
 }
