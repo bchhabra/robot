@@ -43,7 +43,7 @@ public:
 
 		String message2 = "Counter :: ";
 		message2.concat(runCounter);
-		//serial.println(message2.c_str());
+//		serial.println(message2.c_str());
 
 		if (runCounter % 10 == 0) {
 			serial.println("C");
@@ -62,22 +62,24 @@ public:
 
 	void obstacleFound() {
 		interruptCounter++;
-//		serial.println("Obstacle - circular Pattern");
+		serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
 		actionList.addAction(W::goLeftBack, 200);
-		actionList.addAction(W::goBackward, 100);
+		actionList.addAction(W::goBackward, 150);
 		actionList.addAction(W::goForward, 200);
 
-		/*
+
 		 if ((interruptTime - lastInterruptTime) < 1000) {
-		 serial.println("Obstacle - Circular Pattern with in 1 sec");
-		 actionList.addAction(W::goBackward, 700);
-		 actionList.addAction(W::goRight, 700);
+//			 serial.println("Obstacle - Circular Pattern with in 1 sec");
+		 	 actionList.addAction(W::goLeftBack, 200);
+		 	 actionList.addAction(W::goBackward, 150);
+		 	 actionList.addAction(W::goForward, 200);
 		 } else {
-		 serial.println("Obstacle - Circular Pattern else");
-		 actionList.addAction(W::goBackward, 300);
-		 actionList.addAction(W::goRight, 700);
-		 }*/
+//		 serial.println("Obstacle - Circular Pattern else");
+			 actionList.addAction(W::goLeftBack, 200);
+			 actionList.addAction(W::goBackward, 200);
+			 actionList.addAction(W::goForward, 100);
+		 }
 
 		lastInterruptTime = interruptTime;
 	}

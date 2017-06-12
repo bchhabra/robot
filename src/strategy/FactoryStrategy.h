@@ -20,7 +20,7 @@ class FactoryStrategy: public Strategy {
 
 public:
 	void init() {
-		changePattern(&cPattern);
+		changePattern(&dPattern);
 		startTime = millis();
 	}
 
@@ -36,7 +36,7 @@ public:
 		 * goes into circular pattern till he get an obstacle.
 		 * goes into edge pattern for 3 mins.
 		 * Investigation on speed pin in needed.
-		 *
+		 **/
 
 
 		if ((millis() - startTime) > 360000) {
@@ -46,11 +46,11 @@ public:
 			// Stop Vaccum, Stop Wheels
 			changePattern(&ePattern);
 			actionList.removeAll();
-		} else if ((millis() - startTime) > 12000 && activePattern == &dPattern) {
+		} else if ((millis() - startTime) > 120000 && activePattern == &dPattern) {
 			changePattern(&cPattern);
 			actionList.removeAll();
 		}
-*/
+
 		if (actionList.isEmpty()) {
 			activePattern->run();
 		}
@@ -63,10 +63,10 @@ public:
 		actionList.removeAll();
 
 		activePattern->obstacleFound();
-/*
+
 		if (activePattern == &cPattern) {
 			changePattern(&ePattern);
-		}*/
+		}
 	}
 
 };

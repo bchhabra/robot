@@ -6,6 +6,7 @@
 class EdgePattern: public Pattern {
 
 	unsigned long lastInterruptTime = millis();
+	boolean isWall = false;
 public:
 	EdgePattern(const char* name) :
 			Pattern(name) {
@@ -16,27 +17,28 @@ public:
 		 * This pattern should run for maximum 180 secs
 		 *
 		 */
-
-		actionList.addAction(W::goLeft, 1400);
-		actionList.addAction(W::goForward, 500);
+		if(isWall){
+			actionList.addAction(W::goLeft, 1000);
+			actionList.addAction(W::goForward, 200);
+		}else{
+			actionList.addAction(W::goForward, 500);
+			actionList.addAction(W::goLeft, 500);
+		}
 	}
 
 	void obstacleFound() {
+		/*
+		 * if you hit the obstacle in 3 secs than consider you are following the wall
+		 *
+		 */
+
 		unsigned long interruptTime = millis();
-		serial.println("Obstacle - Edge Pattern");
+		if(interruptTime-lastInterruptTime < 3000){
+			isWall=true;
+		}
+
 		actionList.addAction(W::goLeftBack, 500);
 		actionList.addAction(W::goForward, 300);
-/*
-		if ((interruptTime - lastInterruptTime) < 1000) {
-			serial.println("Obstacle - Edge Pattern in 1 sec");
-			w.goBackward(600);
-			w.goLeftBack(300);
-
-		} else {
-			serial.println("Obstacle - Edge Pattern");
-			actionList.addAction(new Action(W::goLeftBack, 300));
-			actionList.addAction(new Action(W::goForward, 300));
-		}*/
 
 		lastInterruptTime = interruptTime;
 	}
