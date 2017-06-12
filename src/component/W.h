@@ -13,7 +13,7 @@ Wheel right(RIGHT_BACKWARD, RIGHT_FORWARD, 3);
 
 class W {
 	static void printInfo(const char* message) {
-		serial.println(message);
+		//serial.println(message);
 	}
 
 public:

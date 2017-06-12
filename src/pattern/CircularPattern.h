@@ -19,6 +19,13 @@ class CircularPattern: public Pattern {
 	 * or left wheel speed x forward direction right wheel speed x+y forward direction
 	 *
 	 */
+	unsigned long fts = 50;
+	unsigned long lts = 950;
+	unsigned long factor = 50;
+	unsigned long time_ts = 0;
+	unsigned long runCounter = 0;
+	unsigned long interruptCounter = 0;
+	unsigned long lastRunTime = millis();
 	unsigned long lastInterruptTime = millis();
 
 public:
@@ -27,23 +34,57 @@ public:
 	}
 
 	void run() {
-		actionList.addAction(W::goForward, 300);
-		actionList.addAction(W::goLeft, 600);
+		runCounter++;
+		unsigned long runTime = millis();
+		time_ts = runTime - lastRunTime;
+		String message = "time :: ";
+		message.concat(time_ts);
+		serial.println(message.c_str());
+
+		String message2 = "Counter :: ";
+		message2.concat(runCounter);
+		//serial.println(message2.c_str());
+
+		if (runCounter > 10) {
+			serial.println("B");
+			  if(runCounter % 2 == 0){
+				//serial.println("C");
+				fts = fts + factor;
+				lts = lts - factor;
+				if (fts > 0 && lts > 0) {
+					//serial.println("D");
+					actionList.addAction(W::goForward, fts);
+					actionList.addAction(W::goLeft, lts);
+				}
+			}
+
+		} else if (runCounter < 10) {
+			//serial.println("A");
+			actionList.addAction(W::goForward, fts);
+			actionList.addAction(W::goLeft, lts);
+		}
+
+		lastRunTime = runTime;
 	}
 
 	void obstacleFound() {
+		interruptCounter++;
 //		serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
+		actionList.addAction(W::goLeftBack, 200);
+		actionList.addAction(W::goBackward, 100);
+		actionList.addAction(W::goForward, 200);
 
-		if ((interruptTime - lastInterruptTime) < 1000) {
-			serial.println("Obstacle - Circular Pattern with in 1 sec");
-			actionList.addAction(W::goBackward, 700);
-			actionList.addAction(W::goRight, 700);
-		} else {
-			serial.println("Obstacle - Circular Pattern else");
-			actionList.addAction(W::goBackward, 300);
-			actionList.addAction(W::goRight, 700);
-		}
+		/*
+		 if ((interruptTime - lastInterruptTime) < 1000) {
+		 serial.println("Obstacle - Circular Pattern with in 1 sec");
+		 actionList.addAction(W::goBackward, 700);
+		 actionList.addAction(W::goRight, 700);
+		 } else {
+		 serial.println("Obstacle - Circular Pattern else");
+		 actionList.addAction(W::goBackward, 300);
+		 actionList.addAction(W::goRight, 700);
+		 }*/
 
 		lastInterruptTime = interruptTime;
 	}
