@@ -1,7 +1,7 @@
 local defaultSpeed = 9600
 local programSpeed = 57600
 --local programSpeed = 115200
-local rstPin = 4
+local rstPin = 4 -- GPIO 2
 local counter = 0
 gpio.mode(rstPin, gpio.OUTPUT)
 gpio.write(rstPin, gpio.HIGH)

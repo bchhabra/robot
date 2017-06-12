@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Arduino.h>
+
 class Action {
 	void (*action)();
 	unsigned long delay = 0;

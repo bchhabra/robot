@@ -25,7 +25,11 @@ void setup() {
 
 	Serial.begin(9600);
 
+#ifdef PROTOTYPE
+	changeStrategy(&wifiStrategy);
+#else
 	changeStrategy(&factoryStrategy);
+#endif
 }
 
 void loop() {
