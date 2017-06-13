@@ -20,6 +20,7 @@ SerialController controller;
 
 #ifdef PROTOTYPE
 SonarSensor frontLeftSensor { 11, 10 };
+int initialDeg;
 #endif
 volatile bool interruptCalled = false;
 
@@ -29,6 +30,7 @@ void setup() {
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 #ifdef PROTOTYPE
 	imu_setup();
+	  initialDeg = ToDeg(yaw) + 180;
 #endif
 
 	Serial.begin(9600);
@@ -66,4 +68,12 @@ void loop() {
 void interrupt() {
 
 	interruptCalled = true;
+}
+
+inline int readAngle() {
+  return ToDeg(yaw) + 180;
+}
+
+inline int calculateDelta(int initialDeg) {
+  return abs(((readAngle() - initialDeg) + 180) % 360 - 180);
 }
