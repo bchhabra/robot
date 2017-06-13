@@ -93,6 +93,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LIS3MDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LSM6}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LiquidCrystal_I2C}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LIS3MDL}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LSM6}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.cpp.sketch.input.1238897730" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
 							</tool>
@@ -105,6 +112,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LIS3MDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LSM6}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LiquidCrystal_I2C}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LIS3MDL}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LSM6}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.c.sketch.input.1607209955" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
 							</tool>
@@ -117,6 +131,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LiquidCrystal_I2C}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LIS3MDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/robot/libraries/LSM6}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LiquidCrystal_I2C}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LIS3MDL}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/LSM6}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/Wire}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/prototype/libraries/Wire/src}&quot;"/>
 								</option>
 								<inputType id="io.sloeber.compiler.S.sketch.input.313329322" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
 							</tool>

@@ -24,11 +24,7 @@ public:
   }
 
   void scan() {
-    long distance1 = readDistance();
     distance = readDistance();
-    if (abs(distance1-distance) > 3000) {
-      distance = max(distance1, distance);
-    }
   }
 
   long isInRange(int range) {
