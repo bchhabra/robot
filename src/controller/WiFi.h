@@ -14,9 +14,11 @@ void receiveEvent(int howMany) {
 		res += (char) Wire.read(); // receive byte as a character
 	}
 
+	actionList.removeAll();
 	if (res == "s") {
 		if (stopWasPressed) {
 			changeStrategy(previousStrategy);
+			stopWasPressed = false;
 			return;
 		}
 		stopWasPressed = true;
@@ -25,7 +27,6 @@ void receiveEvent(int howMany) {
 	}
 
 	changeStrategy(&wifiStrategy);
-	actionList.removeAll();
 
 	if (res == "f") {
 		actionList.addAction(W::goForward, 0);
