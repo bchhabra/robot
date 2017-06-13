@@ -19,6 +19,13 @@ class CircularPattern: public Pattern {
 	 * or left wheel speed x forward direction right wheel speed x+y forward direction
 	 *
 	 */
+	unsigned long fts = 10;
+	unsigned long lts = 990;
+	unsigned long factor = 75;
+	unsigned long time_ts = 0;
+	unsigned long runCounter = 0;
+	unsigned long interruptCounter = 0;
+	unsigned long lastRunTime = millis();
 	unsigned long lastInterruptTime = millis();
 
 public:
@@ -27,25 +34,55 @@ public:
 	}
 
 	void run() {
-		actionList.addAction(W::goForward, 300);
-		actionList.addAction(W::goLeft, 600);
+		runCounter++;
+		unsigned long runTime = millis();
+		time_ts = runTime - lastRunTime;
+		String message = "time :: ";
+		message.concat(time_ts);
+//		serial.println(message.c_str());
+
+		String message2 = "Counter :: ";
+		message2.concat(runCounter);
+//		serial.println(message2.c_str());
+
+		if (runCounter % 10 == 0) {
+			serial.println("C");
+			fts = fts + factor;
+			lts = lts - factor;
+			if (lts < 0) {
+				fts = 10;
+				lts = 990;
+			}
+		}
+
+		actionList.addAction(W::goForward, fts);
+		actionList.addAction(W::goLeft, lts);
+		lastRunTime = runTime;
 	}
 
 	void obstacleFound() {
-//		serial.println("Obstacle - circular Pattern");
+		interruptCounter++;
+		serial.println("Obstacle - circular Pattern");
 		unsigned long interruptTime = millis();
+		actionList.addAction(W::goLeftBack, 200);
+		actionList.addAction(W::goBackward, 150);
+		actionList.addAction(W::goForward, 200);
 
-		if ((interruptTime - lastInterruptTime) < 1000) {
-			serial.println("Obstacle - Circular Pattern with in 1 sec");
-			actionList.addAction(W::goBackward, 700);
-			actionList.addAction(W::goRight, 700);
-		} else {
-			serial.println("Obstacle - Circular Pattern else");
-			actionList.addAction(W::goBackward, 300);
-			actionList.addAction(W::goRight, 700);
-		}
+
+		 if ((interruptTime - lastInterruptTime) < 1000) {
+//			 serial.println("Obstacle - Circular Pattern with in 1 sec");
+		 	 actionList.addAction(W::goLeftBack, 200);
+		 	 actionList.addAction(W::goBackward, 150);
+		 	 actionList.addAction(W::goForward, 200);
+		 } else {
+//		 serial.println("Obstacle - Circular Pattern else");
+			 actionList.addAction(W::goLeftBack, 200);
+			 actionList.addAction(W::goBackward, 200);
+			 actionList.addAction(W::goForward, 100);
+		 }
 
 		lastInterruptTime = interruptTime;
 	}
 
-};
+}
+;

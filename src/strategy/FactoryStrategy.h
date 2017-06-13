@@ -36,17 +36,17 @@ public:
 		 * goes into circular pattern till he get an obstacle.
 		 * goes into edge pattern for 3 mins.
 		 * Investigation on speed pin in needed.
-		 *
-*/
+		 **/
 
-		if ((millis() - startTime) > 1800000) {
+
+		if ((millis() - startTime) > 360000) {
 			init();
 		}
-		if ((millis() - startTime) > 1200000 && activePattern == &cPattern) {
+		if ((millis() - startTime) > 240000 && activePattern == &cPattern) {
 			// Stop Vaccum, Stop Wheels
 			changePattern(&ePattern);
 			actionList.removeAll();
-		} else if ((millis() - startTime) > 60000 && activePattern == &dPattern) {
+		} else if ((millis() - startTime) > 120000 && activePattern == &dPattern) {
 			changePattern(&cPattern);
 			actionList.removeAll();
 		}
