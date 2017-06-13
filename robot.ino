@@ -8,7 +8,6 @@
 #include "ActionList.h"
 
 #define LCD 0
-#define DEBUG 1
 #define SERIAL_CONTROLLER 0
 
 #if SERIAL_CONTROLLER

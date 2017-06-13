@@ -13,7 +13,8 @@ public:
 	}
 
 	void obstacleFound() {
-		serial.println("obstacle found");
+		W::doStop();
+		actionList.removeAll();
 	}
 
 } wifiStrategy;
