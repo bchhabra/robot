@@ -42,11 +42,11 @@ public:
 		if ((millis() - startTime) > 360000) {
 			init();
 		}
-		if ((millis() - startTime) > 240000 && activePattern == &cPattern) {
+		if ((millis() - startTime) > 240000 && activePatternIs(&cPattern)) {
 			// Stop Vaccum, Stop Wheels
 			changePattern(&ePattern);
 			actionList.removeAll();
-		} else if ((millis() - startTime) > 120000 && activePattern == &dPattern) {
+		} else if ((millis() - startTime) > 120000 && activePatternIs(&dPattern)) {
 			changePattern(&cPattern);
 			actionList.removeAll();
 		}
@@ -64,7 +64,7 @@ public:
 
 		activePattern->obstacleFound();
 
-		if (activePattern == &cPattern) {
+		if (activePatternIs(&cPattern)) {
 			changePattern(&ePattern);
 		}
 	}

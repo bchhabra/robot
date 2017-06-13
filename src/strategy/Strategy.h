@@ -20,6 +20,10 @@ public:
 	virtual void init(){}
 	virtual void run() = 0;
 	virtual void obstacleFound(){}
+
+	bool activePatternIs(Pattern* pattern) {
+		return activePattern == pattern;
+	}
 };
 
 Strategy* activeStrategy;
