@@ -11,26 +11,30 @@
 
 #define LCD 0
 #define SERIAL_CONTROLLER 0
+#define TEST_IMU 0
+
+#define PORT_CONTACTSENSORS 2
 
 #if SERIAL_CONTROLLER
 SerialController controller;
 #endif
-
-#define PORT_CONTACTSENSORS 2
+#if TEST_IMU
+int initialDeg;
+#endif
 
 #ifdef PROTOTYPE
 SonarSensor frontLeftSensor { 11, 10 };
-int initialDeg;
 #endif
+
 volatile bool interruptCalled = false;
 
 void setup() {
 	lcdSetup();
 	i2cSetup();
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
-#ifdef PROTOTYPE
+#if TEST_IMU
 	imu_setup();
-	  initialDeg = ToDeg(yaw) + 180;
+	initialDeg = readAngle();
 #endif
 
 	Serial.begin(9600);
@@ -61,19 +65,32 @@ void loop() {
 			interruptCalled = true;
 		}
 	}
-	imu_loop();
+#endif
+#if TEST_IMU
+	imu_loop(checkAngle);
 #endif
 }
 
 void interrupt() {
-
 	interruptCalled = true;
 }
 
-inline int readAngle() {
-  return ToDeg(yaw) + 180;
+#if TEST_IMU
+void checkAngle() {
+	if (calculateDelta(readAngle(), initialDeg) >= 90) {
+		W::doStop();
+		delay(2000);
+		initialDeg = readAngle();
+		W::turnLeft();
+	}
 }
 
-inline int calculateDelta(int initialDeg) {
-  return abs(((readAngle() - initialDeg) + 180) % 360 - 180);
+inline int readAngle() {
+  return ToDeg(yaw);
 }
+
+inline int calculateDelta(int currentDeg, int originalDeg) {
+	int signedAngle = ((currentDeg - originalDeg) + 180) % 360 - 180;
+	return (signedAngle + 360) % 360;
+}
+#endif

@@ -13,7 +13,7 @@ public:
 	}
 
 	void obstacleFound() {
-		W::doStop();
+//		W::doStop();
 		actionList.removeAll();
 	}
 

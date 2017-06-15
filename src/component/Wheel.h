@@ -21,7 +21,7 @@ public:
   void stop() {
     digitalWrite(pin1, LOW);
     digitalWrite(pin2, LOW);
-
+    digitalWrite(speedPin, LOW);
   }
 
   void forward() {

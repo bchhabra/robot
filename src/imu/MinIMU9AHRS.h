@@ -55,7 +55,7 @@ void imu_setup()
   counter=0;
 }
 
-void imu_loop() //Main Loop
+void imu_loop(void (*f)()) //Main Loop
 {
   if((millis()-timer)>=20)  // Main loop runs at 50Hz
   {
@@ -93,6 +93,7 @@ void imu_loop() //Main Loop
     // ***
 
     printdata();
+    f();
   }
 
 }
