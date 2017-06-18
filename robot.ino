@@ -8,7 +8,8 @@
 #include "ActionList.h"
 
 #define LCD 0
-#define SERIAL_CONTROLLER 0
+#define WIFI_CONTROLLER 0
+#define SERIAL_CONTROLLER 1
 
 #if SERIAL_CONTROLLER
 SerialController controller;
@@ -22,8 +23,10 @@ SonarSensor frontLeftSensor { 11, 10 };
 volatile bool interruptCalled = false;
 
 void setup() {
-	lcdSetup();
+#if WIFI_CONTROLLER
 	i2cSetup();
+#endif
+	lcdSetup();
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 
 	Serial.begin(9600);

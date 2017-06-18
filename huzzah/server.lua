@@ -54,6 +54,7 @@ function handle_http(cn, req_data)
 		i2c.address(id, address, i2c.TRANSMITTER)
 		i2c.write(id, params["command"])
 		i2c.stop(id)
+        uart.write(0, params["command"])
 	end
 
 	-- Close the connection for the request

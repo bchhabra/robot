@@ -1,56 +1,54 @@
 #pragma once
 
 #include <component/W.h>
-#include "Controller.h"
 #include "ActionList.h"
 
-class SerialController: public Controller {
-
-	Command getReceivedCommand() {
-		String value = Serial.readStringUntil('\n');
-		if (value == "f")
-			return FORWARD;
-		if (value == "b")
-			return BACKWARD;
-		if (value == "s")
-			return STOP;
-		if (value == "l")
-			return LEFT;
-		if (value == "r")
-			return RIGHT;
-		if (value == "lb")
-			return LEFT_BACK;
-		if (value == "rb")
-			return RIGHT_BACK;
-	}
+class SerialController {
+	bool stopWasPressed = false;
 
 public:
 	void checkController() {
 		if (Serial.available()) {
-			actionList.removeAll();
-			Command cmd = getReceivedCommand();
-			switch (cmd) {
-			case FORWARD:
+			String res = Serial.readStringUntil('\n');
+			if (res == "s") {
+				if (stopWasPressed) {
+					changeStrategy(previousStrategy);
+					stopWasPressed = false;
+					return;
+				}
+				stopWasPressed = true;
+			} else {
+				stopWasPressed = false;
+			}
+
+			changeStrategy(&wifiStrategy);
+
+			if (res == "f") {
 				actionList.addAction(W::goForward, 0);
-				break;
-			case BACKWARD:
+			}
+			if (res == "b") {
 				actionList.addAction(W::goBackward, 0);
-				break;
-			case STOP:
+			}
+			if (res == "s") {
 				actionList.addAction(W::doStop, 0);
-				break;
-			case LEFT:
+			}
+			if (res == "l") {
 				actionList.addAction(W::goLeft, 0);
-				break;
-			case RIGHT:
+			}
+			if (res == "tl") {
+				actionList.addAction(W::turnLeft, 0);
+			}
+			if (res == "r") {
 				actionList.addAction(W::goRight, 0);
-				break;
-			case LEFT_BACK:
+			}
+			if (res == "tr") {
+				actionList.addAction(W::turnRight, 0);
+			}
+			if (res == "lb") {
 				actionList.addAction(W::goLeftBack, 0);
-				break;
-			case RIGHT_BACK:
+			}
+			if (res == "rb") {
 				actionList.addAction(W::goRightBack, 0);
-				break;
 			}
 		}
 	}
