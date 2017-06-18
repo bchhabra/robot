@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Action.h"
+#include "TimeAction.h"
 
 class ActionList {
 	Action *current, *last = NULL;
@@ -13,7 +13,7 @@ class ActionList {
 
 public:
 	void addAction(void (*f)(), unsigned long delay) {
-		Action *action = new Action(f, delay);
+		Action *action = new TimeAction(f, delay);
 		if (isEmpty()) {
 			current = action;
 		} else {
