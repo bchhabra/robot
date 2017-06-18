@@ -103,6 +103,6 @@ inline int readAngle() {
 
 inline int calculateDelta(int currentDeg, int originalDeg) {
 	int signedAngle = ((currentDeg - originalDeg) + 180) % 360 - 180;
-	return (signedAngle + 360) % 360;
+	return abs(signedAngle);
 }
 

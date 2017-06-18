@@ -10,11 +10,14 @@ public:
 	}
 
 	void run() {
+		if (actionList.isEmpty()) {
+			W::doStop();
+		}
 	}
 
 	void obstacleFound() {
-//		W::doStop();
-		actionList.removeAll();
+//		actionList.removeAll();
+//		actionList.addAction(W::goBackward, 100);
 	}
 
 } wifiStrategy;
