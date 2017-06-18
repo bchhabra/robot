@@ -11,7 +11,7 @@
 
 #define LCD 0
 #define SERIAL_CONTROLLER 0
-#define TEST_IMU 0
+#define TEST_IMU 1
 
 #define PORT_CONTACTSENSORS 2
 
@@ -50,6 +50,9 @@ void loop() {
 #if SERIAL_CONTROLLER
 	controller.checkController();
 #endif
+#if TEST_IMU
+	imu_loop();
+#endif
 	if (interruptCalled) {
 		interruptCalled = false;
 		activeStrategy->obstacleFound();
@@ -66,31 +69,8 @@ void loop() {
 		}
 	}
 #endif
-#if TEST_IMU
-	imu_loop(checkAngle);
-#endif
 }
 
 void interrupt() {
 	interruptCalled = true;
 }
-
-#if TEST_IMU
-void checkAngle() {
-	if (calculateDelta(readAngle(), initialDeg) >= 90) {
-		W::doStop();
-		delay(2000);
-		initialDeg = readAngle();
-		W::turnLeft();
-	}
-}
-
-inline int readAngle() {
-  return ToDeg(yaw);
-}
-
-inline int calculateDelta(int currentDeg, int originalDeg) {
-	int signedAngle = ((currentDeg - originalDeg) + 180) % 360 - 180;
-	return (signedAngle + 360) % 360;
-}
-#endif

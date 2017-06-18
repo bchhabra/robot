@@ -55,7 +55,7 @@ void imu_setup()
   counter=0;
 }
 
-void imu_loop(void (*f)()) //Main Loop
+void imu_loop() //Main Loop
 {
   if((millis()-timer)>=20)  // Main loop runs at 50Hz
   {
@@ -93,8 +93,16 @@ void imu_loop(void (*f)()) //Main Loop
     // ***
 
     printdata();
-    f();
   }
 
+}
+
+inline int readAngle() {
+  return ToDeg(yaw);
+}
+
+inline int calculateDelta(int currentDeg, int originalDeg) {
+	int signedAngle = ((currentDeg - originalDeg) + 180) % 360 - 180;
+	return (signedAngle + 360) % 360;
 }
 
