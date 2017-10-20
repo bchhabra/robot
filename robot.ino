@@ -30,11 +30,13 @@ volatile bool interruptCalled = false;
 
 void setup() {
 	lcdSetup();
-	i2cSetup();
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 #if TEST_IMU
+	I2C_Init();
 	imu_setup();
 	initialDeg = readAngle();
+#else
+	i2cSetup();
 #endif
 
 	Serial.begin(9600);
