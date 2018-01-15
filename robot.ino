@@ -19,12 +19,13 @@ SerialController controller;
 #ifdef PROTOTYPE
 SonarSensor frontLeftSensor { 11, 10 };
 #endif
-volatile bool interruptCalled = false;
+volatile bool hitObstacle = false;
 
 void setup() {
 	lcdSetup();
 	i2cSetup();
-	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interruptDown, FALLING);
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interruptUp, RISING);
 
 	Serial.begin(9600);
 
@@ -39,8 +40,7 @@ void loop() {
 #if SERIAL_CONTROLLER
 	controller.checkController();
 #endif
-	if (interruptCalled) {
-		interruptCalled = false;
+	if (hitObstacle) {
 		activeStrategy->obstacleFound();
 	} else {
 		activeStrategy->run();
@@ -48,16 +48,19 @@ void loop() {
 	actionList.playNextAction();
 
 #ifdef PROTOTYPE
-	if (!interruptCalled) {
+	if (!hitObstacle) {
 		frontLeftSensor.scan();
 		if (frontLeftSensor.isInRange(15)) {
-			interruptCalled = true;
+			hitObstacle = true;
 		}
 	}
 #endif
 }
 
-void interrupt() {
+void interruptDown() {
+	hitObstacle = true;
+}
 
-	interruptCalled = true;
+void interruptUp() {
+	hitObstacle = false;
 }
