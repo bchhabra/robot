@@ -24,8 +24,7 @@ volatile bool hitObstacle = false;
 void setup() {
 	lcdSetup();
 	i2cSetup();
-	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interruptDown, FALLING);
-	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interruptUp, RISING);
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, CHANGE);
 
 	Serial.begin(9600);
 
@@ -57,10 +56,11 @@ void loop() {
 #endif
 }
 
-void interruptDown() {
-	hitObstacle = true;
-}
-
-void interruptUp() {
-	hitObstacle = false;
+void interrupt() {
+	int state = digitalRead(PORT_CONTACTSENSORS);
+	if (state == LOW) {
+		hitObstacle = true;
+	} else {
+		hitObstacle = false;
+	}
 }
