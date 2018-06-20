@@ -5,23 +5,23 @@
 #include "imu/MinIMU9AHRS.h"
 
 class AngleMovement : public Action {
-	int angle = 0;
-	int startAngle = 0;
+	int offset = 0;
+	int targetAngle = 0;
 	bool started = false;
 
 public:
-	AngleMovement(void (*f)(), int angle) : Action(f) {
-		this->angle = angle;
+	AngleMovement(void (*f)(), int offset) : Action(f) {
+		this->offset = offset;
 	}
 
 	void playAction() {
-		startAngle = readAngle();
+		targetAngle = (readAngle() + offset + 360) % 360;
 		action();
 		started = true;
 	}
 
 	bool isFinished() {
-		return (calculateDelta(readAngle(), startAngle) >= angle);
+		return readAngle() == targetAngle;
 	}
 
 	bool isStarted() {
