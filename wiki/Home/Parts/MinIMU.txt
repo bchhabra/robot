@@ -19,3 +19,5 @@ protocol hints: [[./LSM6DS33-AN4682.pdf]]
 @datasheet [[./LIS3MDL.pdf]]
 procotl hints: [[./LIS3MDL-AN4602.pdf]]
 
+[[./IMU.pdf]]
+http://www.starlino.com/dcm_tutorial.html
