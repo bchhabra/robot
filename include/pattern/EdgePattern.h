@@ -26,13 +26,12 @@ public:
 		}
 	}
 
-	void obstacleFound() {
+	void obstacleFound(unsigned long interruptTime) {
 		/*
 		 * if you hit the obstacle in 3 secs than consider you are following the wall
 		 *
 		 */
 
-		unsigned long interruptTime = millis();
 		if(interruptTime-lastInterruptTime < 3000){
 			isWall=true;
 		}

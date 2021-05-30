@@ -14,7 +14,7 @@ public:
 		actionList.addAction(W::doStop, 0);
 	}
 
-	void obstacleFound() {
+	void obstacleFound(unsigned long interruptTime) {
 
 	}
 

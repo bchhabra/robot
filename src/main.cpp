@@ -3,6 +3,7 @@
 #include <controller/WiFi.h>
 #include <imu/MinIMU9AHRS.h>
 #include <strategy/FactoryStrategy.h>
+#include "ota.h"
 
 #include "controller/SerialController.h"
 #include "component/SonarSensor.h"
@@ -11,7 +12,7 @@
 
 #define LCD 0
 #define SERIAL_CONTROLLER 0
-#define TEST_IMU 1
+#define TEST_IMU 0
 
 #define PORT_CONTACTSENSORS 2
 
@@ -28,6 +29,8 @@ SonarSensor frontLeftSensor { 11, 10 };
 
 volatile bool interruptCalled = false;
 
+void interrupt();
+
 void setup() {
 	lcdSetup();
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
@@ -37,6 +40,9 @@ void setup() {
 	initialDeg = readAngle();
 #else
 	i2cSetup();
+#endif
+#ifdef  ESP8266
+    setupOTA();
 #endif
 
 	Serial.begin(9600);
@@ -48,7 +54,9 @@ void setup() {
 }
 
 void loop() {
-
+#ifdef  ESP8266
+	handleOTA();
+#endif
 #if SERIAL_CONTROLLER
 	controller.checkController();
 #endif
@@ -57,7 +65,7 @@ void loop() {
 #endif
 	if (interruptCalled) {
 		interruptCalled = false;
-		activeStrategy->obstacleFound();
+		activeStrategy->obstacleFound(millis());
 	} else {
 		activeStrategy->run();
 	}

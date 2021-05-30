@@ -22,16 +22,14 @@ public:
 
 	}
 
-	void obstacleFound() {
+	void obstacleFound(unsigned long interruptTime) {
 		serial.println("Obstacle - ZigZag Pattern");
-		unsigned long interruptTime = millis();
 		interruptCounter++;
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			serial.println("Obstacle - ZigZag Pattern with in 1 sec");
 			actionList.addAction(W::goBackward, 1500);
 			actionList.addAction(W::turnRight, 700);
-
 		}
 		if (interruptCounter % 2 == 0) {
 			serial.println("Obstacle - ZigZag Pattern Even");

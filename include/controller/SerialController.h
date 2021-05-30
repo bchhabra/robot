@@ -51,6 +51,9 @@ public:
 			case RIGHT_BACK:
 				actionList.addAction(W::goRightBack, 0);
 				break;
+			case TURN_LEFT:
+			case TURN_RIGHT:
+				break;
 			}
 		}
 	}

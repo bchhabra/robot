@@ -21,15 +21,13 @@ public:
 		actionList.addAction(W::goForward, 0);
 	}
 
-	void obstacleFound() {
+	void obstacleFound(unsigned long interruptTime) {
 //		serial.println("Obstacle - Default Pattern");
-		unsigned long interruptTime = millis();
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			serial.println("Obstacle - Default Pattern with in 2 sec");
 			actionList.addAction(W::goBackward, 700);
 			actionList.addAction(W::goRight, 700);
-
 		} else {
 			serial.println("Obstacle - Default Pattern else");
 			actionList.addAction(W::goBackward, 300);

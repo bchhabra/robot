@@ -19,7 +19,7 @@ public:
 	virtual ~Strategy(){}
 	virtual void init(){}
 	virtual void run() = 0;
-	virtual void obstacleFound(){}
+	virtual void obstacleFound(unsigned long interruptTime){}
 
 	bool activePatternIs(Pattern* pattern) {
 		return activePattern == pattern;

@@ -60,10 +60,9 @@ public:
 		lastRunTime = runTime;
 	}
 
-	void obstacleFound() {
+	void obstacleFound(unsigned long interruptTime) {
 		interruptCounter++;
 		serial.println("Obstacle - circular Pattern");
-		unsigned long interruptTime = millis();
 		actionList.addAction(W::goLeftBack, 200);
 		actionList.addAction(W::goBackward, 150);
 		actionList.addAction(W::goForward, 200);
