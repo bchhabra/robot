@@ -3,6 +3,7 @@
 #include <controller/WiFi.h>
 #include <imu/MinIMU9AHRS.h>
 #include <strategy/FactoryStrategy.h>
+#include <strategy/PlayStrategy.h>
 
 #include "controller/SerialController.h"
 #include "component/SonarSensor.h"
@@ -17,18 +18,20 @@
 #define SERIAL_CONTROLLER 0
 #define TEST_IMU 0
 
+#ifdef PROTOTYPE
+SonarSensor frontLeftSensor { 11, 10 };
+#else
 #define PORT_CONTACTSENSORS 2
+#endif
 
 #if SERIAL_CONTROLLER
 SerialController controller;
 #endif
+
 #if TEST_IMU
 int initialDeg;
 #endif
 
-#ifdef PROTOTYPE
-SonarSensor frontLeftSensor { 11, 10 };
-#endif
 
 volatile bool interruptCalled = false;
 
@@ -36,7 +39,6 @@ void interrupt();
 
 void setup() {
 	lcdSetup();
-	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 #if TEST_IMU
 	I2C_Init();
 	imu_setup();
@@ -50,9 +52,11 @@ void setup() {
 
 	Serial.begin(9600);
 
-	changeStrategy(&factoryStrategy);
 #ifdef PROTOTYPE
-	changeStrategy(&wifiStrategy);
+	changeStrategy(&playStrategy);
+#else
+	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
+	changeStrategy(&factoryStrategy);
 #endif
 }
 
