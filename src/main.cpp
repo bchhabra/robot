@@ -3,11 +3,14 @@
 #include <controller/WiFi.h>
 #include <imu/MinIMU9AHRS.h>
 #include <strategy/FactoryStrategy.h>
-#include "ota.h"
 
 #include "controller/SerialController.h"
 #include "component/SonarSensor.h"
 #include "ActionList.h"
+
+#ifdef  ESP8266
+#include "ota.h"
+#endif
 
 
 #define LCD 0
