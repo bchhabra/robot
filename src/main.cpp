@@ -19,6 +19,8 @@
 #define TEST_IMU 0
 
 #ifdef PROTOTYPE
+#define SCAN_INTERVAL 30*1000
+unsigned long lastScan = millis();
 SonarSensor frontLeftSensor { 11, 10 };
 #else
 #define PORT_CONTACTSENSORS 2
@@ -71,16 +73,18 @@ void loop() {
 #if TEST_IMU
 	imu_loop();
 #endif
+	unsigned long currentTime = millis();
 	if (interruptCalled) {
 		interruptCalled = false;
-		activeStrategy->obstacleFound(millis());
+		activeStrategy->obstacleFound(currentTime);
 	} else {
 		activeStrategy->run();
 	}
 	actionList.playNextAction();
 
 #ifdef PROTOTYPE
-	if (!interruptCalled) {
+	if (!interruptCalled && ((currentTime - lastScan) > SCAN_INTERVAL)) {
+		lastScan = currentTime;
 		frontLeftSensor.scan();
 		if (frontLeftSensor.isInRange(15)) {
 			interruptCalled = true;
