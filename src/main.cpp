@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <component/Lcd.h>
-#include <controller/WiFi.h>
+#include <controller/WiFiBridge.h>
 #include <imu/MinIMU9AHRS.h>
 #include <strategy/FactoryStrategy.h>
 #include <strategy/PlayStrategy.h>
@@ -43,7 +43,8 @@ void setup() {
 	I2C_Init();
 	imu_setup();
 	initialDeg = readAngle();
-#else
+#endif
+#ifdef WIFI_BRIDGE
 	i2cSetup();
 #endif
 #ifdef  ESP8266
