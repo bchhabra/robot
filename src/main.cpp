@@ -21,7 +21,8 @@
 #ifdef PROTOTYPE
 #define SCAN_INTERVAL 35
 unsigned long lastScan = 0;
-SonarSensor frontLeftSensor { 11, 10 };
+SonarSensor frontLeftSensor { 11, 10, Direction::FRONT_LEFT };
+SonarSensor frontRightSensor { 4, 12, Direction::FRONT_RIGHT };
 #else
 #define PORT_CONTACTSENSORS 2
 #endif
@@ -88,7 +89,12 @@ Obstacle* searchObstacle() {
 #ifdef PROTOTYPE
 	if ((currentTime - lastScan) > SCAN_INTERVAL) {
 		lastScan = currentTime;
-		return frontLeftSensor.scan();
+		Obstacle* obstacle = frontLeftSensor.scan();
+		if (obstacle) {
+			return obstacle;
+		} else {
+			return frontRightSensor.scan();
+		}
 	}
 #else
 	if (interruptCalled) {

@@ -8,16 +8,19 @@
 class SonarSensor {
   NewPing* sonar;
   long distance = 0;
+  Direction direction;
 
 public:
-  SonarSensor(uint8_t trigger, uint8_t echo) {
+
+  SonarSensor(uint8_t trigger, uint8_t echo, Direction direction) {
     sonar = new NewPing(trigger, echo, 200);
+    this->direction = direction;
   }
 
   Obstacle* scan() {
     unsigned long time = millis();
     distance = sonar->convert_cm(sonar->ping_median());
-    return distance == 0 ? NULL : new Obstacle(distance, time);
+    return distance == 0 ? NULL : new Obstacle(distance, time, direction);
   }
 
   long isInRange(int range) {
