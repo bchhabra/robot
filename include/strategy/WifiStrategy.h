@@ -15,7 +15,7 @@ public:
 		}
 	}
 
-	void obstacleFound(unsigned long interruptTime) {
+	void obstacleFound(Obstacle* obstacle) {
 //		actionList.removeAll();
 //		actionList.addAction(W::goBackward, 100);
 	}

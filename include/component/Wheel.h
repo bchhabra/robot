@@ -8,11 +8,11 @@ class Wheel {
   byte speedPin;
   byte speed;
 public:
-  Wheel(byte pin1, byte pin2, byte speedPin) {
+  Wheel(byte pin1, byte pin2, byte speedPin, byte speed) {
     this->pin1 = pin1;
     this->pin2 = pin2;
     this->speedPin = speedPin;
-    this->speed = WHEEL_SPEED;
+    this->speed = speed;
     pinMode(pin1, OUTPUT);
     pinMode(pin2, OUTPUT);
     pinMode(speedPin, OUTPUT);

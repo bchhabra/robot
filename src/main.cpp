@@ -19,8 +19,8 @@
 #define TEST_IMU 0
 
 #ifdef PROTOTYPE
-#define SCAN_INTERVAL 30*1000
-unsigned long lastScan = millis();
+#define SCAN_INTERVAL 35
+unsigned long lastScan = 0;
 SonarSensor frontLeftSensor { 11, 10 };
 #else
 #define PORT_CONTACTSENSORS 2
@@ -36,8 +36,10 @@ int initialDeg;
 
 
 volatile bool interruptCalled = false;
+unsigned long currentTime = 0;
 
 void interrupt();
+Obstacle* searchObstacle();
 
 void setup() {
 	lcdSetup();
@@ -64,6 +66,7 @@ void setup() {
 }
 
 void loop() {
+	currentTime = millis();
 #ifdef  ESP8266
 	handleOTA();
 #endif
@@ -73,24 +76,27 @@ void loop() {
 #if TEST_IMU
 	imu_loop();
 #endif
-	unsigned long currentTime = millis();
-	if (interruptCalled) {
-		interruptCalled = false;
-		activeStrategy->obstacleFound(currentTime);
-	} else {
-		activeStrategy->run();
+	Obstacle* obstacle = searchObstacle();
+	if (obstacle) {
+		activeStrategy->obstacleFound(obstacle);
+		delete obstacle;
 	}
 	actionList.playNextAction();
+}
 
+Obstacle* searchObstacle() {
 #ifdef PROTOTYPE
-	if (!interruptCalled && ((currentTime - lastScan) > SCAN_INTERVAL)) {
+	if ((currentTime - lastScan) > SCAN_INTERVAL) {
 		lastScan = currentTime;
-		frontLeftSensor.scan();
-		if (frontLeftSensor.isInRange(15)) {
-			interruptCalled = true;
-		}
+		return frontLeftSensor.scan();
+	}
+#else
+	if (interruptCalled) {
+		interruptCalled = false;
+		return new Obstacle(0, currentTime);
 	}
 #endif
+	return NULL;
 }
 
 void interrupt() {

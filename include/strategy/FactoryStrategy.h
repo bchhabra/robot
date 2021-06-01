@@ -56,13 +56,13 @@ public:
 		}
 	}
 
-	void obstacleFound(unsigned long interruptTime) {
+	void obstacleFound(Obstacle* obstacle) {
 		interruptCounter++;
 
 		W::doStop();
 		actionList.removeAll();
 
-		activePattern->obstacleFound(interruptTime);
+		activePattern->obstacleFound(obstacle->getTime());
 
 		if (activePatternIs(&cPattern)) {
 			changePattern(&ePattern);

@@ -2,6 +2,7 @@
 
 #include "pattern/Pattern.h"
 #include "SerialPrinter.h"
+#include "Obstacle.h"
 
 class Strategy {
 protected:
@@ -19,7 +20,7 @@ public:
 	virtual ~Strategy(){}
 	virtual void init(){}
 	virtual void run() = 0;
-	virtual void obstacleFound(unsigned long interruptTime){}
+	virtual void obstacleFound(Obstacle* obstacle){}
 
 	bool activePatternIs(Pattern* pattern) {
 		return activePattern == pattern;

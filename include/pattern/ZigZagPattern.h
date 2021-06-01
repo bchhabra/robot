@@ -19,7 +19,6 @@ public:
 
 	void run() {
 		actionList.addAction(W::goForward, 0);
-
 	}
 
 	void obstacleFound(unsigned long interruptTime) {

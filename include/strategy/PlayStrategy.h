@@ -6,22 +6,42 @@
 class PlayStrategy: public Strategy {
 
 	PlayPattern pattern { "play" };
+	Obstacle* lastObstacle = new Obstacle(0, 0);
+
+	bool sameObstacle(Obstacle* obstacle) {
+		return abs(obstacle->getDistance() - lastObstacle->getDistance()) < 5;
+	}
 public:
 	void init() {
-		changePattern(&pattern);
 	}
 
 	void run() {
-		if (actionList.isEmpty()) {
-			activePattern->run();
-		}
 	}
 
-	void obstacleFound(unsigned long interruptTime) {
-		W::doStop();
-		actionList.removeAll();
+	void obstacleFound(Obstacle* obstacle) {
+		if (obstacle->isInRange(15)) {
+			switch (W::direction) {
+				case W::Direction::TURN:
+				case W::Direction::BACKWARD:
+					break;
+				case W::Direction::STOPPED:
+					actionList.removeAll();
 
-		activePattern->obstacleFound(interruptTime);
+					actionList.addAction(W::turnRight, 400);
+					actionList.addAction(W::doStop, 1000);
+					actionList.addAction(W::goForward, 0);
+					break;
+				case  W::Direction::FORWARD:
+					W::doStop();
+					actionList.removeAll();
+
+					actionList.addAction(W::goBackward, 400);
+					actionList.addAction(W::turnRight, 400);
+					actionList.addAction(W::doStop, 1000);
+					actionList.addAction(W::goForward, 0);
+					break;
+			}
+		}
 	}
 
 } playStrategy;

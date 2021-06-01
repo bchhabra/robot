@@ -3,6 +3,7 @@
 #ifdef NEW_PING
 
 #include <NewPing.h>
+#include "Obstacle.h"
 
 class SonarSensor {
   NewPing* sonar;
@@ -10,11 +11,13 @@ class SonarSensor {
 
 public:
   SonarSensor(uint8_t trigger, uint8_t echo) {
-    sonar = new NewPing(trigger, echo);
+    sonar = new NewPing(trigger, echo, 200);
   }
 
-  void scan() {
+  Obstacle* scan() {
+    unsigned long time = millis();
     distance = sonar->convert_cm(sonar->ping_median());
+    return distance == 0 ? NULL : new Obstacle(distance, time);
   }
 
   long isInRange(int range) {
