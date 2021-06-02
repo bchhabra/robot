@@ -21,8 +21,8 @@
 #ifdef PROTOTYPE
 #define SCAN_INTERVAL 35
 unsigned long lastScan = 0;
-SonarSensor frontLeftSensor { 11, 10, Direction::FRONT_LEFT };
-SonarSensor frontRightSensor { 4, 12, Direction::FRONT_RIGHT };
+SonarSensor frontLeftSensor { 11, 10 };
+SonarSensor frontRightSensor { 4, 12 };
 #else
 #define PORT_CONTACTSENSORS 2
 #endif
@@ -59,7 +59,7 @@ void setup() {
 	Serial.begin(9600);
 
 #ifdef PROTOTYPE
-	changeStrategy(&playStrategy);
+	// changeStrategy(&playStrategy);
 #else
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 	changeStrategy(&factoryStrategy);
@@ -77,32 +77,32 @@ void loop() {
 #if TEST_IMU
 	imu_loop();
 #endif
-	Obstacle* obstacle = searchObstacle();
-	if (obstacle) {
-		activeStrategy->obstacleFound(obstacle);
-		delete obstacle;
-	}
-	actionList.playNextAction();
-}
 
-Obstacle* searchObstacle() {
 #ifdef PROTOTYPE
 	if ((currentTime - lastScan) > SCAN_INTERVAL) {
-		lastScan = currentTime;
-		Obstacle* obstacle = frontLeftSensor.scan();
-		if (obstacle) {
-			return obstacle;
+		static byte sensorIndex = 0;
+		static Obstacle* frontLeft;
+
+		sensorIndex %= 2;
+		if (sensorIndex == 0) {
+			frontLeft = frontLeftSensor.scan();
 		} else {
-			return frontRightSensor.scan();
+			SonarObstacles obstacles = SonarObstacles(frontLeft, frontRightSensor.scan());
+			if (!obstacles.isEmpty()) {
+				playStrategy.obstacleFound(obstacles);
+			}
 		}
+		sensorIndex++;
+		lastScan = currentTime;
 	}
 #else
 	if (interruptCalled) {
 		interruptCalled = false;
-		return new Obstacle(0, currentTime);
+		activeStrategy->obstacleFound(new Obstacle(0, currentTime));
+		delete obstacle;
 	}
 #endif
-	return NULL;
+	actionList.playNextAction();
 }
 
 void interrupt() {
