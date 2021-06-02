@@ -98,8 +98,11 @@ void loop() {
 #else
 	if (interruptCalled) {
 		interruptCalled = false;
-		activeStrategy->obstacleFound(new Obstacle(0, currentTime));
+		Obstacle* obstacle = new Obstacle(0, currentTime);
+		activeStrategy->obstacleFound(obstacle);
 		delete obstacle;
+	} else {
+		activeStrategy->run();
 	}
 #endif
 	actionList.playNextAction();

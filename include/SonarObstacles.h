@@ -2,8 +2,6 @@
 
 #include "Obstacle.h"
 
-#define OBSTACLE_RANGE 15
-
 class SonarObstacles {
   Obstacle* frontLeft;
   Obstacle* frontRight;
@@ -45,10 +43,10 @@ public:
     return (frontLeft == NULL) && (frontRight == NULL);
   }
 
-  Arrangement findArrangement() {
+  Arrangement findArrangement(long obstacleRange) {
     byte arr = NONE;
-    if (frontLeft != NULL && frontLeft->isInRange(OBSTACLE_RANGE)) bitSet(arr, RIGHT_FRONT);
-    if (frontRight != NULL && frontRight->isInRange(OBSTACLE_RANGE)) bitSet(arr, LEFT_FRONT);
+    if (frontLeft != NULL && frontLeft->isInRange(obstacleRange)) bitSet(arr, RIGHT_FRONT);
+    if (frontRight != NULL && frontRight->isInRange(obstacleRange)) bitSet(arr, LEFT_FRONT);
     return static_cast<Arrangement>(arr);
   }
 };

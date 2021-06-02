@@ -2,6 +2,8 @@
 
 #include "SonarObstacles.h"
 
+#define OBSTACLE_RANGE 20
+
 class PlayStrategy {
 
 	void avoidCornerFront(SonarObstacles::Arrangement arr) {
@@ -14,20 +16,9 @@ class PlayStrategy {
 	}
 public:
 	void obstacleFound(SonarObstacles& obstacles) {
-		SonarObstacles::Arrangement arr = obstacles.findArrangement();
+		SonarObstacles::Arrangement arr = obstacles.findArrangement(OBSTACLE_RANGE);
 		if (arr == SonarObstacles::NONE) return;
 
-		// switch (arr) {
-		// 	case SonarObstacles::RIGHT_FRONT:
-		// 		obstacle = obstacles.getFrontRight();
-		// 		break;
-		// 	case SonarObstacles::LEFT_FRONT:
-		// 		obstacle = obstacles.getFrontLeft();
-		// 		break;
-		// 	case SonarObstacles::BOTH_FRONT:
-		// 		// arr = obstacles.getClosest();
-		// 		break;
-		// }
 		switch (W::direction) {
 			case W::Movement::TURN:
 			case W::Movement::BACKWARD:
