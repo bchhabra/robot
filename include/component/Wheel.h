@@ -1,6 +1,6 @@
 #pragma once
 #include <Arduino.h>
-#define WHEEL_SPEED 200
+#define DEFAULT_WHEEL_SPEED 200
 
 class Wheel {
   byte pin1;

@@ -19,17 +19,11 @@
 #define TEST_IMU 0
 
 #ifdef PROTOTYPE
-#define PIN_LEFT_FAR A3
-#define PIN_LEFT_CLOSE A2
-#define PIN_RIGHT_FAR A1
-#define PIN_RIGHT_CLOSE A0
 #define SCAN_INTERVAL 35*5
 unsigned long lastScan = 0;
-SonarSensor frontLeftSensor { 11, 10 };
-SonarSensor frontRightSensor { 4, 12 };
+SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
+SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
 void updateLeds(Obstacle* obstacle, uint8_t pinClose, uint8_t pinFar);
-#else
-#define PORT_CONTACTSENSORS 2
 #endif
 
 #if SERIAL_CONTROLLER

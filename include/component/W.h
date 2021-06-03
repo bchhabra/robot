@@ -1,12 +1,9 @@
 #pragma once
 #include <component/Wheel.h>
 #include "SerialPrinter.h"
+#include "Pins.h"
 
 namespace W {
-	#define LEFT_FORWARD 5
-	#define LEFT_BACKWARD 8
-	#define RIGHT_FORWARD 7
-	#define RIGHT_BACKWARD 6
 
 	enum class Movement {
 		FORWARD,
@@ -19,8 +16,8 @@ namespace W {
 		//serial.println(message);
 	}
 
-	Wheel left(LEFT_BACKWARD, LEFT_FORWARD, 9, 150);
-	Wheel right(RIGHT_BACKWARD, RIGHT_FORWARD, 3, 180);
+	Wheel left(LEFT_WHEEL_BACKWARD, LEFT_WHEEL_FORWARD, LEFT_WHEEL_SPEED, 150);
+	Wheel right(RIGHT_WHEEL_BACKWARD, RIGHT_WHEEL_FORWARD, RIGHT_WHEEL_SPEED, 180);
 
 	Movement direction = Movement::STOPPED;
 
