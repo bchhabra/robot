@@ -26,14 +26,6 @@ public:
     delete frontRight;
   }
 
-  Obstacle* getFrontLeft() {
-    return frontLeft;
-  }
-
-  Obstacle* getFrontRight() {
-    return frontRight;
-  }
-
   Arrangement getClosest() {
     long diff = frontLeft->getDistance() - frontRight->getDistance();
     return diff > 0 ? RIGHT_FRONT : LEFT_FRONT;
@@ -45,8 +37,8 @@ public:
 
   Arrangement findArrangement(long obstacleRange) {
     byte arr = NONE;
-    if (frontLeft != NULL && frontLeft->isInRange(obstacleRange)) bitSet(arr, RIGHT_FRONT);
-    if (frontRight != NULL && frontRight->isInRange(obstacleRange)) bitSet(arr, LEFT_FRONT);
+    if (frontRight != NULL && frontRight->isInRange(obstacleRange)) bitSet(arr, RIGHT_FRONT-1);
+    if (frontLeft != NULL && frontLeft->isInRange(obstacleRange)) bitSet(arr, LEFT_FRONT-1);
     return static_cast<Arrangement>(arr);
   }
 };
