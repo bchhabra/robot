@@ -19,7 +19,7 @@
 #define TEST_IMU 0
 
 #ifdef PROTOTYPE
-#define SCAN_INTERVAL 35*5
+#define SCAN_INTERVAL 35
 unsigned long lastScan = 0;
 SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
 SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
@@ -78,7 +78,6 @@ void setup() {
 }
 
 void loop() {
-	currentTime = millis();
 #ifdef  ESP8266
 	handleOTA();
 #endif
@@ -89,8 +88,9 @@ void loop() {
 	imu_loop();
 #endif
 
+	currentTime = millis();
 #ifdef PROTOTYPE
-	if ((currentTime - lastScan) > SCAN_INTERVAL) {
+	if (currentTime >= lastScan) {
 		static byte sensorIndex = 0;
 		static Obstacle* frontLeft;
 
@@ -107,7 +107,7 @@ void loop() {
 			}
 		}
 		sensorIndex++;
-		lastScan = currentTime;
+		lastScan = millis() + SCAN_INTERVAL;
 	}
 #else
 	if (interruptCalled) {
