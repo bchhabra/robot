@@ -92,18 +92,41 @@ void loop() {
 #ifdef PROTOTYPE
 	if (currentTime >= lastScan) {
 		static byte sensorIndex = 0;
+		static bool isWaiting = false;
 		static Obstacle* frontLeft;
+		static Obstacle* frontRight;
+		static SonarObstacles obstacles = SonarObstacles();
 
 		sensorIndex %= 2;
 		if (sensorIndex == 0) {
 			frontLeft = frontLeftSensor.scan();
 			updateLeds(frontLeft, PIN_LEFT_CLOSE, PIN_LEFT_FAR);
-		} else {
-			Obstacle* frontRight = frontRightSensor.scan();
-			SonarObstacles obstacles = SonarObstacles(frontLeft, frontRight);
-			updateLeds(frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
-			if (!obstacles.isEmpty()) {
+			if (isWaiting) {
+				isWaiting = false;
+				obstacles.frontLeft = frontLeft;
 				playStrategy.obstacleFound(obstacles);
+				obstacles.deleteObstacles();
+			} else if (frontRight != NULL) {
+				isWaiting = true;
+				obstacles.frontRight = frontRight;
+				playStrategy.obstacleFound(obstacles);
+			} else {
+				delete frontLeft;
+			}
+		} else {
+			frontRight = frontRightSensor.scan();
+			updateLeds(frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
+			if (isWaiting) {
+				isWaiting = false;
+				obstacles.frontRight = frontRight;
+				playStrategy.obstacleFound(obstacles);
+				obstacles.deleteObstacles();
+			} else if (frontRight != NULL) {
+				isWaiting = true;
+				obstacles.frontRight = frontRight;
+				playStrategy.obstacleFound(obstacles);
+			} else {
+				delete frontRight;
 			}
 		}
 		sensorIndex++;

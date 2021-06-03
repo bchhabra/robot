@@ -3,16 +3,17 @@
 #include "Obstacle.h"
 
 class SonarObstacles {
+
+public:
   Obstacle* frontLeft;
   Obstacle* frontRight;
 
-public:
-  enum Arrangement {
+  enum InRange {
     NONE = 0,
     RIGHT_FRONT = 1,
     LEFT_FRONT = 2,
     BOTH_FRONT = 3
-  } arrangement;
+  } inRange;
 
   SonarObstacles() {}
 
@@ -22,11 +23,15 @@ public:
   }
 
   ~SonarObstacles() {
+    deleteObstacles();
+  }
+
+  void deleteObstacles() {
     delete frontLeft;
     delete frontRight;
   }
 
-  Arrangement getClosest() {
+  InRange getClosest() {
     long diff = frontLeft->getDistance() - frontRight->getDistance();
     return diff > 0 ? RIGHT_FRONT : LEFT_FRONT;
   }
@@ -35,10 +40,10 @@ public:
     return (frontLeft == NULL) && (frontRight == NULL);
   }
 
-  Arrangement findArrangement(long obstacleRange) {
+  InRange findInRange(long obstacleRange) {
     byte arr = NONE;
     if (frontRight != NULL && frontRight->isInRange(obstacleRange)) bitSet(arr, RIGHT_FRONT-1);
     if (frontLeft != NULL && frontLeft->isInRange(obstacleRange)) bitSet(arr, LEFT_FRONT-1);
-    return static_cast<Arrangement>(arr);
+    return static_cast<InRange>(arr);
   }
 };

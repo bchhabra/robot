@@ -2,6 +2,7 @@
 
 #include <AngleMovement.h>
 #include "TimeAction.h"
+#include "DelayedAction.h"
 
 class ActionList {
 	Action *current, *last = NULL;
@@ -24,6 +25,11 @@ class ActionList {
 public:
 	void addAction(void (*f)(), unsigned long delay) {
 		Action *action = new TimeAction(f, delay);
+		add(action);
+	}
+
+	void addDelayedAction(void (*f)(), unsigned long delay) {
+		Action *action = new DelayedAction(f, delay);
 		add(action);
 	}
 
