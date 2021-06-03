@@ -19,10 +19,15 @@
 #define TEST_IMU 0
 
 #ifdef PROTOTYPE
-#define SCAN_INTERVAL 35
+#define PIN_LEFT_FAR A3
+#define PIN_LEFT_CLOSE A2
+#define PIN_RIGHT_FAR A1
+#define PIN_RIGHT_CLOSE A0
+#define SCAN_INTERVAL 35*5
 unsigned long lastScan = 0;
 SonarSensor frontLeftSensor { 11, 10 };
 SonarSensor frontRightSensor { 4, 12 };
+void updateLeds(Obstacle* obstacle, uint8_t pinClose, uint8_t pinFar);
 #else
 #define PORT_CONTACTSENSORS 2
 #endif
@@ -59,7 +64,19 @@ void setup() {
 	Serial.begin(9600);
 
 #ifdef PROTOTYPE
-	// changeStrategy(&playStrategy);
+	pinMode(PIN_LEFT_FAR, OUTPUT);
+	pinMode(PIN_LEFT_CLOSE, OUTPUT);
+	pinMode(PIN_RIGHT_FAR, OUTPUT);
+	pinMode(PIN_RIGHT_CLOSE, OUTPUT);
+	digitalWrite(PIN_LEFT_FAR, HIGH);
+	digitalWrite(PIN_LEFT_CLOSE, HIGH);
+	digitalWrite(PIN_RIGHT_FAR, HIGH);
+	digitalWrite(PIN_RIGHT_CLOSE, HIGH);
+	delay(500);
+	digitalWrite(PIN_LEFT_FAR, LOW);
+	digitalWrite(PIN_LEFT_CLOSE, LOW);
+	digitalWrite(PIN_RIGHT_FAR, LOW);
+	digitalWrite(PIN_RIGHT_CLOSE, LOW);
 #else
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 	changeStrategy(&factoryStrategy);
@@ -86,8 +103,11 @@ void loop() {
 		sensorIndex %= 2;
 		if (sensorIndex == 0) {
 			frontLeft = frontLeftSensor.scan();
+			updateLeds(frontLeft, PIN_LEFT_CLOSE, PIN_LEFT_FAR);
 		} else {
-			SonarObstacles obstacles = SonarObstacles(frontLeft, frontRightSensor.scan());
+			Obstacle* frontRight = frontRightSensor.scan();
+			SonarObstacles obstacles = SonarObstacles(frontLeft, frontRight);
+			updateLeds(frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
 			if (!obstacles.isEmpty()) {
 				playStrategy.obstacleFound(obstacles);
 			}
@@ -111,3 +131,23 @@ void loop() {
 void interrupt() {
 	interruptCalled = true;
 }
+
+#ifdef PROTOTYPE
+void updateLeds(Obstacle* obstacle, uint8_t pinClose, uint8_t pinFar) {
+	if (obstacle != NULL) {
+		if (obstacle->isInRange(OBSTACLE_RANGE)) {
+			digitalWrite(pinClose, HIGH);
+			digitalWrite(pinFar, HIGH);
+		} else if (obstacle->isInRange(MAX_DISTANCE)) {
+			digitalWrite(pinClose, LOW);
+			digitalWrite(pinFar, HIGH);
+		} else {
+			digitalWrite(pinClose, LOW);
+			digitalWrite(pinFar, LOW);
+		}
+	} else {
+		digitalWrite(pinClose, LOW);
+		digitalWrite(pinFar, LOW);
+	}
+}
+#endif

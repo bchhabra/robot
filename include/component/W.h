@@ -20,7 +20,7 @@ namespace W {
 	}
 
 	Wheel left(LEFT_BACKWARD, LEFT_FORWARD, 9, 150);
-	Wheel right(RIGHT_BACKWARD, RIGHT_FORWARD, 3, 170);
+	Wheel right(RIGHT_BACKWARD, RIGHT_FORWARD, 3, 180);
 
 	Movement direction = Movement::STOPPED;
 

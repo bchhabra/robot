@@ -5,6 +5,8 @@
 #include <NewPing.h>
 #include "Obstacle.h"
 
+#define MAX_DISTANCE 100
+
 class SonarSensor {
   NewPing* sonar;
   long distance = 0;
@@ -12,7 +14,7 @@ class SonarSensor {
 public:
 
   SonarSensor(uint8_t trigger, uint8_t echo) {
-    sonar = new NewPing(trigger, echo, 200);
+    sonar = new NewPing(trigger, echo, MAX_DISTANCE);
   }
 
   Obstacle* scan() {
