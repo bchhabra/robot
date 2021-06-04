@@ -1,11 +1,12 @@
 #pragma once
 
-#ifdef NEW_PING
-
-#include <NewPing.h>
 #include "SonarObstacle.h"
 
 #define MAX_DISTANCE 100
+
+#ifdef NEW_PING
+
+#include <NewPing.h>
 
 class SonarSensor {
   NewPing* sonar;
@@ -26,9 +27,8 @@ public:
 #else
 
 class SonarSensor {
-  byte trigger;
-  byte echo;
-  long distance = 0;
+  uint8_t trigger;
+  uint8_t echo;
 
   long readDistance() {
     digitalWrite(trigger, LOW);
@@ -39,19 +39,15 @@ class SonarSensor {
     return pulseIn(echo, HIGH)/58;
   }
 public:
-  SonarSensor(byte trigger, byte echo) {
+  SonarSensor(uint8_t trigger, uint8_t echo) {
     this->trigger = trigger;
     this->echo = echo;
     pinMode(trigger, OUTPUT);
     pinMode(echo, INPUT);
   }
 
-  void scan() {
-    distance = readDistance();
-  }
-
-  long isInRange(int range) {
-    return (distance > 0 && distance <= range) ? distance : 0;
+  SonarObstacle* scan() {
+    return new SonarObstacle(readDistance(), millis());
   }
 };
 

@@ -94,7 +94,6 @@ void loop() {
 		static byte sensorIndex = 0;
 		static SonarObstacles obstacles = SonarObstacles();
 
-		sensorIndex %= 2;
 		if (sensorIndex == 0) {
 			obstacles.frontLeft = frontLeftSensor.scan();
 			updateLeds(obstacles.frontLeft, PIN_LEFT_CLOSE, PIN_LEFT_FAR);
@@ -104,13 +103,13 @@ void loop() {
 			updateLeds(obstacles.frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
 			applyStrategy(obstacles);
 		}
-		sensorIndex++;
+		++sensorIndex %= 2;
 		lastScan = millis() + SCAN_INTERVAL;
 	}
 #else
 	if (interruptCalled) {
 		interruptCalled = false;
-		Obstacle* obstacle = new Obstacle(0, currentTime);
+		Obstacle* obstacle = new Obstacle(currentTime);
 		activeStrategy->obstacleFound(obstacle);
 		delete obstacle;
 	} else {
@@ -126,15 +125,15 @@ void interrupt() {
 
 #ifdef PROTOTYPE
 void applyStrategy(SonarObstacles& obstacles) {
-	static bool isWaiting = false;
-	if (isWaiting) {
-		isWaiting = false;
-		playStrategy.obstacleFound(obstacles);	// second call, with both obstacles scanned
+	static bool secondCall = false;
+	
+	// first call, with only one obstacle scanned
+	// second call, with both obstacles scanned
+	playStrategy.obstacleFound(obstacles);
+	if (secondCall) {
 		obstacles.deleteObstacles();
-	} else {
-		isWaiting = true;
-		playStrategy.obstacleFound(obstacles);	// first call, with only one obstacle scanned
 	}
+	secondCall = !secondCall;
 }
 
 void updateLeds(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar) {
