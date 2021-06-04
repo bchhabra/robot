@@ -3,13 +3,12 @@
 #ifdef NEW_PING
 
 #include <NewPing.h>
-#include "Obstacle.h"
+#include "SonarObstacle.h"
 
 #define MAX_DISTANCE 100
 
 class SonarSensor {
   NewPing* sonar;
-  long distance = 0;
 
 public:
 
@@ -17,14 +16,10 @@ public:
     sonar = new NewPing(trigger, echo, MAX_DISTANCE);
   }
 
-  Obstacle* scan() {
+  SonarObstacle* scan() {
     unsigned long time = millis();
-    distance = sonar->convert_cm(sonar->ping_median());
-    return distance == 0 ? NULL : new Obstacle(distance, time);
-  }
-
-  long isInRange(int range) {
-    return (distance > 0 && distance <= range) ? distance : 0;
+    long distance = sonar->convert_cm(sonar->ping_median());
+    return new SonarObstacle(distance, time);
   }
 };
 

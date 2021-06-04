@@ -1,25 +1,11 @@
 #pragma once
 
 class Obstacle {
-  long distance = 0;
-  unsigned long time = 0;
 
 public:
+  unsigned long time = 0;
 
-  Obstacle(long distance, unsigned long time) {
-    this->distance = distance;
+  Obstacle(unsigned long time) {
     this->time = time;
-  }
-
-  long isInRange(int range) {
-    return (distance > 0 && distance <= range) ? distance : 0;
-  }
-
-  unsigned long getTime() {
-    return time;
-  }
-
-  long getDistance() {
-    return distance;
   }
 };

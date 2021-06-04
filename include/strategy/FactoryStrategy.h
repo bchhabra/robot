@@ -62,7 +62,7 @@ public:
 		W::doStop();
 		actionList.removeAll();
 
-		activePattern->obstacleFound(obstacle->getTime());
+		activePattern->obstacleFound(obstacle->time);
 
 		if (activePatternIs(&cPattern)) {
 			changePattern(&ePattern);

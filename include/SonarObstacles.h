@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Obstacle.h"
+#include "SonarObstacle.h"
 
 class SonarObstacles {
 
 public:
-  Obstacle* frontLeft;
-  Obstacle* frontRight;
+  SonarObstacle* frontLeft;
+  SonarObstacle* frontRight;
 
   enum InRange {
     NONE        = 0b00,
@@ -17,7 +17,7 @@ public:
 
   SonarObstacles() {}
 
-  SonarObstacles(Obstacle* frontLeft, Obstacle* frontRight) {
+  SonarObstacles(SonarObstacle* frontLeft, SonarObstacle* frontRight) {
     this->frontLeft = frontLeft;
     this->frontRight = frontRight;
   }
@@ -32,12 +32,8 @@ public:
   }
 
   InRange getClosest() {
-    long diff = frontLeft->getDistance() - frontRight->getDistance();
+    long diff = frontLeft->distance - frontRight->distance;
     return diff > 0 ? RIGHT_FRONT : LEFT_FRONT;
-  }
-
-  bool isEmpty() {
-    return (frontLeft == NULL) && (frontRight == NULL);
   }
 
   InRange findInRange(long obstacleRange) {

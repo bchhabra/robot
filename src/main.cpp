@@ -23,7 +23,8 @@
 unsigned long lastScan = 0;
 SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
 SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
-void updateLeds(Obstacle* obstacle, uint8_t pinClose, uint8_t pinFar);
+void applyStrategy(SonarObstacles& obstacles);
+void updateLeds(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar);
 #endif
 
 #if SERIAL_CONTROLLER
@@ -39,7 +40,6 @@ volatile bool interruptCalled = false;
 unsigned long currentTime = 0;
 
 void interrupt();
-Obstacle* searchObstacle();
 
 void setup() {
 	lcdSetup();
@@ -92,42 +92,17 @@ void loop() {
 #ifdef PROTOTYPE
 	if (currentTime >= lastScan) {
 		static byte sensorIndex = 0;
-		static bool isWaiting = false;
-		static Obstacle* frontLeft;
-		static Obstacle* frontRight;
 		static SonarObstacles obstacles = SonarObstacles();
 
 		sensorIndex %= 2;
 		if (sensorIndex == 0) {
-			frontLeft = frontLeftSensor.scan();
-			updateLeds(frontLeft, PIN_LEFT_CLOSE, PIN_LEFT_FAR);
-			if (isWaiting) {
-				isWaiting = false;
-				obstacles.frontLeft = frontLeft;
-				playStrategy.obstacleFound(obstacles);
-				obstacles.deleteObstacles();
-			} else if (frontRight != NULL) {
-				isWaiting = true;
-				obstacles.frontRight = frontRight;
-				playStrategy.obstacleFound(obstacles);
-			} else {
-				delete frontLeft;
-			}
+			obstacles.frontLeft = frontLeftSensor.scan();
+			updateLeds(obstacles.frontLeft, PIN_LEFT_CLOSE, PIN_LEFT_FAR);
+			applyStrategy(obstacles);
 		} else {
-			frontRight = frontRightSensor.scan();
-			updateLeds(frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
-			if (isWaiting) {
-				isWaiting = false;
-				obstacles.frontRight = frontRight;
-				playStrategy.obstacleFound(obstacles);
-				obstacles.deleteObstacles();
-			} else if (frontRight != NULL) {
-				isWaiting = true;
-				obstacles.frontRight = frontRight;
-				playStrategy.obstacleFound(obstacles);
-			} else {
-				delete frontRight;
-			}
+			obstacles.frontRight = frontRightSensor.scan();
+			updateLeds(obstacles.frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
+			applyStrategy(obstacles);
 		}
 		sensorIndex++;
 		lastScan = millis() + SCAN_INTERVAL;
@@ -150,18 +125,25 @@ void interrupt() {
 }
 
 #ifdef PROTOTYPE
-void updateLeds(Obstacle* obstacle, uint8_t pinClose, uint8_t pinFar) {
-	if (obstacle != NULL) {
-		if (obstacle->isInRange(OBSTACLE_RANGE)) {
-			digitalWrite(pinClose, HIGH);
-			digitalWrite(pinFar, HIGH);
-		} else if (obstacle->isInRange(MAX_DISTANCE)) {
-			digitalWrite(pinClose, LOW);
-			digitalWrite(pinFar, HIGH);
-		} else {
-			digitalWrite(pinClose, LOW);
-			digitalWrite(pinFar, LOW);
-		}
+void applyStrategy(SonarObstacles& obstacles) {
+	static bool isWaiting = false;
+	if (isWaiting) {
+		isWaiting = false;
+		playStrategy.obstacleFound(obstacles);	// second call, with both obstacles scanned
+		obstacles.deleteObstacles();
+	} else {
+		isWaiting = true;
+		playStrategy.obstacleFound(obstacles);	// first call, with only one obstacle scanned
+	}
+}
+
+void updateLeds(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar) {
+	if (obstacle->isInRange(OBSTACLE_RANGE)) {
+		digitalWrite(pinClose, HIGH);
+		digitalWrite(pinFar, HIGH);
+	} else if (obstacle->isInRange(MAX_DISTANCE)) {
+		digitalWrite(pinClose, LOW);
+		digitalWrite(pinFar, HIGH);
 	} else {
 		digitalWrite(pinClose, LOW);
 		digitalWrite(pinFar, LOW);

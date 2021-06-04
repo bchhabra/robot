@@ -55,7 +55,7 @@ public:
 
 				actionList.addAction(W::goBackward, 400);
 				avoidCornerFront(inRange);
-				actionList.addAction(W::doStop, 1000);
+				actionList.addAction(W::pause, 1000);
 				actionList.addAction(W::goForward, 0);
 				break;
 			case BOTH_OSTACLES_PAUSED:
@@ -63,14 +63,17 @@ public:
 
 				actionList.addAction(W::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
-				actionList.addAction(W::doStop, 1000);
+				actionList.addAction(W::pause, 1000);
 				actionList.addAction(W::goForward, 0);
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:
-			case BOTH_OSTACLES_FORWARD:
 				W::pause();
 				actionList.removeAll();
+				break;
+			case BOTH_OSTACLES_FORWARD:
+				// this would never happen since we call this function as soon as we find one obstacle;
+				// and then the robot is paused, so next call might have both obstacles but the movement is paused
 				break;
 		}
 	}
