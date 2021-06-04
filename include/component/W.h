@@ -5,11 +5,12 @@
 
 namespace W {
 
-	enum class Movement {
-		FORWARD,
-		BACKWARD,
-		TURN,
-		STOPPED
+	enum Movement {
+		PAUSED 		= 0b001,
+		STOPPED 	= 0b010,
+		FORWARD 	= 0b011,
+		BACKWARD 	= 0b100,
+		TURN 		= 0b101,
 	};
 
 	void printInfo(const char* message) {
@@ -40,6 +41,13 @@ namespace W {
 		left.stop();
 		right.stop();
 		direction = Movement::STOPPED;
+	}
+	
+	static void pause() {
+		printInfo("pause");
+		left.stop();
+		right.stop();
+		direction = Movement::PAUSED;
 	}
 
 	static void goLeft() {

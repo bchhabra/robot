@@ -6,6 +6,25 @@
 
 class PlayStrategy {
 
+	enum Situation {
+		NO_OSTACLE_PAUSED 			= 0b00001,
+		NO_OSTACLE_STOPPED 			= 0b00010,
+		NO_OSTACLE_FORWARD 			= 0b00011,
+		RIGHT_FRONT_OSTACLE_PAUSED 	= 0b01001,
+		RIGHT_FRONT_OSTACLE_STOPPED = 0b01010,
+		RIGHT_FRONT_OSTACLE_FORWARD = 0b01011,
+		LEFT_FRONT_OSTACLE_PAUSED 	= 0b10001,
+		LEFT_FRONT_OSTACLE_STOPPED 	= 0b10010,
+		LEFT_FRONT_OSTACLE_FORWARD 	= 0b10011,
+		BOTH_OSTACLES_PAUSED 		= 0b11001,
+		BOTH_OSTACLES_STOPPED 		= 0b11010,
+		BOTH_OSTACLES_FORWARD 		= 0b11011,
+	} currentSituation;
+
+	void assesSituation(SonarObstacles::InRange inRange) {
+		currentSituation = static_cast<Situation>((inRange << 3) | (W::direction));
+	}
+
 	void avoidCornerFront(SonarObstacles::InRange arr) {
 		if (arr == SonarObstacles::LEFT_FRONT) {
 			actionList.addAction(W::turnRight, 400);
@@ -14,35 +33,43 @@ class PlayStrategy {
 			actionList.addAction(W::turnLeft, 400);
 		}
 	}
+
 public:
 	void obstacleFound(SonarObstacles& obstacles) {
 		SonarObstacles::InRange inRange = obstacles.findInRange(OBSTACLE_RANGE);
-		if (inRange == SonarObstacles::NONE) {
-			if (W::direction == W::Movement::STOPPED) {
-				actionList.addAction(W::goForward, 0);
-			}
-			return;
-		}
+		assesSituation(inRange);
 
-		switch (W::direction) {
-			case W::Movement::TURN:
-			case W::Movement::BACKWARD:
+		switch (currentSituation) {
+			case NO_OSTACLE_PAUSED:
+			case RIGHT_FRONT_OSTACLE_STOPPED:
+			case LEFT_FRONT_OSTACLE_STOPPED:
+			case BOTH_OSTACLES_STOPPED:
+				actionList.addAction(W::goForward, 0);
 				break;
-			case W::Movement::STOPPED:
+			case NO_OSTACLE_STOPPED:
+			case NO_OSTACLE_FORWARD:
+				break;
+			case RIGHT_FRONT_OSTACLE_PAUSED:
+			case LEFT_FRONT_OSTACLE_PAUSED:
 				actionList.removeAll();
 
 				actionList.addAction(W::goBackward, 400);
-				if (inRange == SonarObstacles::BOTH_FRONT) {
-					actionList.addAction(W::goBackward, 400);
-					avoidCornerFront(obstacles.getClosest());
-				} else {
-					avoidCornerFront(inRange);
-				}
+				avoidCornerFront(inRange);
 				actionList.addAction(W::doStop, 1000);
 				actionList.addAction(W::goForward, 0);
 				break;
-			case  W::Movement::FORWARD:
-				W::doStop();
+			case BOTH_OSTACLES_PAUSED:
+				actionList.removeAll();
+
+				actionList.addAction(W::goBackward, 800);
+				avoidCornerFront(obstacles.getClosest());
+				actionList.addAction(W::doStop, 1000);
+				actionList.addAction(W::goForward, 0);
+				break;
+			case RIGHT_FRONT_OSTACLE_FORWARD:
+			case LEFT_FRONT_OSTACLE_FORWARD:
+			case BOTH_OSTACLES_FORWARD:
+				W::pause();
 				actionList.removeAll();
 				break;
 		}
