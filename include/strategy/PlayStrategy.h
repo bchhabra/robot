@@ -2,8 +2,6 @@
 
 #include "SonarObstacles.h"
 
-#define OBSTACLE_RANGE 20
-
 class PlayStrategy {
 
 	enum Situation {

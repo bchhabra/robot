@@ -2,6 +2,9 @@
 
 #include "Obstacle.h"
 
+#define MAX_DISTANCE 100
+#define OBSTACLE_RANGE 20
+
 class SonarObstacle : public Obstacle {
 
 public:

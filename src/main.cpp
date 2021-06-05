@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <component/Lcd.h>
 #include "component/SonarSensor.h"
+#include "component/Leds.h"
 #include <controller/WiFiBridge.h>
 #include "controller/SerialController.h"
 #include <imu/MinIMU9AHRS.h>
@@ -18,7 +19,6 @@ unsigned long lastScan = 0;
 SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
 SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
 void applyStrategy(SonarObstacles& obstacles);
-void updateLeds(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar);
 #endif
 
 
@@ -32,24 +32,11 @@ void setup() {
 	Imu::setup();
 	WifiBridge::setup();
     Ota::setup();
+	Leds::setup();
 
 	Serial.begin(9600);
 
-#ifdef PROTOTYPE
-	pinMode(PIN_LEFT_FAR, OUTPUT);
-	pinMode(PIN_LEFT_CLOSE, OUTPUT);
-	pinMode(PIN_RIGHT_FAR, OUTPUT);
-	pinMode(PIN_RIGHT_CLOSE, OUTPUT);
-	digitalWrite(PIN_LEFT_FAR, HIGH);
-	digitalWrite(PIN_LEFT_CLOSE, HIGH);
-	digitalWrite(PIN_RIGHT_FAR, HIGH);
-	digitalWrite(PIN_RIGHT_CLOSE, HIGH);
-	delay(500);
-	digitalWrite(PIN_LEFT_FAR, LOW);
-	digitalWrite(PIN_LEFT_CLOSE, LOW);
-	digitalWrite(PIN_RIGHT_FAR, LOW);
-	digitalWrite(PIN_RIGHT_CLOSE, LOW);
-#else
+#ifndef PROTOTYPE
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 	changeStrategy(&factoryStrategy);
 #endif
@@ -68,11 +55,11 @@ void loop() {
 
 		if (sensorIndex == 0) {
 			obstacles.frontLeft = frontLeftSensor.scan();
-			updateLeds(obstacles.frontLeft, PIN_LEFT_CLOSE, PIN_LEFT_FAR);
+			Leds::updateLeft(obstacles);
 			applyStrategy(obstacles);
 		} else {
 			obstacles.frontRight = frontRightSensor.scan();
-			updateLeds(obstacles.frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
+			Leds::updateRight(obstacles);
 			applyStrategy(obstacles);
 		}
 		++sensorIndex %= 2;
@@ -106,18 +93,5 @@ void applyStrategy(SonarObstacles& obstacles) {
 		obstacles.deleteObstacles();
 	}
 	secondCall = !secondCall;
-}
-
-void updateLeds(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar) {
-	if (obstacle->isInRange(OBSTACLE_RANGE)) {
-		digitalWrite(pinClose, HIGH);
-		digitalWrite(pinFar, HIGH);
-	} else if (obstacle->isInRange(MAX_DISTANCE)) {
-		digitalWrite(pinClose, LOW);
-		digitalWrite(pinFar, HIGH);
-	} else {
-		digitalWrite(pinClose, LOW);
-		digitalWrite(pinFar, LOW);
-	}
 }
 #endif

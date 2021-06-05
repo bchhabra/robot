@@ -2,8 +2,6 @@
 
 #include "SonarObstacle.h"
 
-#define MAX_DISTANCE 100
-
 #ifdef NEW_PING
 
 #include <NewPing.h>
