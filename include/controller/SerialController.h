@@ -26,6 +26,7 @@ class SerialController: public Controller {
 
 public:
 	void checkController() {
+#if SERIAL_CONTROLLER
 		if (Serial.available()) {
 			actionList.removeAll();
 			Command cmd = getReceivedCommand();
@@ -56,5 +57,6 @@ public:
 				break;
 			}
 		}
+#endif
 	}
-};
+} controller;

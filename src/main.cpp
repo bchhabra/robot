@@ -1,22 +1,16 @@
 #include <Arduino.h>
 #include <component/Lcd.h>
+#include "component/SonarSensor.h"
 #include <controller/WiFiBridge.h>
+#include "controller/SerialController.h"
 #include <imu/MinIMU9AHRS.h>
+#include "ota.h"
+
 #include <strategy/FactoryStrategy.h>
 #include <strategy/PlayStrategy.h>
 
-#include "controller/SerialController.h"
-#include "component/SonarSensor.h"
 #include "ActionList.h"
 
-#ifdef  ESP8266
-#include "ota.h"
-#endif
-
-
-#define LCD 0
-#define SERIAL_CONTROLLER 0
-#define TEST_IMU 0
 
 #ifdef PROTOTYPE
 #define SCAN_INTERVAL 35
@@ -27,14 +21,6 @@ void applyStrategy(SonarObstacles& obstacles);
 void updateLeds(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar);
 #endif
 
-#if SERIAL_CONTROLLER
-SerialController controller;
-#endif
-
-#if TEST_IMU
-int initialDeg;
-#endif
-
 
 volatile bool interruptCalled = false;
 unsigned long currentTime = 0;
@@ -42,18 +28,10 @@ unsigned long currentTime = 0;
 void interrupt();
 
 void setup() {
-	lcdSetup();
-#if TEST_IMU
-	I2C_Init();
-	imu_setup();
-	initialDeg = readAngle();
-#endif
-#ifdef WIFI_BRIDGE
-	i2cSetup();
-#endif
-#ifdef  ESP8266
-    setupOTA();
-#endif
+	Lcd::setup();
+	Imu::setup();
+	WifiBridge::setup();
+    Ota::setup();
 
 	Serial.begin(9600);
 
@@ -78,15 +56,9 @@ void setup() {
 }
 
 void loop() {
-#ifdef  ESP8266
-	handleOTA();
-#endif
-#if SERIAL_CONTROLLER
+	Ota::handle();
 	controller.checkController();
-#endif
-#if TEST_IMU
-	imu_loop();
-#endif
+	Imu::loop();
 
 	currentTime = millis();
 #ifdef PROTOTYPE

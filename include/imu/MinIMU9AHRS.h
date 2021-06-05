@@ -9,6 +9,10 @@
 #include "imu/Vector.h"
 #include "imu/Output.h"
 
+int initialDeg;
+
+namespace Imu {
+
 long timer=0;   //general purpuse timer
 long timer_old;
 long timer24=0; //Second timer used to print values
@@ -16,8 +20,14 @@ long timer24=0; //Second timer used to print values
 unsigned int counter=0;
 byte gyro_sat=0;
 
-void imu_setup()
+int readAngle();
+
+void setup()
 {
+#if IMU
+
+	I2C_Init();
+
   pinMode (STATUS_LED,OUTPUT);  // Status LED
 
   digitalWrite(STATUS_LED,LOW);
@@ -53,10 +63,16 @@ void imu_setup()
   timer=millis();
   delay(20);
   counter=0;
+
+	initialDeg = readAngle();
+
+#endif
 }
 
-void imu_loop() //Main Loop
+void loop() //Main Loop
 {
+#if IMU
+
   if((millis()-timer)>=20)  // Main loop runs at 50Hz
   {
     counter++;
@@ -95,6 +111,7 @@ void imu_loop() //Main Loop
     printdata();
   }
 
+#endif
 }
 
 inline int readAngle() {
@@ -106,3 +123,4 @@ inline int calculateDelta(int currentDeg, int originalDeg) {
 	return abs(signedAngle);
 }
 
+}

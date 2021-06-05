@@ -1,6 +1,12 @@
+#ifdef  ESP8266
 #include <ArduinoOTA.h>
+#endif
 
-void setupOTA() {
+namespace Ota {
+
+void setup() {
+#ifdef  ESP8266
+
 	  ArduinoOTA.onStart([]() {
 	    Serial.println("Start");
 	  });
@@ -19,8 +25,14 @@ void setupOTA() {
 	    else if (error == OTA_END_ERROR) Serial.println("End Failed");
 	  });
 	  ArduinoOTA.begin();
+
+#endif
 }
 
-void handleOTA() {
+void handle() {
+#ifdef  ESP8266
     ArduinoOTA.handle();
+#endif
+}
+
 }

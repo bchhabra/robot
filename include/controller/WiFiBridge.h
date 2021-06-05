@@ -5,6 +5,8 @@
 #include "component/W.h"
 #include "strategy/WifiStrategy.h"
 
+namespace WifiBridge {
+
 bool stopWasPressed = false;
 
 void receiveEvent(int howMany) {
@@ -57,10 +59,14 @@ void receiveEvent(int howMany) {
 	}
 }
 
-void i2cSetup() {
+void setup() {
+#if WIFI_BRIDGE
 	Wire.begin(0x30); // join i2c bus with address #0x30
 	// deactivate internal pullups for twi.
 	digitalWrite(SDA, LOW);
 	digitalWrite(SCL, LOW);
 	Wire.onReceive(receiveEvent); // register event
+#endif
+}
+
 }

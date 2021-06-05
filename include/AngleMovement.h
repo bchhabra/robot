@@ -15,13 +15,13 @@ public:
 	}
 
 	void playAction() {
-		targetAngle = (readAngle() + offset + 360) % 360;
+		targetAngle = (Imu::readAngle() + offset + 360) % 360;
 		action();
 		started = true;
 	}
 
 	bool isFinished() {
-		return readAngle() == targetAngle;
+		return Imu::readAngle() == targetAngle;
 	}
 
 	bool isStarted() {
