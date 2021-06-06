@@ -15,8 +15,9 @@
 **/
 
 #include <Arduino.h>
-#include <ActionList.h>
 #include <unity.h>
+#include "ActionList.h"
+#include "ToneAction.h"
 
 // void setUp(void) {
 // // set stuff up here
@@ -62,10 +63,30 @@ void test_parallel_action() {
     TEST_ASSERT_TRUE_MESSAGE(f2_executed, "f2() was executed");
 }
 
+void test_tone_action() {
+    f_executed = false;
+
+    Action* action = new ToneAction(300, 100);
+    actionList2.add(action);
+    Action* timedAction = actionList2.addTimedAction(f, 200);
+    TEST_ASSERT_FALSE_MESSAGE(f_executed, "f() not yet executed");
+    TEST_ASSERT_FALSE_MESSAGE(action->isStarted(), "action not yet started");
+    actionList2.playNextAction();
+    TEST_ASSERT_TRUE_MESSAGE(action->isStarted() && !action->isFinished(), "action is in progress");
+    delay(200);
+    TEST_ASSERT_TRUE_MESSAGE(action->isFinished(), "action is finished");
+    actionList2.playNextAction();
+    TEST_ASSERT_TRUE_MESSAGE(timedAction->isStarted(), "timed action has started");
+    delay(201);
+    TEST_ASSERT_TRUE_MESSAGE(timedAction->isFinished(), "timed action is finished");
+    TEST_ASSERT_TRUE_MESSAGE(f_executed, "f() was executed");
+}
+
 void setup() {
     UNITY_BEGIN();
     RUN_TEST(test_timed_action);
     RUN_TEST(test_parallel_action);
+    RUN_TEST(test_tone_action);
     UNITY_END();
 }
 

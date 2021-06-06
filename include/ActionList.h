@@ -53,6 +53,7 @@ public:
 		} else {
 			if (current->isFinished()) {
 				moveToNext();
+				playNextAction();
 			}
 		}
 	}
