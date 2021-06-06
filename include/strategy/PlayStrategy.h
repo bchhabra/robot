@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SonarObstacles.h"
+#include "component/Piezzo.h"
 
 class PlayStrategy {
 
@@ -25,11 +26,15 @@ class PlayStrategy {
 
 	void avoidCornerFront(SonarObstacles::InRange arr) {
 		if (arr == SonarObstacles::LEFT_FRONT) {
-			actionList.addAction(W::turnRight, 400);
+			actionList.addTimedAction(W::turnRight, 400);
 		}
 		if (arr == SonarObstacles::RIGHT_FRONT) {
-			actionList.addAction(W::turnLeft, 400);
+			actionList.addTimedAction(W::turnLeft, 400);
 		}
+	}
+
+	void go() {
+		actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
 	}
 
 public:
@@ -42,30 +47,34 @@ public:
 			case RIGHT_FRONT_OSTACLE_STOPPED:
 			case LEFT_FRONT_OSTACLE_STOPPED:
 			case BOTH_OSTACLES_STOPPED:
-				actionList.addAction(W::goForward, 0);
+				Sound::stop();
+				go();
 				break;
 			case NO_OSTACLE_STOPPED:
 			case NO_OSTACLE_FORWARD:
 				break;
 			case RIGHT_FRONT_OSTACLE_PAUSED:
 			case LEFT_FRONT_OSTACLE_PAUSED:
+				Sound::stop();
 				actionList.removeAll();
 
-				actionList.addAction(W::goBackward, 400);
+				actionList.addTimedAction(W::goBackward, 400);
 				avoidCornerFront(inRange);
-				actionList.addAction(W::pause, 1000);
-				actionList.addAction(W::goForward, 0);
+				actionList.addTimedAction(W::pause, 1000);
+				go();
 				break;
 			case BOTH_OSTACLES_PAUSED:
+				Sound::stop();
 				actionList.removeAll();
 
-				actionList.addAction(W::goBackward, 800);
+				actionList.addTimedAction(W::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
-				actionList.addAction(W::pause, 1000);
-				actionList.addAction(W::goForward, 0);
+				actionList.addTimedAction(W::pause, 1000);
+				go();
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:
+				Sound::stop();
 				W::pause();
 				actionList.removeAll();
 				break;

@@ -18,7 +18,7 @@ public:
 	}
 
 	void run() {
-		actionList.addAction(W::goForward, 0);
+		actionList.addTimedAction(W::goForward, 0);
 	}
 
 	void obstacleFound(unsigned long interruptTime) {
@@ -26,12 +26,12 @@ public:
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			serial.println("Obstacle - Default Pattern with in 2 sec");
-			actionList.addAction(W::goBackward, 700);
-			actionList.addAction(W::goRight, 700);
+			actionList.addTimedAction(W::goBackward, 700);
+			actionList.addTimedAction(W::goRight, 700);
 		} else {
 			serial.println("Obstacle - Default Pattern else");
-			actionList.addAction(W::goBackward, 300);
-			actionList.addAction(W::goRight, 700);// To Be check and adjust 40 degress
+			actionList.addTimedAction(W::goBackward, 300);
+			actionList.addTimedAction(W::goRight, 700);// To Be check and adjust 40 degress
 		}
 
 		lastInterruptTime = interruptTime;

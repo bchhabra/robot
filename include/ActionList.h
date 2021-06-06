@@ -1,30 +1,31 @@
 #pragma once
 
 #include <AngleMovement.h>
-#include "TimeAction.h"
+#include "TimedAction.h"
 
 class ActionList {
 	Action *current, *last = NULL;
 
 	void moveToNext() {
-		Action *next = current->getNext();
+		Action *next = current->next;
 		delete current;
 		current = next;
 	}
 
+public:
 	void add(Action* action) {
 		if (isEmpty()) {
 			current = action;
 		} else {
-			last->setNext(action);
+			last->next = action;
 		}
 		last = action;
 	}
 
-public:
-	void addAction(void (*f)(), unsigned long delay) {
-		Action *action = new TimeAction(f, delay);
+	Action* addTimedAction(void (*f)(), unsigned long delay) {
+		Action *action = new TimedAction(f, delay);
 		add(action);
+		return action;
 	}
 
 	void addAngleMovement(void (*f)(), int angle) {
@@ -56,4 +57,4 @@ public:
 		}
 	}
 
-} actionList;
+} actionList, actionList2;

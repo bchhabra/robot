@@ -2,7 +2,8 @@
 #include <component/Lcd.h>
 #include "component/SonarSensor.h"
 #include "component/Leds.h"
-#include <controller/WiFiBridge.h>
+#include "component/Piezzo.h"
+#include "controller/WiFiBridge.h"
 #include "controller/SerialController.h"
 #include <imu/MinIMU9AHRS.h>
 #include "ota.h"
@@ -28,6 +29,8 @@ unsigned long currentTime = 0;
 void interrupt();
 
 void setup() {
+	// Sound::play2();
+	// Sound::play();
 	Lcd::setup();
 	Imu::setup();
 	WifiBridge::setup();
@@ -76,6 +79,7 @@ void loop() {
 	}
 #endif
 	actionList.playNextAction();
+	actionList2.playNextAction();
 }
 
 void interrupt() {

@@ -1,26 +1,22 @@
 #pragma once
 
-#include <Arduino.h>
-
 class Action {
-protected:
-	void (*action)();
-	Action* next = NULL;
+	bool started = false;
 
 public:
-	Action(void (*f)()) {
-		action = f;
-	}
+	Action* next = NULL;
+	void (*parallel)() = NULL;
+
+	Action() {}
 	virtual ~Action(){}
-	virtual void playAction() = 0;
 	virtual bool isFinished() = 0;
-	virtual bool isStarted() = 0;
 
-	void setNext(Action* next) {
-		this->next = next;
+	virtual void playAction() {
+		started = true;
+		if (parallel != NULL) parallel();
 	}
 
-	Action* getNext() {
-		return next;
+	virtual bool isStarted() {
+		return started;
 	}
 };

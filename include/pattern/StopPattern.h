@@ -11,7 +11,7 @@ public:
 	}
 
 	void run() {
-		actionList.addAction(W::doStop, 0);
+		actionList.addTimedAction(W::doStop, 0);
 	}
 
 	void obstacleFound(unsigned long interruptTime) {

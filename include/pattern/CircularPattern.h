@@ -55,29 +55,29 @@ public:
 			}
 		}
 
-		actionList.addAction(W::goForward, fts);
-		actionList.addAction(W::goLeft, lts);
+		actionList.addTimedAction(W::goForward, fts);
+		actionList.addTimedAction(W::goLeft, lts);
 		lastRunTime = runTime;
 	}
 
 	void obstacleFound(unsigned long interruptTime) {
 		interruptCounter++;
 		serial.println("Obstacle - circular Pattern");
-		actionList.addAction(W::goLeftBack, 200);
-		actionList.addAction(W::goBackward, 150);
-		actionList.addAction(W::goForward, 200);
+		actionList.addTimedAction(W::goLeftBack, 200);
+		actionList.addTimedAction(W::goBackward, 150);
+		actionList.addTimedAction(W::goForward, 200);
 
 
 		 if ((interruptTime - lastInterruptTime) < 1000) {
 //			 serial.println("Obstacle - Circular Pattern with in 1 sec");
-		 	 actionList.addAction(W::goLeftBack, 200);
-		 	 actionList.addAction(W::goBackward, 150);
-		 	 actionList.addAction(W::goForward, 200);
+		 	 actionList.addTimedAction(W::goLeftBack, 200);
+		 	 actionList.addTimedAction(W::goBackward, 150);
+		 	 actionList.addTimedAction(W::goForward, 200);
 		 } else {
 //		 serial.println("Obstacle - Circular Pattern else");
-			 actionList.addAction(W::goLeftBack, 200);
-			 actionList.addAction(W::goBackward, 200);
-			 actionList.addAction(W::goForward, 100);
+			 actionList.addTimedAction(W::goLeftBack, 200);
+			 actionList.addTimedAction(W::goBackward, 200);
+			 actionList.addTimedAction(W::goForward, 100);
 		 }
 
 		lastInterruptTime = interruptTime;
