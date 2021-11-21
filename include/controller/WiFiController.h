@@ -37,7 +37,7 @@ class WiFiController : public Controller {
       Wire.onReceive(receiveEvent); // register event
     }
 
-    boolean available() {
+    bool available() {
       return Serial.available();
     }
 

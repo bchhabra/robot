@@ -5,6 +5,7 @@
 #include "component/Piezzo.h"
 #include "controller/WiFiBridge.h"
 #include "controller/SerialController.h"
+#include "controller/EmptyController.h"
 #include <imu/MinIMU9AHRS.h>
 #include "ota.h"
 
@@ -22,6 +23,11 @@ SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO
 void applyStrategy(SonarObstacles& obstacles);
 #endif
 
+#if SERIAL_CONTROLLER
+SerialController controller;
+#else
+EmptyController controller;
+#endif
 
 volatile bool interruptCalled = false;
 unsigned long currentTime = 0;

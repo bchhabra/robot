@@ -2,7 +2,6 @@
 
 #include <component/W.h>
 #include "Controller.h"
-#include "ActionList.h"
 
 class SerialController: public Controller {
 
@@ -22,41 +21,11 @@ class SerialController: public Controller {
 			return LEFT_BACK;
 		if (value == "rb")
 			return RIGHT_BACK;
+		return NONE;
 	}
 
-public:
-	void checkController() {
-#if SERIAL_CONTROLLER
-		if (Serial.available()) {
-			actionList.removeAll();
-			Command cmd = getReceivedCommand();
-			switch (cmd) {
-			case FORWARD:
-				actionList.addAction(W::goForward, 0);
-				break;
-			case BACKWARD:
-				actionList.addAction(W::goBackward, 0);
-				break;
-			case STOP:
-				actionList.addAction(W::doStop, 0);
-				break;
-			case LEFT:
-				actionList.addAction(W::goLeft, 0);
-				break;
-			case RIGHT:
-				actionList.addAction(W::goRight, 0);
-				break;
-			case LEFT_BACK:
-				actionList.addAction(W::goLeftBack, 0);
-				break;
-			case RIGHT_BACK:
-				actionList.addAction(W::goRightBack, 0);
-				break;
-			case TURN_LEFT:
-			case TURN_RIGHT:
-				break;
-			}
-		}
-#endif
+	bool available() {
+		return Serial.available();
 	}
-} controller;
+	
+};
