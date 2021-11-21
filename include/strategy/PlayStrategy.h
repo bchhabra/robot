@@ -33,22 +33,14 @@ class PlayStrategy {
 		}
 	}
 
-	void go() {
-		actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
-	}
-
-public:
-	void obstacleFound(SonarObstacles& obstacles) {
-		SonarObstacles::InRange inRange = obstacles.findInRange(OBSTACLE_RANGE);
-		assesSituation(inRange);
-
+	void play1(SonarObstacles& obstacles, SonarObstacles::InRange inRange) {
 		switch (currentSituation) {
 			case NO_OSTACLE_PAUSED:
 			case RIGHT_FRONT_OSTACLE_STOPPED:
 			case LEFT_FRONT_OSTACLE_STOPPED:
 			case BOTH_OSTACLES_STOPPED:
 				Sound::stop();
-				go();
+				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
 				break;
 			case NO_OSTACLE_STOPPED:
 			case NO_OSTACLE_FORWARD:
@@ -61,7 +53,7 @@ public:
 				actionList.addTimedAction(W::goBackward, 400);
 				avoidCornerFront(inRange);
 				actionList.addTimedAction(W::pause, 1000);
-				go();
+				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
 				break;
 			case BOTH_OSTACLES_PAUSED:
 				Sound::stop();
@@ -70,7 +62,7 @@ public:
 				actionList.addTimedAction(W::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
 				actionList.addTimedAction(W::pause, 1000);
-				go();
+				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:
@@ -83,6 +75,60 @@ public:
 				// and then the robot is paused, so next call might have both obstacles but the movement is paused
 				break;
 		}
+	}
+
+	void play2(SonarObstacles& obstacles, SonarObstacles::InRange inRange) {
+		switch (currentSituation) {
+			case NO_OSTACLE_PAUSED:
+			case RIGHT_FRONT_OSTACLE_STOPPED:
+			case LEFT_FRONT_OSTACLE_STOPPED:
+			case BOTH_OSTACLES_STOPPED:
+				Sound::stop();
+				actionList.addTimedAction(W::goForward, 5000)->parallel = Sound::play;	
+				actionList.addTimedAction(W::turnRight, 800);
+				break;
+			case NO_OSTACLE_STOPPED:
+			case NO_OSTACLE_FORWARD:
+				break;
+			case RIGHT_FRONT_OSTACLE_PAUSED:
+			case LEFT_FRONT_OSTACLE_PAUSED:
+				Sound::stop();
+				actionList.removeAll();
+
+				actionList.addTimedAction(W::goBackward, 400);
+				avoidCornerFront(inRange);
+				actionList.addTimedAction(W::pause, 1000);
+				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				break;
+			case BOTH_OSTACLES_PAUSED:
+				Sound::stop();
+				actionList.removeAll();
+
+				actionList.addTimedAction(W::goBackward, 800);
+				avoidCornerFront(obstacles.getClosest());
+				actionList.addTimedAction(W::pause, 1000);
+				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				break;
+			case RIGHT_FRONT_OSTACLE_FORWARD:
+			case LEFT_FRONT_OSTACLE_FORWARD:
+				Sound::stop();
+				W::pause();
+				actionList.removeAll();
+				break;
+			case BOTH_OSTACLES_FORWARD:
+				// this would never happen since we call this function as soon as we find one obstacle;
+				// and then the robot is paused, so next call might have both obstacles but the movement is paused
+				break;
+		}
+	}
+
+public:
+	void obstacleFound(SonarObstacles& obstacles) {
+		SonarObstacles::InRange inRange = obstacles.findInRange(OBSTACLE_RANGE);
+		assesSituation(inRange);
+
+		play1(obstacles, inRange);
+		// play2(obstacles, inRange);
 	}
 
 } playStrategy;
