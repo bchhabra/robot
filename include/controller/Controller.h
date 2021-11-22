@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ActionList.h"
+#include "component/W.h"
 
 enum Command {
   NONE,
