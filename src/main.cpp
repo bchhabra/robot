@@ -45,6 +45,8 @@ void setup() {
 
 	Serial.begin(9600);
 
+	runMode = AUTO;
+
 #ifndef PROTOTYPE
 	attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
 	changeStrategy(&factoryStrategy);
@@ -58,7 +60,7 @@ void loop() {
 
 	currentTime = millis();
 #ifdef PROTOTYPE
-	if (currentTime >= lastScan) {
+	if (runMode != FULL_MANUAL && currentTime >= lastScan) {
 		static byte sensorIndex = 0;
 		static SonarObstacles obstacles = SonarObstacles();
 

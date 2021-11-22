@@ -4,6 +4,7 @@
 
 enum Command {
   NONE,
+  TOGGLE_SENSORS,
   FORWARD,
   BACKWARD,
   STOP,
@@ -14,6 +15,12 @@ enum Command {
   LEFT_BACK,
   RIGHT_BACK
 };
+
+enum RunMode {
+  FULL_MANUAL,
+  MANUAL_WITH_SENSORS,
+  AUTO
+} runMode;
 
 class Controller {
     virtual bool available();
@@ -48,6 +55,9 @@ class Controller {
         case RIGHT_BACK:
           actionList.addTimedAction(W::goRightBack, 0);
           break;
+        case TOGGLE_SENSORS:
+          runMode = static_cast<RunMode>(!(runMode & 0x1));
+          break;
         case TURN_LEFT:
         case TURN_RIGHT:
         default:
@@ -56,4 +66,3 @@ class Controller {
       }
     }
 };
-

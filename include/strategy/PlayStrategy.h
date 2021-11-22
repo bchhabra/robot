@@ -122,13 +122,19 @@ class PlayStrategy {
 		}
 	}
 
+	void playRemote() {
+		if (W::direction == W::Movement::FORWARD || W::direction == W::Movement::TURN) {
+			W::doStop();
+			actionList.removeAll();
+		}
+	}
+
 public:
 	void obstacleFound(SonarObstacles& obstacles) {
 		SonarObstacles::InRange inRange = obstacles.findInRange(OBSTACLE_RANGE);
 		assesSituation(inRange);
 
-		play1(obstacles, inRange);
-		// play2(obstacles, inRange);
+		runMode == AUTO ? play1(obstacles, inRange) : playRemote();
 	}
 
 } playStrategy;
