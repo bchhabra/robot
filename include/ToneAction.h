@@ -23,13 +23,13 @@ public:
 		noTone(PIEZZO_PIN);
 	}
 
-	void playAction() {
+	void playAction() override {
 		finishTime = millis() + delay;
 		tone(PIEZZO_PIN, note, noteDuration);
 		Action::playAction();
 	}
 
-	bool isFinished() {
+	bool isFinished() override {
 		return millis() >= finishTime;
 	}
 };

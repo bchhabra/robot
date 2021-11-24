@@ -12,12 +12,12 @@ public:
 		this->delay = delay;
 	}
 
-	void playAction() {
+	void playAction() override {
 		finishTime = millis() + delay;
 		Action::playAction();
 	}
 
-	bool isFinished() {
+	bool isFinished() override {
 		// a delay of 0 means the action never finishes unless some obstacle is found
 		return ((delay > 0) && (millis() >= finishTime));
 	}

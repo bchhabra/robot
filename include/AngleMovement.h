@@ -14,17 +14,17 @@ public:
 		this->offset = offset;
 	}
 
-	void playAction() {
+	void playAction() override {
 		targetAngle = (Imu::readAngle() + offset + 360) % 360;
 		Action::playAction();
 		started = true;
 	}
 
-	bool isFinished() {
+	bool isFinished() override {
 		return Imu::readAngle() == targetAngle;
 	}
 
-	bool isStarted() {
+	bool isStarted() override {
 		return started;
 	}
 };

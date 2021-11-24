@@ -4,7 +4,7 @@
 
 class SerialController: public Controller {
 
-	Command getReceivedCommand() {
+	Command getReceivedCommand() override {
 		String value = Serial.readStringUntil('\n');
 		if (value == "f")
 			return FORWARD;
@@ -23,7 +23,7 @@ class SerialController: public Controller {
 		return NONE;
 	}
 
-	bool available() {
+	bool available() override {
 		return Serial.available();
 	}
 	

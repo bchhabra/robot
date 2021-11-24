@@ -13,7 +13,7 @@
 class BlueController: public Controller {
 	bool connected = false;
 
-	Command getReceivedCommand() {
+	Command getReceivedCommand() override {
 		String value = Serial.readStringUntil('\n');
 		int xAxis, yAxis, button = 0;
 		sscanf(value.c_str(), "%d, %d, %d", &xAxis, &yAxis, &button);
@@ -34,7 +34,7 @@ class BlueController: public Controller {
 		return NONE;
 	}
 
-	bool available() {
+	bool available() override {
 		bool state = digitalRead(BLUE_STATE_PIN);
 		if (state != connected) {
 			connected = state;
@@ -52,7 +52,7 @@ class BlueController: public Controller {
 	}
 
 public:
-	void setup() {
+	void setup() override {
 		pinMode(BLUE_STATE_PIN, INPUT);
 		Serial.begin(9600);
 	}

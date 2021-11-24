@@ -5,11 +5,11 @@
 
 class EmptyController: public Controller {
 
-	Command getReceivedCommand() {
+	Command getReceivedCommand() override {
 		return NONE;
 	}
 
-	bool available() {
+	bool available() override {
 		return false;
 	}
 	

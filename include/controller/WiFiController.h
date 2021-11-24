@@ -30,16 +30,16 @@ class WiFiController : public Controller {
       f = func;
     }
   
-    void setup() {
+    void setup() override {
       Wire.begin(0x30);                // join i2c bus with address #0x30
       Wire.onReceive(receiveEvent); // register event
     }
 
-    bool available() {
+    bool available() override {
       return Serial.available();
     }
 
-    Command getReceivedCommand() {
+    Command getReceivedCommand() override {
       String value = Serial.readStringUntil('\n');
       if (value == "f") return FORWARD;
       if (value == "b") return BACKWARD;
