@@ -2,6 +2,7 @@
 
 #include "Controller.h"
 #include <component/Leds.h>
+#include "RunMode.h"
 
 #define UP_THRESHOLD 700
 #define DOWN_THRESHOLD 300
@@ -17,7 +18,10 @@ class BlueController: public Controller {
 		int xAxis, yAxis, button = 0;
 		sscanf(value.c_str(), "%d, %d, %d", &xAxis, &yAxis, &button);
 		
-		if ((button == 0) && IS_NEUTRAL(yAxis) && IS_NEUTRAL(xAxis)) return TOGGLE_SENSORS;
+		if ((button == 0) && IS_NEUTRAL(yAxis) && IS_NEUTRAL(xAxis)) {
+			Run::toggleSensors();
+			return NONE;
+		}
 		if ((button == 1) && IS_NEUTRAL(yAxis) && IS_NEUTRAL(xAxis)) return STOP;
 
 		if (IS_ABOVE(yAxis) && IS_NEUTRAL(xAxis)) return FORWARD;
@@ -38,13 +42,10 @@ class BlueController: public Controller {
 		if (state != connected) {
 			connected = state;
 			if (connected) {
-				runMode = FULL_MANUAL;
-				actionList.removeAll();
-				W::doStop();
-				Leds::allOff();
+				Run::setMode(FULL_MANUAL);
 				serial.println("connected");
 			} else {
-				runMode = AUTO;
+				Run::setMode(AUTO);
 				serial.println("disconnected");
 			}
 		}

@@ -7,6 +7,7 @@
 #include "controller/EmptyController.h"
 #include <imu/MinIMU9AHRS.h>
 #include "ota.h"
+#include "RunMode.h"
 
 #include "ActionList.h"
 #include "Robot.h"
@@ -32,7 +33,7 @@ void setup() {
 
 	Serial.begin(9600);
 
-	runMode = AUTO;
+	Run::setMode(AUTO);
 
 	Robot::setup();
 	serial.println("starting...");
