@@ -5,21 +5,18 @@
 #include "SonarObstacles.h"
 
 namespace Leds {
+    void allOn();
+    void allOff();
+
     void setup() {
 #if LEDS
         pinMode(PIN_LEFT_FAR, OUTPUT);
         pinMode(PIN_LEFT_CLOSE, OUTPUT);
         pinMode(PIN_RIGHT_FAR, OUTPUT);
         pinMode(PIN_RIGHT_CLOSE, OUTPUT);
-        digitalWrite(PIN_LEFT_FAR, HIGH);
-        digitalWrite(PIN_LEFT_CLOSE, HIGH);
-        digitalWrite(PIN_RIGHT_FAR, HIGH);
-        digitalWrite(PIN_RIGHT_CLOSE, HIGH);
+        allOn();
         delay(500);
-        digitalWrite(PIN_LEFT_FAR, LOW);
-        digitalWrite(PIN_LEFT_CLOSE, LOW);
-        digitalWrite(PIN_RIGHT_FAR, LOW);
-        digitalWrite(PIN_RIGHT_CLOSE, LOW);
+        allOff();
 #endif
     }
 
@@ -47,6 +44,24 @@ namespace Leds {
     void updateRight(SonarObstacles& obstacles) {
 #if LEDS
         update(obstacles.frontRight, PIN_RIGHT_CLOSE, PIN_RIGHT_FAR);
+#endif
+    }
+
+    void allOn() {
+#if LEDS
+        digitalWrite(PIN_LEFT_FAR, HIGH);
+        digitalWrite(PIN_LEFT_CLOSE, HIGH);
+        digitalWrite(PIN_RIGHT_FAR, HIGH);
+        digitalWrite(PIN_RIGHT_CLOSE, HIGH);
+#endif
+    }
+
+    void allOff() {
+#if LEDS
+        digitalWrite(PIN_LEFT_FAR, LOW);
+        digitalWrite(PIN_LEFT_CLOSE, LOW);
+        digitalWrite(PIN_RIGHT_FAR, LOW);
+        digitalWrite(PIN_RIGHT_CLOSE, LOW);
 #endif
     }
 }

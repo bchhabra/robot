@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Controller.h"
-#include <SoftwareSerial.h>
+#include <component/Leds.h>
 
 #define UP_THRESHOLD 700
 #define DOWN_THRESHOLD 300
@@ -40,6 +40,8 @@ class BlueController: public Controller {
 			if (connected) {
 				runMode = FULL_MANUAL;
 				actionList.removeAll();
+				W::doStop();
+				Leds::allOff();
 				serial.println("connected");
 			} else {
 				runMode = AUTO;

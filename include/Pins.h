@@ -21,7 +21,7 @@
 #define PIEZZO_PIN 3
 #endif
 
-#define BLUE_STATE_PIN 8
+#define BLUE_STATE_PIN 11
 
 #ifdef PROTOTYPE
 
