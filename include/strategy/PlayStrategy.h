@@ -6,6 +6,8 @@
 class PlayStrategy {
 
 	enum Situation {
+		// last 3 bits are Movement
+		// first 2 bits are InRange
 		NO_OSTACLE_PAUSED 			= 0b00001,
 		NO_OSTACLE_STOPPED 			= 0b00010,
 		NO_OSTACLE_FORWARD 			= 0b00011,

@@ -21,6 +21,8 @@
 #define PIEZZO_PIN 3
 #endif
 
+#define BLUE_STATE_PIN 8
+
 #ifdef PROTOTYPE
 
 #define FRONT_LEFT_SONAR_TRIGGER 13

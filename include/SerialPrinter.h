@@ -8,6 +8,7 @@ class SerialPrinter {
 	unsigned int counter = 0;
 public:
 	void println(const char* message) {
+#if DEBUG
 		if (counter++ == 0) {
 			previousTime = millis();
 			Serial.println(message);
@@ -21,5 +22,6 @@ public:
 				}
 			}
 		}
+#endif
 	}
 } serial;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <component/W.h>
 #include "Controller.h"
 
 class SerialController: public Controller {

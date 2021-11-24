@@ -14,7 +14,7 @@ namespace W {
 	};
 
 	void printInfo(const char* message) {
-		//serial.println(message);
+		serial.println(message);
 	}
 
 	Wheel left(LEFT_WHEEL_BACKWARD, LEFT_WHEEL_FORWARD, LEFT_WHEEL_SPEED, 150);

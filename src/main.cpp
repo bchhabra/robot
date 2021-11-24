@@ -3,6 +3,7 @@
 #include "component/Piezzo.h"
 #include "controller/WiFiBridge.h"
 #include "controller/SerialController.h"
+#include "controller/BlueController.h"
 #include "controller/EmptyController.h"
 #include <imu/MinIMU9AHRS.h>
 #include "ota.h"
@@ -14,6 +15,8 @@
 
 #if SERIAL_CONTROLLER
 SerialController controller;
+#elif BLUE_CONTROLLER
+BlueController controller;
 #else
 EmptyController controller;
 #endif
@@ -25,12 +28,14 @@ void setup() {
 	Imu::setup();
 	WifiBridge::setup();
     Ota::setup();
+	controller.setup();
 
 	Serial.begin(9600);
 
 	runMode = AUTO;
 
 	Robot::setup();
+	serial.println("starting...");
 }
 
 void loop() {

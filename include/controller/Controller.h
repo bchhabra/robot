@@ -28,7 +28,7 @@ class Controller {
     virtual Command getReceivedCommand();
 
   public:
-    void setup();
+    virtual void setup() {}
 
     void checkController() {
       if (available()) {
@@ -56,11 +56,15 @@ class Controller {
         case RIGHT_BACK:
           actionList.addTimedAction(W::goRightBack, 0);
           break;
+        case TURN_LEFT:
+          actionList.addTimedAction(W::turnLeft, 0);
+          break;
+        case TURN_RIGHT:
+          actionList.addTimedAction(W::turnRight, 0);
+          break;
         case TOGGLE_SENSORS:
           runMode = static_cast<RunMode>(!(runMode & 0x1));
           break;
-        case TURN_LEFT:
-        case TURN_RIGHT:
         default:
           break;
         }
