@@ -2,11 +2,11 @@
 
 class Action {
 	bool started = false;
-	void (*action)() = NULL;
-	void (*parallel)() = NULL;
+	void (*action)() = nullptr;
+	void (*parallel)() = nullptr;
 
 public:
-	Action* next = NULL;
+	Action* next = nullptr;
 
 	virtual ~Action() {}
 	virtual bool isFinished() = 0;
@@ -17,8 +17,8 @@ public:
 
 	virtual void playAction() {
 		started = true;
-		if (action != NULL) action();
-		if (parallel != NULL) parallel();
+		if (action != nullptr) action();
+		if (parallel != nullptr) parallel();
 	}
 
 	void andInParallel(void (*f)()) {

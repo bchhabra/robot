@@ -38,8 +38,8 @@ public:
 
   InRange findInRange(long obstacleRange) {
     byte arr = NONE;
-    if (frontRight != NULL && frontRight->isInRange(obstacleRange)) bitSet(arr, 0);
-    if (frontLeft != NULL && frontLeft->isInRange(obstacleRange)) bitSet(arr, 1);
+    if (frontRight != nullptr && frontRight->isInRange(obstacleRange)) bitSet(arr, 0);
+    if (frontLeft != nullptr && frontLeft->isInRange(obstacleRange)) bitSet(arr, 1);
     return static_cast<InRange>(arr);
   }
 };

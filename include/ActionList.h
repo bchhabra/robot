@@ -4,7 +4,7 @@
 #include "TimedAction.h"
 
 class ActionList {
-	Action *current, *last = NULL;
+	Action *current, *last = nullptr;
 
 	void moveToNext() {
 		Action *next = current->next;
@@ -38,7 +38,7 @@ public:
 	}
 
 	bool isEmpty() {
-		return current == NULL;
+		return current == nullptr;
 	}
 
 	void playNextAction() {
