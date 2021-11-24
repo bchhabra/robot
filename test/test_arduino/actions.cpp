@@ -19,9 +19,10 @@
 #include "ActionList.h"
 #include "ToneAction.h"
 
-// void setUp(void) {
-// // set stuff up here
-// }
+void setUp(void) {
+    actionList.removeAll();
+    actionList2.removeAll();
+}
 
 // void tearDown(void) {, 
 // // clean stuff up here
@@ -55,7 +56,7 @@ void test_parallel_action() {
     f_executed = false;
     f2_executed = false;
 
-    actionList.addTimedAction(f, 2000)->parallel = f2;
+    actionList.addTimedAction(f, 2000).andInParallel(f2);
     TEST_ASSERT_FALSE_MESSAGE(f_executed, "f() not yet executed");
     TEST_ASSERT_FALSE_MESSAGE(f2_executed, "f2() not yet executed");
     actionList.playNextAction();
@@ -66,19 +67,18 @@ void test_parallel_action() {
 void test_tone_action() {
     f_executed = false;
 
-    Action* action = new ToneAction(300, 100);
-    actionList2.add(action);
-    Action* timedAction = actionList2.addTimedAction(f, 200);
+    Action& toneAction = actionList2.add(&ToneAction(300, 100));
+    Action& timedAction = actionList.addTimedAction(f, 200);
     TEST_ASSERT_FALSE_MESSAGE(f_executed, "f() not yet executed");
-    TEST_ASSERT_FALSE_MESSAGE(action->isStarted(), "action not yet started");
+    TEST_ASSERT_FALSE_MESSAGE(toneAction.isStarted(), "action not yet started");
     actionList2.playNextAction();
-    TEST_ASSERT_TRUE_MESSAGE(action->isStarted() && !action->isFinished(), "action is in progress");
+    TEST_ASSERT_TRUE_MESSAGE(toneAction.isStarted() && !toneAction.isFinished(), "tone action is in progress");
     delay(200);
-    TEST_ASSERT_TRUE_MESSAGE(action->isFinished(), "action is finished");
-    actionList2.playNextAction();
-    TEST_ASSERT_TRUE_MESSAGE(timedAction->isStarted(), "timed action has started");
+    TEST_ASSERT_TRUE_MESSAGE(toneAction.isFinished(), "tone action is finished");
+    actionList.playNextAction();
+    TEST_ASSERT_TRUE_MESSAGE(timedAction.isStarted(), "timed action has started");
     delay(201);
-    TEST_ASSERT_TRUE_MESSAGE(timedAction->isFinished(), "timed action is finished");
+    TEST_ASSERT_TRUE_MESSAGE(timedAction.isFinished(), "timed action is finished");
     TEST_ASSERT_TRUE_MESSAGE(f_executed, "f() was executed");
 }
 

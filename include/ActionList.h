@@ -13,24 +13,22 @@ class ActionList {
 	}
 
 public:
-	void add(Action* action) {
+	Action& add(Action* action) {
 		if (isEmpty()) {
 			current = action;
 		} else {
 			last->next = action;
 		}
 		last = action;
+		return *action;
 	}
 
-	Action* addTimedAction(void (*f)(), unsigned long delay) {
-		Action *action = new TimedAction(f, delay);
-		add(action);
-		return action;
+	Action& addTimedAction(void (*f)(), unsigned long delay) {
+		return add(new TimedAction(f, delay));
 	}
 
-	void addAngleMovement(void (*f)(), int angle) {
-		Action *action = new AngleMovement(f, angle);
-		add(action);
+	Action& addAngleMovement(void (*f)(), int angle) {
+		return add(new AngleMovement(f, angle));
 	}
 
 	void removeAll() {

@@ -42,7 +42,7 @@ class PlayStrategy {
 			case LEFT_FRONT_OSTACLE_STOPPED:
 			case BOTH_OSTACLES_STOPPED:
 				Sound::stop();
-				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
 				break;
 			case NO_OSTACLE_STOPPED:
 			case NO_OSTACLE_FORWARD:
@@ -55,7 +55,7 @@ class PlayStrategy {
 				actionList.addTimedAction(W::goBackward, 400);
 				avoidCornerFront(inRange);
 				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
 				break;
 			case BOTH_OSTACLES_PAUSED:
 				Sound::stop();
@@ -64,7 +64,7 @@ class PlayStrategy {
 				actionList.addTimedAction(W::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
 				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:
@@ -86,7 +86,7 @@ class PlayStrategy {
 			case LEFT_FRONT_OSTACLE_STOPPED:
 			case BOTH_OSTACLES_STOPPED:
 				Sound::stop();
-				actionList.addTimedAction(W::goForward, 5000)->parallel = Sound::play;	
+				actionList.addTimedAction(W::goForward, 5000).andInParallel(Sound::play);
 				actionList.addTimedAction(W::turnRight, 800);
 				break;
 			case NO_OSTACLE_STOPPED:
@@ -100,7 +100,7 @@ class PlayStrategy {
 				actionList.addTimedAction(W::goBackward, 400);
 				avoidCornerFront(inRange);
 				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
 				break;
 			case BOTH_OSTACLES_PAUSED:
 				Sound::stop();
@@ -109,7 +109,7 @@ class PlayStrategy {
 				actionList.addTimedAction(W::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
 				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0)->parallel = Sound::play;
+				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:

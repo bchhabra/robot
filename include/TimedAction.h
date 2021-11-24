@@ -1,20 +1,20 @@
 #pragma once
 
 #include <Arduino.h>
-#include "DelegateAction.h"
+#include "Action.h"
 
-class TimedAction : public DelegateAction {
+class TimedAction : public Action {
 	unsigned long delay = 0;
 	unsigned long finishTime = UINT32_MAX;
 
 public:
-	TimedAction(void (*f)(), unsigned long delay) : DelegateAction(f) {
+	TimedAction(void (*f)(), unsigned long delay) : Action(f) {
 		this->delay = delay;
 	}
 
 	void playAction() {
 		finishTime = millis() + delay;
-		DelegateAction::playAction();
+		Action::playAction();
 	}
 
 	bool isFinished() {

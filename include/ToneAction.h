@@ -13,7 +13,7 @@ class ToneAction : public Action {
 	int noteDuration = 0;
 
 public:
-	ToneAction(int note, int noteDuration) {
+	ToneAction(int note, int noteDuration) : Action(nullptr) {
 		this->note = note;
 		this->noteDuration = noteDuration*1.3;
 		this->delay = noteDuration*1.6;
