@@ -136,7 +136,7 @@ public:
 		SonarObstacles::InRange inRange = obstacles.findInRange(OBSTACLE_RANGE);
 		assesSituation(inRange);
 
-		runMode == AUTO ? play1(obstacles, inRange) : playRemote();
+		runMode == RunMode::AUTO ? play1(obstacles, inRange) : playRemote();
 	}
 
 } playStrategy;

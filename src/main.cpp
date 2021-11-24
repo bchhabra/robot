@@ -33,7 +33,7 @@ void setup() {
 
 	Serial.begin(9600);
 
-	Run::setMode(AUTO);
+	Run::setMode(RunMode::AUTO);
 
 	Robot::setup();
 	serial.println("starting...");

@@ -3,20 +3,22 @@
 #include "ActionList.h"
 #include "component/W.h"
 
-enum Command {
-  NONE,
-  FORWARD,
-  BACKWARD,
-  STOP,
-  LEFT,
-  TURN_LEFT,
-  RIGHT,
-  TURN_RIGHT,
-  LEFT_BACK,
-  RIGHT_BACK
-};
-
 class Controller {
+
+  protected:
+    enum Command {
+      NONE,
+      FORWARD,
+      BACKWARD,
+      STOP,
+      LEFT,
+      TURN_LEFT,
+      RIGHT,
+      TURN_RIGHT,
+      LEFT_BACK,
+      RIGHT_BACK
+    };
+
     virtual bool available();
     virtual Command getReceivedCommand();
 

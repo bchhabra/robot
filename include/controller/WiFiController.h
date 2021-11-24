@@ -3,31 +3,29 @@
 #include "Controller.h"
 #include <Wire.h>
 
-typedef void (*callback)(Command);
-callback f;
-
-void receiveEvent(int howMany) {
-  String res = "";
-  while (0 < Wire.available()) // loop through all but the last
-  {
-    res += (char)Wire.read(); // receive byte as a character
-  }
-  if (res == "f") f(FORWARD);
-  if (res == "b") f(BACKWARD);
-  if (res == "s") f(STOP);
-  if (res == "l") f(LEFT);
-  if (res == "tl") f(TURN_LEFT);
-  if (res == "r") f(RIGHT);
-  if (res == "tr") f(TURN_RIGHT);
-  if (res == "lb") f(LEFT_BACK);
-  if (res == "rb") f(RIGHT_BACK);
-}
-
 class WiFiController : public Controller {
-  private:
-  
+
+  typedef void (*callback)(Command);
+  callback f;  
   
   public:
+    static void receiveEvent(int howMany) {
+      String res = "";
+      while (0 < Wire.available()) // loop through all but the last
+      {
+        res += (char)Wire.read(); // receive byte as a character
+      }
+      if (res == "f") wifiController.f(FORWARD);
+      if (res == "b") wifiController.f(BACKWARD);
+      if (res == "s") wifiController.f(STOP);
+      if (res == "l") wifiController.f(LEFT);
+      if (res == "tl") wifiController.f(TURN_LEFT);
+      if (res == "r") wifiController.f(RIGHT);
+      if (res == "tr") wifiController.f(TURN_RIGHT);
+      if (res == "lb") wifiController.f(LEFT_BACK);
+      if (res == "rb") wifiController.f(RIGHT_BACK);
+    }
+    
     WiFiController(callback func) {
       f = func;
     }
@@ -51,5 +49,4 @@ class WiFiController : public Controller {
       if (value == "lb") return LEFT_BACK;
       if (value == "rb") return RIGHT_BACK;
     }
-};
-
+} wifiController;

@@ -13,10 +13,10 @@ namespace Run {
     void setMode(RunMode mode) {
         runMode = mode;
         switch (runMode) {
-        case AUTO:
-        case MANUAL_WITH_SENSORS:
+        case RunMode::AUTO:
+        case RunMode::MANUAL_WITH_SENSORS:
             break;
-        case FULL_MANUAL:
+        case RunMode::FULL_MANUAL:
             actionList.removeAll();
             W::doStop();
             Leds::allOff();

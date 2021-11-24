@@ -39,12 +39,12 @@ class BlueController: public Controller {
 		if (state != connected) {
 			connected = state;
 			if (connected) {
-				Run::setMode(MANUAL_WITH_SENSORS);
+				Run::setMode(RunMode::MANUAL_WITH_SENSORS);
 				W::doStop();
 				Leds::allOff();
 				serial.println("connected");
 			} else {
-				Run::setMode(AUTO);
+				Run::setMode(RunMode::AUTO);
 				serial.println("disconnected");
 			}
 		}

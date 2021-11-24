@@ -22,7 +22,7 @@ namespace Robot {
     }
 
     void loop(unsigned long currentTime) {
-        if (runMode != FULL_MANUAL && currentTime >= lastScan) {
+        if (runMode != RunMode::FULL_MANUAL && currentTime >= lastScan) {
             static byte sensorIndex = 0;
             static SonarObstacles obstacles = SonarObstacles();
 
