@@ -18,10 +18,7 @@ class BlueController: public Controller {
 		int xAxis, yAxis, button = 0;
 		sscanf(value.c_str(), "%d, %d, %d", &xAxis, &yAxis, &button);
 		
-		if ((button == 0) && IS_NEUTRAL(yAxis) && IS_NEUTRAL(xAxis)) {
-			Run::toggleSensors();
-			return NONE;
-		}
+		if (button == 0) Run::toggleSensors();
 		if ((button == 1) && IS_NEUTRAL(yAxis) && IS_NEUTRAL(xAxis)) return STOP;
 
 		if (IS_ABOVE(yAxis) && IS_NEUTRAL(xAxis)) return FORWARD;
@@ -42,14 +39,16 @@ class BlueController: public Controller {
 		if (state != connected) {
 			connected = state;
 			if (connected) {
-				Run::setMode(FULL_MANUAL);
+				Run::setMode(MANUAL_WITH_SENSORS);
+				W::doStop();
+				Leds::allOff();
 				serial.println("connected");
 			} else {
 				Run::setMode(AUTO);
 				serial.println("disconnected");
 			}
 		}
-		return Serial.available();
+		return connected ? Serial.available() : false;
 	}
 
 public:

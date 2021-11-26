@@ -126,8 +126,8 @@ class PlayStrategy {
 
 	void playRemote() {
 		if (W::direction == W::Movement::FORWARD || W::direction == W::Movement::TURN) {
-			actionList.removeAll();
-			W::doStop();
+			// actionList.removeAll();
+			// W::doStop();
 		}
 	}
 

@@ -14,10 +14,7 @@ namespace Run {
         runMode = mode;
         switch (runMode) {
         case AUTO:
-            // Leds::allOff();
-            break;
         case MANUAL_WITH_SENSORS:
-            // Leds::allOff();
             break;
         case FULL_MANUAL:
             actionList.removeAll();
@@ -28,6 +25,6 @@ namespace Run {
     }
 
     void toggleSensors() {
-        // setMode(static_cast<RunMode>(!(runMode & 0x1)));
+        setMode(static_cast<RunMode>(!(runMode & 0x1)));
     }
 }

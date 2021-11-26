@@ -19,9 +19,9 @@ public:
   }
 
   void stop() {
+    digitalWrite(speedPin, HIGH);
     digitalWrite(pin1, LOW);
     digitalWrite(pin2, LOW);
-    digitalWrite(speedPin, LOW);
   }
 
   void forward() {
@@ -35,10 +35,4 @@ public:
     digitalWrite(pin2, LOW);
     analogWrite(speedPin, speed);
   }
-
-  void setSpeed(byte value) {
-    this->speed = value;
-    analogWrite(speedPin, value);
-  }
 };
-
