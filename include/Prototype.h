@@ -13,8 +13,6 @@ namespace Robot {
     SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
     SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
 
-    void applyStrategy(SonarObstacles& obstacles);
-
     void setup() {
     	Leds::setup();
     }
