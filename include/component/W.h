@@ -1,7 +1,6 @@
 #pragma once
 #include <component/Wheel.h>
 #include "SerialPrinter.h"
-#include "Pins.h"
 
 namespace W {
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
 #include "Pattern.h"
 
 class DefaultPattern: public Pattern {

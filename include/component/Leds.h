@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Arduino.h>
-#include "Pins.h"
 #include "SonarObstacles.h"
 
 namespace Leds {

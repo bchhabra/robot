@@ -1,8 +1,9 @@
 #pragma once
 
+#if CONTROLLER & CTRL_BLUE
+
 #include "Controller.h"
-#include <component/Leds.h>
-#include "RunMode.h"
+#include "component/Leds.h"
 
 #define UP_THRESHOLD 700
 #define DOWN_THRESHOLD 300
@@ -18,7 +19,7 @@ class BlueController: public Controller {
 		int xAxis, yAxis, button = 0;
 		sscanf(value.c_str(), "%d, %d, %d", &xAxis, &yAxis, &button);
 		
-		if (button == 0) Run::toggleSensors();
+		if (button == 0) toggleSensors();
 		if ((button == 1) && IS_NEUTRAL(yAxis) && IS_NEUTRAL(xAxis)) return STOP;
 
 		if (IS_ABOVE(yAxis) && IS_NEUTRAL(xAxis)) return FORWARD;
@@ -39,19 +40,38 @@ class BlueController: public Controller {
 		if (state != connected) {
 			connected = state;
 			if (connected) {
-				Run::setMode(RunMode::MANUAL_WITH_SENSORS);
-				actionList.removeAll();
-				W::doStop();
-				Leds::allOff();
+				setMode(RunMode::MANUAL_WITH_SENSORS);
 				serial.println("connected");
 			} else {
-				Run::setMode(RunMode::AUTO);
-				W::goForward();
+				setMode(RunMode::AUTO);
 				serial.println("disconnected");
 			}
 		}
 		return connected ? Serial.available() : false;
 	}
+
+    void setMode(RunMode mode) {
+        switch (mode) {
+        case RunMode::AUTO:
+			W::goForward();
+            break;
+        case RunMode::MANUAL_WITH_SENSORS:
+			actionList.removeAll();
+			W::doStop();
+			Leds::allOff();
+            break;
+        case RunMode::FULL_MANUAL:
+            actionList.removeAll();
+            W::doStop();
+            Leds::allOff();
+            break;
+        }
+		runMode = mode;
+    }
+
+    void toggleSensors() {
+        setMode(static_cast<RunMode>(!(runMode & 0x1)));
+    }
 
 public:
 	void setup() override {
@@ -59,4 +79,5 @@ public:
 		Serial.begin(9600);
 	}
 	
-};
+} controller;
+#endif

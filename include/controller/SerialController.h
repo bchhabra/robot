@@ -1,5 +1,7 @@
 #pragma once
 
+#if CONTROLLER & CTRL_SERIAL
+
 #include "Controller.h"
 
 class SerialController: public Controller {
@@ -27,4 +29,5 @@ class SerialController: public Controller {
 		return Serial.available();
 	}
 	
-};
+} controller;
+#endif

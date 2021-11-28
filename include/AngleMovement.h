@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
 #include "Action.h"
 #include "imu/MinIMU9AHRS.h"
 

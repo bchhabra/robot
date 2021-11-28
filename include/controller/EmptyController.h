@@ -1,5 +1,8 @@
 #pragma once
 
+#if CONTROLLER
+#else
+
 #include <component/W.h>
 #include "Controller.h"
 
@@ -13,4 +16,5 @@ class EmptyController: public Controller {
 		return false;
 	}
 	
-};
+} controller;
+#endif

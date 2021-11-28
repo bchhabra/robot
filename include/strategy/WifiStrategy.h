@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
 #include "Strategy.h"
 
 class WifiStrategy: public Strategy {

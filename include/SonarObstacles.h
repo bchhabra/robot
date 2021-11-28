@@ -12,8 +12,8 @@ public:
     BOTH_FRONT  = 0b11
   } inRange;
 
-  SonarObstacle frontLeft{0, 0};
-  SonarObstacle frontRight{0, 0};
+  SonarObstacle frontLeft;
+  SonarObstacle frontRight;
 
   InRange getClosest() {
     long diff = frontLeft.distance - frontRight.distance;

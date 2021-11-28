@@ -1,10 +1,12 @@
+#pragma once
+
 #ifdef PROTOTYPE
 
-#include "controller/Controller.h"
 #include "SonarObstacles.h"
 #include "component/SonarSensor.h"
 #include "component/Leds.h"
-#include <strategy/PlayStrategy.h>
+#include "component/W.h"
+#include "strategy/PlayStrategy.h"
 
 #define SCAN_INTERVAL 35
 

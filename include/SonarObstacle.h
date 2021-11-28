@@ -10,10 +10,6 @@ class SonarObstacle : public Obstacle {
 public:
   long distance = 0;
 
-  SonarObstacle(long distance, unsigned long time) : Obstacle(time) {
-    this->distance = distance;
-  }
-
   void setValues(long distance, unsigned long time) {
     this->distance = distance;
     this->time = time;

@@ -4,7 +4,6 @@
 
 #include <Arduino.h>
 #include "Action.h"
-#include "Pins.h"
 
 class ToneAction : public Action {
 	int delay = 0;

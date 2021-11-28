@@ -1,5 +1,6 @@
 #ifndef PROTOTYPE
 
+#include "component/W.h"
 #include <strategy/FactoryStrategy.h>
 
 namespace Robot {
@@ -14,14 +15,14 @@ namespace Robot {
     }
 
     void loop(unsigned long currentTime) {
-	if (interruptCalled) {
-		interruptCalled = false;
-		Obstacle* obstacle = new Obstacle(currentTime);
-		activeStrategy->obstacleFound(obstacle);
-		delete obstacle;
-	} else {
-		activeStrategy->run();
-	}
+        if (interruptCalled) {
+            interruptCalled = false;
+            Obstacle* obstacle = new Obstacle(currentTime);
+            activeStrategy->obstacleFound(obstacle);
+            delete obstacle;
+        } else {
+            activeStrategy->run();
+        }
     }
 
 

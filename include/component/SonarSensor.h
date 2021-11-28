@@ -44,8 +44,8 @@ public:
     pinMode(echo, INPUT);
   }
 
-  SonarObstacle* scan() {
-    return new SonarObstacle(readDistance(), millis());
+  void scan(SonarObstacle& obstacle) {
+    obstacle.setValues(readDistance(), millis());
   }
 };
 
