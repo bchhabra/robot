@@ -14,6 +14,11 @@ public:
     this->distance = distance;
   }
 
+  void setValues(long distance, unsigned long time) {
+    this->distance = distance;
+    this->time = time;
+  }
+
   bool isInRange(int range) {
     return (distance > 0 && distance <= range);
   }

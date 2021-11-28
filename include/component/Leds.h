@@ -21,11 +21,11 @@ namespace Leds {
     }
 
 #if LEDS
-    void update(SonarObstacle* obstacle, uint8_t pinClose, uint8_t pinFar) {
-        if (obstacle->isInRange(OBSTACLE_RANGE)) {
+    void update(SonarObstacle& obstacle, uint8_t pinClose, uint8_t pinFar) {
+        if (obstacle.isInRange(OBSTACLE_RANGE)) {
             digitalWrite(pinClose, HIGH);
             digitalWrite(pinFar, HIGH);
-        } else if (obstacle->isInRange(MAX_DISTANCE)) {
+        } else if (obstacle.isInRange(MAX_DISTANCE)) {
             digitalWrite(pinClose, LOW);
             digitalWrite(pinFar, HIGH);
         } else {

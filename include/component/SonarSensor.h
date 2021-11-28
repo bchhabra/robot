@@ -15,10 +15,10 @@ public:
     sonar = new NewPing(trigger, echo, MAX_DISTANCE);
   }
 
-  SonarObstacle* scan() {
+  void scan(SonarObstacle& obstacle) {
     unsigned long time = millis();
     long distance = sonar->convert_cm(sonar->ping_median());
-    return new SonarObstacle(distance, time);
+    obstacle.setValues(distance, time);
   }
 };
 

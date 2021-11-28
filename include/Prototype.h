@@ -10,10 +10,8 @@
 
 namespace Robot {
     
-    unsigned long lastScan = 0;
     SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
     SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
-    unsigned long currentTime = 0;
 
     void applyStrategy(SonarObstacles& obstacles);
 
@@ -22,34 +20,23 @@ namespace Robot {
     }
 
     void loop(unsigned long currentTime) {
+        static unsigned long lastScan = 0;
         if (runMode != RunMode::FULL_MANUAL && currentTime >= lastScan) {
             static byte sensorIndex = 0;
             static SonarObstacles obstacles = SonarObstacles();
 
             if (sensorIndex == 0) {
-                obstacles.frontLeft = frontLeftSensor.scan();
+                frontLeftSensor.scan(obstacles.frontLeft);
                 Leds::updateLeft(obstacles);
-                applyStrategy(obstacles);
+                playStrategy.obstacleFound(obstacles);
             } else {
-                obstacles.frontRight = frontRightSensor.scan();
+                frontRightSensor.scan(obstacles.frontRight);
                 Leds::updateRight(obstacles);
-                applyStrategy(obstacles);
+                playStrategy.obstacleFound(obstacles);
             }
             ++sensorIndex %= 2;
             lastScan = millis() + SCAN_INTERVAL;
         }
-    }
-
-    void applyStrategy(SonarObstacles& obstacles) {
-        static bool secondCall = false;
-        
-        // first call, with only one obstacle scanned
-        // second call, with both obstacles scanned
-        playStrategy.obstacleFound(obstacles);
-        if (secondCall) {
-            obstacles.deleteObstacles();
-        }
-        secondCall = !secondCall;
     }
 
 }
