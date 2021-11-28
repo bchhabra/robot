@@ -45,6 +45,7 @@ class BlueController: public Controller {
 				serial.println("connected");
 			} else {
 				Run::setMode(RunMode::AUTO);
+				W::goForward();
 				serial.println("disconnected");
 			}
 		}

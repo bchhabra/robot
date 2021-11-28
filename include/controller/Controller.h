@@ -31,31 +31,31 @@ class Controller {
         Command cmd = getReceivedCommand();
         switch (cmd) {
         case FORWARD:
-          actionList.addTimedAction(W::goForward, 0);
+          W::goForward();
           break;
         case BACKWARD:
-          actionList.addTimedAction(W::goBackward, 0);
+          W::goBackward();
           break;
         case STOP:
-          actionList.addTimedAction(W::doStop, 0);
+          W::doStop();
           break;
         case LEFT:
-          actionList.addTimedAction(W::goLeft, 0);
+          W::goLeft();
           break;
         case RIGHT:
-          actionList.addTimedAction(W::goRight, 0);
+          W::goRight();
           break;
         case LEFT_BACK:
-          actionList.addTimedAction(W::goLeftBack, 0);
+          W::goLeftBack();
           break;
         case RIGHT_BACK:
-          actionList.addTimedAction(W::goRightBack, 0);
+          W::goRightBack();
           break;
         case TURN_LEFT:
-          actionList.addTimedAction(W::turnLeft, 0);
+          W::turnLeft();
           break;
         case TURN_RIGHT:
-          actionList.addTimedAction(W::turnRight, 0);
+          W::turnRight();
           break;
         default:
           break;
