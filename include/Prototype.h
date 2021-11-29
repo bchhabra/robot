@@ -28,12 +28,11 @@ namespace Robot {
             if (sensorIndex == 0) {
                 frontLeftSensor.scan(obstacles.frontLeft);
                 Leds::updateLeft(obstacles);
-                playStrategy.obstacleFound(obstacles);
             } else {
                 frontRightSensor.scan(obstacles.frontRight);
                 Leds::updateRight(obstacles);
-                playStrategy.obstacleFound(obstacles);
             }
+            playStrategy.obstacleFound(obstacles);
             ++sensorIndex %= 2;
             lastScan = millis() + SCAN_INTERVAL;
         }
