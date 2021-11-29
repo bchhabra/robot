@@ -10,7 +10,7 @@ public:
 	}
 
 	void run() {
-		actionList.addTimedAction(W::doStop, 0);
+		actionList.addTimedAction(Wheels::doStop, 0);
 	}
 
 	void obstacleFound(unsigned long interruptTime) {

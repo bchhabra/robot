@@ -3,7 +3,7 @@
 #if CONTROLLER
 #else
 
-#include <component/W.h>
+#include <component/Wheels.h>
 #include "Controller.h"
 
 class EmptyController: public Controller {

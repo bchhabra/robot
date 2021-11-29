@@ -58,7 +58,7 @@ public:
 	void obstacleFound(Obstacle* obstacle) {
 		interruptCounter++;
 
-		W::doStop();
+		Wheels::doStop();
 		actionList.removeAll();
 
 		activePattern->obstacleFound(obstacle->time);

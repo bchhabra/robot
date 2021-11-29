@@ -17,7 +17,7 @@ public:
 	}
 
 	void run() {
-		actionList.addTimedAction(W::goForward, 0);
+		actionList.addTimedAction(Wheels::goForward, 0);
 	}
 
 	void obstacleFound(unsigned long interruptTime) {
@@ -26,21 +26,21 @@ public:
 
 		if ((interruptTime - lastInterruptTime) < 1000) {
 			serial.println("Obstacle - ZigZag Pattern with in 1 sec");
-			actionList.addTimedAction(W::goBackward, 1500);
-			actionList.addTimedAction(W::turnRight, 700);
+			actionList.addTimedAction(Wheels::goBackward, 1500);
+			actionList.addTimedAction(Wheels::turnRight, 700);
 		}
 		if (interruptCounter % 2 == 0) {
 			serial.println("Obstacle - ZigZag Pattern Even");
-			actionList.addTimedAction(W::goBackward, 700);
-			actionList.addTimedAction(W::turnRight, 1100);
-			actionList.addTimedAction(W::goForward, 1100);
-			actionList.addTimedAction(W::turnRight, 1100);
+			actionList.addTimedAction(Wheels::goBackward, 700);
+			actionList.addTimedAction(Wheels::turnRight, 1100);
+			actionList.addTimedAction(Wheels::goForward, 1100);
+			actionList.addTimedAction(Wheels::turnRight, 1100);
 		} else {
 			serial.println("Obstacle - ZigZag Pattern Odd");
-			actionList.addTimedAction(W::goBackward, 700);
-			actionList.addTimedAction(W::turnLeft, 1100);
-			actionList.addTimedAction(W::goForward, 1100);
-			actionList.addTimedAction(W::turnLeft, 1100);
+			actionList.addTimedAction(Wheels::goBackward, 700);
+			actionList.addTimedAction(Wheels::turnLeft, 1100);
+			actionList.addTimedAction(Wheels::goForward, 1100);
+			actionList.addTimedAction(Wheels::turnLeft, 1100);
 
 		}
 

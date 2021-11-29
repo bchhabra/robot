@@ -53,16 +53,16 @@ class BlueController: public Controller {
     void setMode(RunMode mode) {
         switch (mode) {
         case RunMode::AUTO:
-			W::goForward();
+			Wheels::goForward();
             break;
         case RunMode::MANUAL_WITH_SENSORS:
 			actionList.removeAll();
-			W::doStop();
+			Wheels::doStop();
 			Leds::allOff();
             break;
         case RunMode::FULL_MANUAL:
             actionList.removeAll();
-            W::doStop();
+            Wheels::doStop();
             Leds::allOff();
             break;
         }

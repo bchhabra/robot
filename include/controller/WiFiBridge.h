@@ -2,7 +2,7 @@
 
 #include <Wire.h>
 #include "ActionList.h"
-#include "component/W.h"
+#include "component/Wheels.h"
 #include "strategy/WifiStrategy.h"
 
 namespace WifiBridge {
@@ -31,31 +31,31 @@ void receiveEvent(int howMany) {
 	changeStrategy(&wifiStrategy);
 
 	if (res == "f") {
-		actionList.addTimedAction(W::goForward, 0);
+		actionList.addTimedAction(Wheels::goForward, 0);
 	}
 	if (res == "b") {
-		actionList.addTimedAction(W::goBackward, 0);
+		actionList.addTimedAction(Wheels::goBackward, 0);
 	}
 	if (res == "s") {
-		actionList.addTimedAction(W::doStop, 0);
+		actionList.addTimedAction(Wheels::doStop, 0);
 	}
 	if (res == "l") {
-		actionList.addTimedAction(W::goLeft, 0);
+		actionList.addTimedAction(Wheels::goLeft, 0);
 	}
 	if (res == "tl") {
-		actionList.addTimedAction(W::turnLeft, 0);
+		actionList.addTimedAction(Wheels::turnLeft, 0);
 	}
 	if (res == "r") {
-		actionList.addTimedAction(W::goRight, 0);
+		actionList.addTimedAction(Wheels::goRight, 0);
 	}
 	if (res == "tr") {
-		actionList.addTimedAction(W::turnRight, 0);
+		actionList.addTimedAction(Wheels::turnRight, 0);
 	}
 	if (res == "lb") {
-		actionList.addTimedAction(W::goLeftBack, 0);
+		actionList.addTimedAction(Wheels::goLeftBack, 0);
 	}
 	if (res == "rb") {
-		actionList.addTimedAction(W::goRightBack, 0);
+		actionList.addTimedAction(Wheels::goRightBack, 0);
 	}
 }
 

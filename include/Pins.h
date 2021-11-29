@@ -36,11 +36,9 @@
 
     #define LEFT_WHEEL_FORWARD 5
     #define LEFT_WHEEL_BACKWARD 8
-    #define LEFT_WHEEL_SPEED 9 // not used but compilation fails - requires some code changes
 
     #define RIGHT_WHEEL_FORWARD 7
     #define RIGHT_WHEEL_BACKWARD 6
-    #define RIGHT_WHEEL_SPEED 10 // not used but compilation fails - requires some code changes
 
     #define PORT_CONTACTSENSORS 2
 

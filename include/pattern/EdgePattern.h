@@ -17,11 +17,11 @@ public:
 		 *
 		 */
 		if(isWall){
-			actionList.addTimedAction(W::goLeft, 1000);
-			actionList.addTimedAction(W::goForward, 200);
+			actionList.addTimedAction(Wheels::goLeft, 1000);
+			actionList.addTimedAction(Wheels::goForward, 200);
 		}else{
-			actionList.addTimedAction(W::goForward, 500);
-			actionList.addTimedAction(W::goLeft, 500);
+			actionList.addTimedAction(Wheels::goForward, 500);
+			actionList.addTimedAction(Wheels::goLeft, 500);
 		}
 	}
 
@@ -35,8 +35,8 @@ public:
 			isWall=true;
 		}
 
-		actionList.addTimedAction(W::goLeftBack, 500);
-		actionList.addTimedAction(W::goForward, 300);
+		actionList.addTimedAction(Wheels::goLeftBack, 500);
+		actionList.addTimedAction(Wheels::goForward, 300);
 
 		lastInterruptTime = interruptTime;
 	}

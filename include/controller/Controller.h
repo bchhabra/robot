@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ActionList.h"
-#include "component/W.h"
+#include "component/Wheels.h"
 
 class Controller {
 
@@ -31,31 +31,31 @@ class Controller {
         Command cmd = getReceivedCommand();
         switch (cmd) {
         case FORWARD:
-          W::goForward();
+          Wheels::goForward();
           break;
         case BACKWARD:
-          W::goBackward();
+          Wheels::goBackward();
           break;
         case STOP:
-          W::doStop();
+          Wheels::doStop();
           break;
         case LEFT:
-          W::goLeft();
+          Wheels::goLeft();
           break;
         case RIGHT:
-          W::goRight();
+          Wheels::goRight();
           break;
         case LEFT_BACK:
-          W::goLeftBack();
+          Wheels::goLeftBack();
           break;
         case RIGHT_BACK:
-          W::goRightBack();
+          Wheels::goRightBack();
           break;
         case TURN_LEFT:
-          W::turnLeft();
+          Wheels::turnLeft();
           break;
         case TURN_RIGHT:
-          W::turnRight();
+          Wheels::turnRight();
           break;
         default:
           break;

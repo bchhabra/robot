@@ -10,13 +10,13 @@ public:
 
 	void run() {
 		if (actionList.isEmpty()) {
-			W::doStop();
+			Wheels::doStop();
 		}
 	}
 
 	void obstacleFound(Obstacle* obstacle) {
 //		actionList.removeAll();
-//		actionList.addAction(W::goBackward, 100);
+//		actionList.addAction(Wheels::goBackward, 100);
 	}
 
 } wifiStrategy;

@@ -1,8 +1,10 @@
 #pragma once
-#include <component/Wheel.h>
+
+#include <component/PrototypeMotor.h>
+#include <component/RobotMotor.h>
 #include "SerialPrinter.h"
 
-namespace W {
+namespace Wheels {
 
 	enum Movement {
 		PAUSED 		= 0b001,
@@ -16,16 +18,13 @@ namespace W {
 		serial.println(message);
 	}
 
-	Wheel left(LEFT_WHEEL_BACKWARD, LEFT_WHEEL_FORWARD, LEFT_WHEEL_SPEED, 150);
-	Wheel right(RIGHT_WHEEL_BACKWARD, RIGHT_WHEEL_FORWARD, RIGHT_WHEEL_SPEED, 180);
-
 	Movement direction = Movement::STOPPED;
 
 	void goForward() {
 		printInfo("go forward");
 		left.forward();
 		right.forward();
-		W::direction = Movement::FORWARD;
+		direction = Movement::FORWARD;
 	}
 
 	static void goBackward() {

@@ -1,6 +1,6 @@
 #ifndef PROTOTYPE
 
-#include "component/W.h"
+#include "component/Wheels.h"
 #include <strategy/FactoryStrategy.h>
 
 namespace Robot {

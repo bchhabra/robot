@@ -23,15 +23,15 @@ class PlayStrategy {
 	} currentSituation;
 
 	void assesSituation(SonarObstacles::InRange inRange) {
-		currentSituation = static_cast<Situation>((inRange << 3) | (W::direction));
+		currentSituation = static_cast<Situation>((inRange << 3) | (Wheels::direction));
 	}
 
 	void avoidCornerFront(SonarObstacles::InRange arr) {
 		if (arr == SonarObstacles::LEFT_FRONT) {
-			actionList.addTimedAction(W::turnRight, 400);
+			actionList.addTimedAction(Wheels::turnRight, 400);
 		}
 		if (arr == SonarObstacles::RIGHT_FRONT) {
-			actionList.addTimedAction(W::turnLeft, 400);
+			actionList.addTimedAction(Wheels::turnLeft, 400);
 		}
 	}
 
@@ -42,7 +42,7 @@ class PlayStrategy {
 			case LEFT_FRONT_OSTACLE_STOPPED:
 			case BOTH_OSTACLES_STOPPED:
 				Sound::stop();
-				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
 				break;
 			case NO_OSTACLE_STOPPED:
 			case NO_OSTACLE_FORWARD:
@@ -52,24 +52,24 @@ class PlayStrategy {
 				Sound::stop();
 				actionList.removeAll();
 
-				actionList.addTimedAction(W::goBackward, 400);
+				actionList.addTimedAction(Wheels::goBackward, 400);
 				avoidCornerFront(inRange);
-				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::pause, 1000);
+				actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
 				break;
 			case BOTH_OSTACLES_PAUSED:
 				Sound::stop();
 				actionList.removeAll();
 
-				actionList.addTimedAction(W::goBackward, 800);
+				actionList.addTimedAction(Wheels::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
-				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::pause, 1000);
+				actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:
 				Sound::stop();
-				W::pause();
+				Wheels::pause();
 				actionList.removeAll();
 				break;
 			case BOTH_OSTACLES_FORWARD:
@@ -86,8 +86,8 @@ class PlayStrategy {
 			case LEFT_FRONT_OSTACLE_STOPPED:
 			case BOTH_OSTACLES_STOPPED:
 				Sound::stop();
-				actionList.addTimedAction(W::goForward, 5000).andInParallel(Sound::play);
-				actionList.addTimedAction(W::turnRight, 800);
+				actionList.addTimedAction(Wheels::goForward, 5000).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::turnRight, 800);
 				break;
 			case NO_OSTACLE_STOPPED:
 			case NO_OSTACLE_FORWARD:
@@ -97,24 +97,24 @@ class PlayStrategy {
 				Sound::stop();
 				actionList.removeAll();
 
-				actionList.addTimedAction(W::goBackward, 400);
+				actionList.addTimedAction(Wheels::goBackward, 400);
 				avoidCornerFront(inRange);
-				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::pause, 1000);
+				actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
 				break;
 			case BOTH_OSTACLES_PAUSED:
 				Sound::stop();
 				actionList.removeAll();
 
-				actionList.addTimedAction(W::goBackward, 800);
+				actionList.addTimedAction(Wheels::goBackward, 800);
 				avoidCornerFront(obstacles.getClosest());
-				actionList.addTimedAction(W::pause, 1000);
-				actionList.addTimedAction(W::goForward, 0).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::pause, 1000);
+				actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
 				break;
 			case RIGHT_FRONT_OSTACLE_FORWARD:
 			case LEFT_FRONT_OSTACLE_FORWARD:
 				Sound::stop();
-				W::pause();
+				Wheels::pause();
 				actionList.removeAll();
 				break;
 			case BOTH_OSTACLES_FORWARD:

@@ -5,7 +5,7 @@
 #include "SonarObstacles.h"
 #include "component/SonarSensor.h"
 #include "component/Leds.h"
-#include "component/W.h"
+#include "component/Wheels.h"
 #include "strategy/PlayStrategy.h"
 
 #define SCAN_INTERVAL 35
