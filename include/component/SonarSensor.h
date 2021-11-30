@@ -15,6 +15,10 @@ public:
     sonar = new NewPing(trigger, echo, MAX_DISTANCE);
   }
 
+  NewPing& getSonar() {
+    return *sonar;
+  }
+
   void scan(SonarObstacle& obstacle) {
     unsigned long time = millis();
     long distance = sonar->convert_cm(sonar->ping_median());
