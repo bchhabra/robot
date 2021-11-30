@@ -34,6 +34,10 @@ namespace Robot {
             }
             playStrategy.obstacleFound(obstacles);
             ++sensorIndex %= 2;
+            if (sensorIndex == 0) {
+                obstacles.frontLeft.setValues(0, 0);
+                obstacles.frontRight.setValues(0, 0);
+            }
             lastScan = millis() + SCAN_INTERVAL;
         }
     }
