@@ -32,6 +32,18 @@ namespace Robot {
 
     void echoCheck() {
         if (sensors[sensorIndex].check_timer()) {
+            obstacleFound = true;
+        }
+    }
+
+    void setup() {
+    	Leds::setup();
+        lastScan = millis() + 1000;
+    }
+
+    void loop(unsigned long currentTime) {
+        if (obstacleFound) {
+            obstacleFound = false;
             // Serial.print("pong: ");
             // Serial.print(sensorIndex);
             // Serial.print(" | ping_result: ");
@@ -49,18 +61,9 @@ namespace Robot {
                 // Serial.println(obstacles.frontRight->distance);
             }
             ++sensorIndex %= 2;
-            obstacleFound = true;
             lastScan = millis() + SCAN_INTERVAL;
+            // playStrategy.obstacleFound(obstacles);
         }
-    }
-
-    void setup() {
-    	Leds::setup();
-        lastScan = millis() + 1000;
-    }
-
-    void loop(unsigned long currentTime) {
-        if (obstacleFound) playStrategy.obstacleFound(obstacles);
         if (runMode != RunMode::FULL_MANUAL && currentTime >= lastScan) {
             ping();
         }
