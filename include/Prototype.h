@@ -8,13 +8,11 @@
 
 namespace Robot {
     
-    unsigned long lastScan = 0;
-
     SonarObstacles obstacles = SonarObstacles();
 
     void setup() {
     	Leds::setup();
-        lastScan = millis() + 1000;
+        SonarSensors::setup();
     }
 
     void loop(unsigned long currentTime) {
@@ -29,9 +27,8 @@ namespace Robot {
             }
             playStrategy.obstacleFound(obstacles);
         }
-        if (runMode != RunMode::FULL_MANUAL && currentTime >= lastScan) {
-            lastScan = currentTime + SCAN_INTERVAL;
-            SonarSensors::ping();
+        if (runMode != RunMode::FULL_MANUAL) {
+            SonarSensors::loop(currentTime);
         }
     }
 

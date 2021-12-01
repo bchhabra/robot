@@ -8,6 +8,7 @@
 
 namespace SonarSensors {
     
+    unsigned long lastScan = 0;
     byte sensorIndex = 0;
     NewPing sensors[] = {NewPing(FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO), NewPing(FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO)};
     volatile bool obstacleFound = false;
@@ -29,6 +30,17 @@ namespace SonarSensors {
 
     unsigned long getResult() {
         return sensors[sensorIndex].ping_result / US_ROUNDTRIP_CM;
+    }
+
+    void setup() {
+        lastScan = millis() + 1000;
+    }
+
+    void loop(unsigned long currentTime) {
+        if (currentTime >= lastScan) {
+            lastScan = currentTime + SCAN_INTERVAL;
+            ping();
+        }
     }
 }
 #endif
