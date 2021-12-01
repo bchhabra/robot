@@ -54,11 +54,13 @@ class BlueController: public Controller {
         switch (mode) {
         case RunMode::AUTO:
 			Wheels::goForward();
+			SonarSensors::reset();
             break;
         case RunMode::MANUAL_WITH_SENSORS:
 			actionList.removeAll();
 			Wheels::doStop();
 			Leds::allOff();
+			SonarSensors::reset();
             break;
         case RunMode::FULL_MANUAL:
             actionList.removeAll();

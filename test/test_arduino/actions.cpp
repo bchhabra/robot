@@ -64,6 +64,7 @@ void test_parallel_action() {
     TEST_ASSERT_TRUE_MESSAGE(f2_executed, "f2() was executed");
 }
 
+#if SOUND
 void test_tone_action() {
     f_executed = false;
 
@@ -81,12 +82,15 @@ void test_tone_action() {
     TEST_ASSERT_TRUE_MESSAGE(timedAction.isFinished(), "timed action is finished");
     TEST_ASSERT_TRUE_MESSAGE(f_executed, "f() was executed");
 }
+#endif
 
 void setup() {
     UNITY_BEGIN();
     RUN_TEST(test_timed_action);
     RUN_TEST(test_parallel_action);
+#if SOUND
     RUN_TEST(test_tone_action);
+#endif
     UNITY_END();
 }
 

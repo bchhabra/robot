@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SonarObstacles.h"
+#include "component/Wheels.h"
 #include "component/Piezzo.h"
 
 class PlayStrategy {

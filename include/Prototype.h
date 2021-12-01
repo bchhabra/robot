@@ -2,43 +2,33 @@
 
 #ifdef PROTOTYPE
 
-#include "SonarObstacles.h"
-#include "component/SonarSensor.h"
+#include "SonarSensors.h"
 #include "component/Leds.h"
-#include "component/Wheels.h"
 #include "strategy/PlayStrategy.h"
-
-#define SCAN_INTERVAL 35
 
 namespace Robot {
     
-    SonarSensor frontLeftSensor { FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO };
-    SonarSensor frontRightSensor { FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO };
+    SonarObstacles obstacles = SonarObstacles();
 
     void setup() {
     	Leds::setup();
+        SonarSensors::setup();
     }
 
     void loop(unsigned long currentTime) {
-        static unsigned long lastScan = 0;
-        if (runMode != RunMode::FULL_MANUAL && currentTime >= lastScan) {
-            static byte sensorIndex = 0;
-            static SonarObstacles obstacles = SonarObstacles();
-
-            if (sensorIndex == 0) {
-                frontLeftSensor.scan(obstacles.frontLeft);
+        if (SonarSensors::obstacleFound) {
+            SonarSensors::obstacleFound = false;
+            if (SonarSensors::sensorIndex == 0) {
+                obstacles.frontLeft.setValues(SonarSensors::getResult(), currentTime);
                 Leds::updateLeft(obstacles);
             } else {
-                frontRightSensor.scan(obstacles.frontRight);
+                obstacles.frontRight.setValues(SonarSensors::getResult(), currentTime);
                 Leds::updateRight(obstacles);
             }
             playStrategy.obstacleFound(obstacles);
-            ++sensorIndex %= 2;
-            if (sensorIndex == 0) {
-                obstacles.frontLeft.setValues(0, 0);
-                obstacles.frontRight.setValues(0, 0);
-            }
-            lastScan = millis() + SCAN_INTERVAL;
+        }
+        if (runMode != RunMode::FULL_MANUAL) {
+            SonarSensors::loop(currentTime);
         }
     }
 
