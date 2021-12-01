@@ -4,6 +4,7 @@
 
 #include <NewPing.h>
 
+#define MAX_DISTANCE 100
 #define SCAN_INTERVAL 35
 #define MEDIAN_ITERATIONS 5
 
@@ -20,7 +21,10 @@ namespace SonarSensors {
     } cycle;
     
     byte sensorIndex = 0;
-    NewPing sensors[] = {NewPing(FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO), NewPing(FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO)};
+    NewPing sensors[] = {
+        NewPing(FRONT_LEFT_SONAR_TRIGGER, FRONT_LEFT_SONAR_ECHO), 
+        NewPing(FRONT_RIGHT_SONAR_TRIGGER, FRONT_RIGHT_SONAR_ECHO)
+        };
     bool obstacleFound = false;
 
     void echoCheck();
@@ -89,19 +93,6 @@ namespace SonarSensors {
             iteration.nextScan = currentTime + SCAN_INTERVAL;
         }
     }
-
-    // void loop() {
-    //     for (uint8_t i = 0; i < MEDIAN_ITERATIONS; i++) { // Loop through all the iterations.
-    //         if (millis() >= pingTimer[i]) {          // Is it this iteration's time to ping?
-    //             pingTimer[i] += SCAN_INTERVAL * MEDIAN_ITERATIONS; // Set next time this sensor will be pinged.
-    //             if (i == 0 && currentIteration == MEDIAN_ITERATIONS - 1) sensorCycleComplete(); // Sensor ping cycle complete, do something with the results.
-    //             currentIteration = i;        // Sensor being accessed.
-    //             cm[currentIteration] = 0;    // Make distance zero in case there's no ping echo for this iteration.
-    //             ping(); // Do the ping (processing continues, interrupt will call echoCheck to look for echo).
-    //             break;
-    //         }
-    //     }
-    //   }
 
 }
 #endif
