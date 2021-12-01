@@ -14,12 +14,12 @@ class ActionList {
 
 public:
 	Action& add(Action* action) {
-		// if (isEmpty()) {
-		// 	current = action;
-		// } else {
-		// 	last->next = action;
-		// }
-		// last = action;
+		if (isEmpty()) {
+			current = action;
+		} else {
+			last->next = action;
+		}
+		last = action;
 		return *action;
 	}
 

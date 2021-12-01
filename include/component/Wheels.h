@@ -15,78 +15,78 @@ namespace Wheels {
 	};
 
 	void printInfo(const char* message) {
-		// serial.println(message);
+		serial.println(message);
 	}
 
 	Movement direction = Movement::STOPPED;
 
 	void goForward() {
 		printInfo("go forward");
-		// left.forward();
-		// right.forward();
+		left.forward();
+		right.forward();
 		direction = Movement::FORWARD;
 	}
 
-	void goBackward() {
+	static void goBackward() {
 		printInfo("go backward");
-		// left.backward();
-		// right.backward();
+		left.backward();
+		right.backward();
 		direction = Movement::BACKWARD;
 	}
 	
-	void doStop() {
+	static void doStop() {
 		printInfo("do stop");
-		// left.stop();
-		// right.stop();
+		left.stop();
+		right.stop();
 		direction = Movement::STOPPED;
 	}
 	
-	void pause() {
-		// printInfo("pause");
-		// left.stop();
-		// right.stop();
-		// direction = Movement::PAUSED;
+	static void pause() {
+		printInfo("pause");
+		left.stop();
+		right.stop();
+		direction = Movement::PAUSED;
 	}
 
-	void goLeft() {
+	static void goLeft() {
 		printInfo("go left");
-		// left.stop();
-		// right.forward();
+		left.stop();
+		right.forward();
 		direction = Movement::TURN;
 	}
 
-	void turnLeft() {
+	static void turnLeft() {
 		printInfo("turn left");
-		// left.backward();
-		// right.forward();
+		left.backward();
+		right.forward();
 		direction = Movement::TURN;
 	}
 
-	void goRight() {
+	static void goRight() {
 		printInfo("go right");
-		// left.forward();
-		// right.stop();
+		left.forward();
+		right.stop();
 		direction = Movement::TURN;
 	}
 
-	void turnRight() {
+	static void turnRight() {
 		printInfo("turn right");
-		// left.forward();
-		// right.backward();
+		left.forward();
+		right.backward();
 		direction = Movement::TURN;
 	}
 
-	void goLeftBack() {
+	static void goLeftBack() {
 		printInfo("go left back");
-		// left.stop();
-		// right.backward();
+		left.stop();
+		right.backward();
 		direction = Movement::TURN;
 	}
 
-	void goRightBack() {
+	static void goRightBack() {
 		printInfo("go right back");
-		// left.backward();
-		// right.stop();
+		left.backward();
+		right.stop();
 		direction = Movement::TURN;
 	}
 }

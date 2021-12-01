@@ -52,10 +52,10 @@ class PlayStrategy {
 				Sound::stop();
 				actionList.removeAll();
 
-				// actionList.addTimedAction(Wheels::goBackward, 400);
-				// avoidCornerFront(inRange);
-				// actionList.addTimedAction(Wheels::pause, 1000);
-				// actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
+				actionList.addTimedAction(Wheels::goBackward, 400);
+				avoidCornerFront(inRange);
+				actionList.addTimedAction(Wheels::pause, 1000);
+				actionList.addTimedAction(Wheels::goForward, 0).andInParallel(Sound::play);
 				break;
 			case BOTH_OSTACLES_PAUSED:
 				Sound::stop();
@@ -83,7 +83,6 @@ public:
 	void obstacleFound(SonarObstacles& obstacles) {
 		SonarObstacles::InRange inRange = obstacles.findInRange(OBSTACLE_RANGE);
 		assesSituation(inRange);
-				actionList.addTimedAction(Wheels::goBackward, 1000);
 
 		if (runMode == RunMode::AUTO) play1(obstacles, inRange);
 	}

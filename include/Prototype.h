@@ -19,7 +19,7 @@ namespace Robot {
     byte sensorIndex = 0;
     SonarObstacles obstacles = SonarObstacles();
     NewPing sensors[] = {frontLeftSensor.getSonar(), frontRightSensor.getSonar()};
-    bool obstacleFound = false;
+    volatile bool obstacleFound = false;
 
     void applyStrategy(SonarObstacles& obstacles);
     void echoCheck();
@@ -27,6 +27,8 @@ namespace Robot {
     void ping() {
         // Serial.print("ping: ");
         // Serial.println(sensorIndex);
+        sensors[0].timer_stop();
+        sensors[1].timer_stop();
         sensors[sensorIndex].ping_timer(echoCheck);
     }
 
@@ -48,23 +50,28 @@ namespace Robot {
             // Serial.print(sensorIndex);
             // Serial.print(" | ping_result: ");
             // Serial.println(sensors[sensorIndex].ping_result);
-            sensors[sensorIndex].timer_stop();
             if (sensorIndex == 0) {
                 obstacles.frontLeft.setValues(sensors[sensorIndex].ping_result / US_ROUNDTRIP_CM, millis());
                 Leds::updateLeft(obstacles);
                 // Serial.print("Left: ");
-                // Serial.println(obstacles.frontLeft->distance);
+                // Serial.println(sensors[sensorIndex].ping_result / US_ROUNDTRIP_CM);
             } else {
                 obstacles.frontRight.setValues(sensors[sensorIndex].ping_result / US_ROUNDTRIP_CM, millis());
                 Leds::updateRight(obstacles);
                 // Serial.print("Right: ");
-                // Serial.println(obstacles.frontRight->distance);
+                // Serial.println(sensors[sensorIndex].ping_result / US_ROUNDTRIP_CM);
             }
-            ++sensorIndex %= 2;
-            lastScan = millis() + SCAN_INTERVAL;
-            // playStrategy.obstacleFound(obstacles);
+            // ++sensorIndex %= 2;
+            // lastScan = millis() + SCAN_INTERVAL;
+            playStrategy.obstacleFound(obstacles);
         }
         if (runMode != RunMode::FULL_MANUAL && currentTime >= lastScan) {
+                // Serial.print("last scan prev: ");
+                // Serial.println(lastScan);
+            lastScan = currentTime + SCAN_INTERVAL;
+                // Serial.print("last scan next: ");
+                // Serial.println(lastScan);
+            ++sensorIndex %= 2;
             ping();
         }
     }
