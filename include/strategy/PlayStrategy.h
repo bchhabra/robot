@@ -29,10 +29,10 @@ class PlayStrategy {
 
 	void avoidCornerFront(SonarObstacles::InRange arr) {
 		if (arr == SonarObstacles::LEFT_FRONT) {
-			actionList.addTimedAction(Wheels::turnRight, 400);
+			actionList.addTurnAction(Wheels::turnRight, 400);
 		}
 		if (arr == SonarObstacles::RIGHT_FRONT) {
-			actionList.addTimedAction(Wheels::turnLeft, 400);
+			actionList.addTurnAction(Wheels::turnLeft, 400);
 		}
 	}
 
@@ -88,7 +88,7 @@ class PlayStrategy {
 			case BOTH_OSTACLES_STOPPED:
 				Sound::stop();
 				actionList.addTimedAction(Wheels::goForward, 5000).andInParallel(Sound::play);
-				actionList.addTimedAction(Wheels::turnRight, 800);
+				actionList.addTurnAction(Wheels::turnRight, 800);
 				break;
 			case NO_OSTACLE_STOPPED:
 			case NO_OSTACLE_FORWARD:

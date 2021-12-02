@@ -3,6 +3,8 @@
 #include "AngleMovement.h"
 #include "TimedAction.h"
 
+#define delay_to_deg(delay) (((unsigned long)delay)*360/4000)
+
 class ActionList {
 	Action *current, *last = nullptr;
 
@@ -23,12 +25,16 @@ public:
 		return *action;
 	}
 
-	Action& addTimedAction(void (*f)(), unsigned long delay) {
-		return add(new TimedAction(f, delay));
+	Action& addTurnAction(void (*f)(), unsigned long offset) {
+#if IMU
+		return offset == 0 ? addTimedAction(f, offset) : add(new AngleMovement(f, delay_to_deg(offset)));
+#else
+		return addTimedAction(f, offset);
+#endif
 	}
 
-	Action& addAngleMovement(void (*f)(), int angle) {
-		return add(new AngleMovement(f, angle));
+	Action& addTimedAction(void (*f)(), unsigned long delay) {
+		return add(new TimedAction(f, delay));
 	}
 
 	void removeAll() {
