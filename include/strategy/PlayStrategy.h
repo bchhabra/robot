@@ -133,6 +133,8 @@ class PlayStrategy {
 				Wheels::doStop();
 				actionList.removeAll();
 				break;
+			default:
+				break;
 		}
 	}
 

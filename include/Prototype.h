@@ -16,6 +16,9 @@ namespace Robot {
     }
 
     void loop(unsigned long currentTime) {
+        if (runMode != RunMode::FULL_MANUAL) {
+            SonarSensors::loop(currentTime);
+        }
         if (SonarSensors::obstacleFound) {
             SonarSensors::obstacleFound = false;
             if (SonarSensors::sensorIndex == 0) {
@@ -26,9 +29,6 @@ namespace Robot {
                 Leds::updateRight(obstacles);
             }
             playStrategy.obstacleFound(obstacles);
-        }
-        if (runMode != RunMode::FULL_MANUAL) {
-            SonarSensors::loop(currentTime);
         }
     }
 
