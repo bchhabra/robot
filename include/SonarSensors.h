@@ -2,9 +2,12 @@
 
 #ifdef PROTOTYPE
 
+#define MAX_DISTANCE 100
+
+#ifdef SONAR
+
 #include <NewPing.h>
 
-#define MAX_DISTANCE 100
 #define SCAN_INTERVAL 35
 #define MEDIAN_ITERATIONS 5
 
@@ -102,4 +105,17 @@ namespace SonarSensors {
     }
 
 }
+#else
+namespace SonarSensors {
+    bool obstacleFound = false;
+    byte sensorIndex = 0;
+
+    void setup() {}
+    void loop(unsigned long currentTime) {}
+    void reset() {}
+    unsigned long getResult() {
+        return 0;
+    }
+}
+#endif
 #endif
