@@ -28,9 +28,9 @@ void setup()
 
 	I2C_Init();
 
-  pinMode (STATUS_LED,OUTPUT);  // Status LED
+  // pinMode (STATUS_LED,OUTPUT);  // Status LED
 
-  digitalWrite(STATUS_LED,LOW);
+  // digitalWrite(STATUS_LED,LOW);
   delay(1500);
 
   Accel_Init();
@@ -54,11 +54,11 @@ void setup()
   AN_OFFSET[5]-=GRAVITY*SENSOR_SIGN[5];
 
   //Serial.println("Offset:");
-  for(int y=0; y<6; y++)
-    Serial.println(AN_OFFSET[y]);
+  // for(int y=0; y<6; y++)
+  //   Serial.println(AN_OFFSET[y]);
 
   delay(2000);
-  digitalWrite(STATUS_LED,HIGH);
+  // digitalWrite(STATUS_LED,HIGH);
 
   timer=millis();
   delay(20);
