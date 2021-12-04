@@ -14,13 +14,13 @@ public:
 	}
 
 	void playAction() override {
-		targetAngle = (Imu::readAngle() + offset + 360) % 360;
+		targetAngle = Imu::readAngle() + offset;
 		Action::playAction();
 		started = true;
 	}
 
 	bool isFinished() override {
-		return Imu::readAngle() == targetAngle;
+		return (Imu::readAngle() == targetAngle);
 	}
 
 	bool isStarted() override {

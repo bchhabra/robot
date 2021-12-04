@@ -2,6 +2,7 @@
 
 #include "AngleMovement.h"
 #include "TimedAction.h"
+#include "component/Wheels.h"
 
 #define delay_to_deg(delay) (((unsigned long)delay)*360/4000)
 
@@ -27,7 +28,9 @@ public:
 
 	Action& addTurnAction(void (*f)(), unsigned long offset) {
 #if IMU
-		return offset == 0 ? addTimedAction(f, offset) : add(new AngleMovement(f, delay_to_deg(offset)));
+		int mappedOffset = delay_to_deg(offset);
+		if (f == Wheels::turnLeft) mappedOffset = -mappedOffset;
+		return offset == 0 ? addTimedAction(f, offset) : add(new AngleMovement(f, mappedOffset));
 #else
 		return addTimedAction(f, offset);
 #endif
