@@ -3,10 +3,16 @@
 #include "Action.h"
 #include "imu/MinIMU9AHRS.h"
 
+#define ANGLE_EDGE 3
+
 class AngleMovement : public Action {
 	int offset = 0;
 	int targetAngle = 0;
 	bool started = false;
+
+	bool angleInBetween(int angle) {
+		return (((targetAngle - ANGLE_EDGE) < angle) && (angle < (targetAngle + ANGLE_EDGE)));
+	}
 
 public:
 	AngleMovement(void (*f)(), int offset) : Action(f) {
@@ -16,14 +22,9 @@ public:
 	void playAction() override {
 		targetAngle = Imu::readAngle() + offset;
 		Action::playAction();
-		started = true;
 	}
 
 	bool isFinished() override {
-		return (Imu::readAngle() == targetAngle);
-	}
-
-	bool isStarted() override {
-		return started;
+		return angleInBetween(Imu::readAngle());
 	}
 };
