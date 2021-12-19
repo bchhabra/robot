@@ -34,12 +34,12 @@
 
 #else
 
-    #define LEFT_WHEEL_FORWARD 5
-    #define LEFT_WHEEL_BACKWARD 8
+    #define LEFT_WHEEL_FORWARD D5
+    #define LEFT_WHEEL_BACKWARD D6
 
-    #define RIGHT_WHEEL_FORWARD 7
-    #define RIGHT_WHEEL_BACKWARD 6
+    #define RIGHT_WHEEL_FORWARD D7
+    #define RIGHT_WHEEL_BACKWARD D8
 
-    #define PORT_CONTACTSENSORS 2
+    #define PORT_CONTACTSENSORS D4
 
 #endif

@@ -27,63 +27,63 @@ namespace Wheels {
 		direction = Movement::FORWARD;
 	}
 
-	static void goBackward() {
+	void goBackward() {
 		printInfo("go backward");
 		left.backward();
 		right.backward();
 		direction = Movement::BACKWARD;
 	}
 	
-	static void doStop() {
+	void doStop() {
 		printInfo("do stop");
 		left.stop();
 		right.stop();
 		direction = Movement::STOPPED;
 	}
 	
-	static void pause() {
+	void pause() {
 		printInfo("pause");
 		left.stop();
 		right.stop();
 		direction = Movement::PAUSED;
 	}
 
-	static void goLeft() {
+	void goLeft() {
 		printInfo("go left");
 		left.stop();
 		right.forward();
 		direction = Movement::TURN;
 	}
 
-	static void turnLeft() {
+	void turnLeft() {
 		printInfo("turn left");
 		left.backward();
 		right.forward();
 		direction = Movement::TURN;
 	}
 
-	static void goRight() {
+	void goRight() {
 		printInfo("go right");
 		left.forward();
 		right.stop();
 		direction = Movement::TURN;
 	}
 
-	static void turnRight() {
+	void turnRight() {
 		printInfo("turn right");
 		left.forward();
 		right.backward();
 		direction = Movement::TURN;
 	}
 
-	static void goLeftBack() {
+	void goLeftBack() {
 		printInfo("go left back");
 		left.stop();
 		right.backward();
 		direction = Movement::TURN;
 	}
 
-	static void goRightBack() {
+	void goRightBack() {
 		printInfo("go right back");
 		left.backward();
 		right.stop();
