@@ -33,7 +33,8 @@ namespace Wifi {
     wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
 
     Serial.println("Connecting to WiFi netowrk.");
-    while (wifiMulti.run() != WL_CONNECTED) {
+    int i = 0;
+    while ((wifiMulti.run() != WL_CONNECTED) && (++i < 5)) {
       delay(500);
     }
     printStatus();
