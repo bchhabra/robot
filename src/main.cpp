@@ -13,19 +13,19 @@
 #include "controller/BlueController.h"
 #include "controller/EmptyController.h"
 #include <imu/MinIMU9AHRS.h>
+#include "wifi.h"
 #include "ota.h"
 
 
 void setup() {
-	// Sound::play2();
-	// Sound::play();
+	Serial.begin(9600);
+
 	Lcd::setup();
 	Imu::setup();
 	WifiBridge::setup();
+	Wifi::setup();
     Ota::setup();
 	controller.setup();
-
-	Serial.begin(9600);
 
 	runMode = RunMode::AUTO;
 
@@ -42,4 +42,5 @@ void loop() {
 	
 	actionList.playNextAction();
 	actionList2.playNextAction();
+	yield();
 }

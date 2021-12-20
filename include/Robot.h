@@ -7,7 +7,9 @@ namespace Robot {
 
     volatile bool interruptCalled = false;
 
-    void interrupt();
+    IRAM_ATTR void interrupt() {
+        interruptCalled = true;
+    }
     
     void setup() {
         attachInterrupt(digitalPinToInterrupt(PORT_CONTACTSENSORS), interrupt, FALLING);
@@ -23,11 +25,6 @@ namespace Robot {
         } else {
             activeStrategy->run();
         }
-    }
-
-
-    void interrupt() {
-        interruptCalled = true;
     }
 }
 #endif
